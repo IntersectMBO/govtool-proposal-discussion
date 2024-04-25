@@ -12,9 +12,10 @@ module.exports = [
           "font-src": ["'self'", "https:", "data:"], // Specifies the sources for fonts.
           "form-action": ["'self'"], // Restricts the URLs which can be used as the action for HTML forms.
           "frame-ancestors": ["'self'"], // Specifies valid parents that may embed the page.
-          "img-src": ["'self'", "data:"], // Specifies the sources for images.
+          "img-src": ["'self'", "data:", "https://cdn.redoc.ly"], // Specifies the sources for images.
           "object-src": ["'none'"], // Restricts the sources for the <object>, <embed>, and <applet> elements.
-          "script-src": ["'self'"], // Specifies the sources for scripts.
+          "script-src": ["'self'", "https://cdn.redoc.ly", "'unsafe-eval'"], // Specifies the sources for scripts.
+          "worker-src": ["'self'", "blob:"],
           "script-src-attr": ["'none'"], // Specifies that inline script attributes will be rejected.
           "style-src": ["'self'", "https:", "'unsafe-inline'"], // Specifies the sources for stylesheets, allowing inline styles.
         },
