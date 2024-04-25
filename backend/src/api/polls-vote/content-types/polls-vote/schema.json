@@ -12,15 +12,11 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "poll_id": {
+    "proposal_id": {
       "type": "string"
     },
-    "comment_user_id": {
+    "user_id": {
       "type": "string"
-    },
-    "user_voted": {
-      "type": "boolean",
-      "default": false
     },
     "vote_result": {
       "type": "boolean"

@@ -4,20 +4,21 @@
   "info": {
     "singularName": "comment",
     "pluralName": "comments",
-    "displayName": "Comment"
+    "displayName": "Comment",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "comment_proposal_id": {
+    "proposal_id": {
       "type": "string"
     },
     "comment_parent_id": {
       "type": "string"
     },
-    "comment_user_id": {
+    "user_id": {
       "type": "string"
     },
     "comment_text": {
