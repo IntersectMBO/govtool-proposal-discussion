@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "polls_votes",
+  "collectionName": "poll_votes",
   "info": {
-    "singularName": "polls-vote",
-    "pluralName": "polls-votes",
-    "displayName": "Polls vote",
+    "singularName": "poll-vote",
+    "pluralName": "poll-votes",
+    "displayName": "Poll vote",
     "description": ""
   },
   "options": {

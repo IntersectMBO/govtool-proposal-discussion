@@ -853,12 +853,12 @@ export interface ApiPollPoll extends Schema.CollectionType {
   };
 }
 
-export interface ApiPollsVotePollsVote extends Schema.CollectionType {
-  collectionName: 'polls_votes';
+export interface ApiPollVotePollVote extends Schema.CollectionType {
+  collectionName: 'poll_votes';
   info: {
-    singularName: 'polls-vote';
-    pluralName: 'polls-votes';
-    displayName: 'Polls vote';
+    singularName: 'poll-vote';
+    pluralName: 'poll-votes';
+    displayName: 'Poll vote';
     description: '';
   };
   options: {
@@ -872,13 +872,13 @@ export interface ApiPollsVotePollsVote extends Schema.CollectionType {
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::polls-vote.polls-vote',
+      'api::poll-vote.poll-vote',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::polls-vote.polls-vote',
+      'api::poll-vote.poll-vote',
       'oneToOne',
       'admin::user'
     > &
@@ -1181,7 +1181,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::comment.comment': ApiCommentComment;
       'api::poll.poll': ApiPollPoll;
-      'api::polls-vote.polls-vote': ApiPollsVotePollsVote;
+      'api::poll-vote.poll-vote': ApiPollVotePollVote;
       'api::proposal.proposal': ApiProposalProposal;
       'api::proposal-category.proposal-category': ApiProposalCategoryProposalCategory;
       'api::proposal-content.proposal-content': ApiProposalContentProposalContent;
