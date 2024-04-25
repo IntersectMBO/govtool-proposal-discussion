@@ -772,7 +772,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       Attribute.SetMinMaxLength<{
         maxLength: 200;
       }>;
-    user_wallet_type_id: Attribute.String;
+    wallet_type_id: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -796,14 +796,15 @@ export interface ApiCommentComment extends Schema.CollectionType {
     singularName: 'comment';
     pluralName: 'comments';
     displayName: 'Comment';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    comment_proposal_id: Attribute.String;
+    proposal_id: Attribute.String;
     comment_parent_id: Attribute.String;
-    comment_user_id: Attribute.String;
+    user_id: Attribute.String;
     comment_text: Attribute.Text &
       Attribute.SetMinMaxLength<{
         maxLength: 256;
@@ -832,16 +833,15 @@ export interface ApiPollPoll extends Schema.CollectionType {
     singularName: 'poll';
     pluralName: 'polls';
     displayName: 'Poll';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    commet_proposal_id: Attribute.String;
+    proposal_id: Attribute.String;
     poll_yes: Attribute.Integer;
-    poll_yes_percentage: Attribute.Decimal;
     poll_no: Attribute.Integer;
-    poll_no_percentage: Attribute.Decimal;
     poll_start_dt: Attribute.DateTime;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -865,9 +865,8 @@ export interface ApiPollsVotePollsVote extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    poll_id: Attribute.String;
-    comment_user_id: Attribute.String;
-    user_voted: Attribute.Boolean & Attribute.DefaultTo<false>;
+    proposal_id: Attribute.String;
+    user_id: Attribute.String;
     vote_result: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -985,12 +984,13 @@ export interface ApiProposalContentProposalContent
     singularName: 'proposal-content';
     pluralName: 'proposal-contents';
     displayName: 'Proposal content';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    parent_proposal: Attribute.String;
+    proposal_id: Attribute.String;
     prop_rev_number: Attribute.Integer;
     prop_rev_active: Attribute.Boolean & Attribute.DefaultTo<false>;
     prop_abstract: Attribute.Text &
@@ -1063,13 +1063,13 @@ export interface ApiProposalSubmitionProposalSubmition
     singularName: 'proposal-submition';
     pluralName: 'proposal-submitions';
     displayName: 'Proposal submition';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    sub_proposal: Attribute.String;
-    sub_consent: Attribute.Boolean & Attribute.DefaultTo<true>;
+    proposal_id: Attribute.String;
     sub_json_path: Attribute.JSON;
     sub_location_url: Attribute.Text &
       Attribute.SetMinMaxLength<{

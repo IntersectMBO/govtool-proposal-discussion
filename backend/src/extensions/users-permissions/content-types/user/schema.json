@@ -76,7 +76,7 @@
       "type": "string",
       "maxLength": 200
     },
-    "user_wallet_type_id": {
+    "wallet_type_id": {
       "type": "string"
     }
   }
