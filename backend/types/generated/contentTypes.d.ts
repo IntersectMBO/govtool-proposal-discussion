@@ -735,7 +735,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &
@@ -764,6 +763,16 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    user_avatar: Attribute.Text;
+    user_summary: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    user_wallet_adr: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }>;
+    user_wallet_type_id: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -774,6 +783,377 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'plugin::users-permissions.user',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCommentComment extends Schema.CollectionType {
+  collectionName: 'comments';
+  info: {
+    singularName: 'comment';
+    pluralName: 'comments';
+    displayName: 'Comment';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    comment_proposal_id: Attribute.String;
+    comment_parent_id: Attribute.String;
+    comment_user_id: Attribute.String;
+    comment_text: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        maxLength: 256;
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::comment.comment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::comment.comment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPollPoll extends Schema.CollectionType {
+  collectionName: 'polls';
+  info: {
+    singularName: 'poll';
+    pluralName: 'polls';
+    displayName: 'Poll';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    commet_proposal_id: Attribute.String;
+    poll_yes: Attribute.Integer;
+    poll_yes_percentage: Attribute.Decimal;
+    poll_no: Attribute.Integer;
+    poll_no_percentage: Attribute.Decimal;
+    poll_start_dt: Attribute.DateTime;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::poll.poll', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::poll.poll', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPollsVotePollsVote extends Schema.CollectionType {
+  collectionName: 'polls_votes';
+  info: {
+    singularName: 'polls-vote';
+    pluralName: 'polls-votes';
+    displayName: 'Polls vote';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    poll_id: Attribute.String;
+    comment_user_id: Attribute.String;
+    user_voted: Attribute.Boolean & Attribute.DefaultTo<false>;
+    vote_result: Attribute.Boolean;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::polls-vote.polls-vote',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::polls-vote.polls-vote',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProposalProposal extends Schema.CollectionType {
+  collectionName: 'proposals';
+  info: {
+    singularName: 'proposal';
+    pluralName: 'proposals';
+    displayName: 'Proposal';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    prop_name: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 60;
+      }>;
+    prop_label_text_top: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 60;
+      }>;
+    prop_r_address: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }>;
+    prop_amount: Attribute.Float;
+    prop_unique_url: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    prop_likes: Attribute.Integer;
+    prop_dislikes: Attribute.Integer;
+    prop_poll_active: Attribute.Boolean & Attribute.DefaultTo<false>;
+    prop_coments_number: Attribute.Integer;
+    prop_submited: Attribute.Boolean & Attribute.DefaultTo<false>;
+    current_revision: Attribute.Integer;
+    proposal_links: Attribute.Component<'proposal.proposal-link', true>;
+    prop_type_id: Attribute.String;
+    prop_status_id: Attribute.String;
+    prop_cat_id: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::proposal.proposal',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::proposal.proposal',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProposalCategoryProposalCategory
+  extends Schema.CollectionType {
+  collectionName: 'proposal_categories';
+  info: {
+    singularName: 'proposal-category';
+    pluralName: 'proposal-categories';
+    displayName: 'Proposal category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    prop_cat_name: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 80;
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::proposal-category.proposal-category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::proposal-category.proposal-category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProposalContentProposalContent
+  extends Schema.CollectionType {
+  collectionName: 'proposal_contents';
+  info: {
+    singularName: 'proposal-content';
+    pluralName: 'proposal-contents';
+    displayName: 'Proposal content';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    parent_proposal: Attribute.String;
+    prop_rev_number: Attribute.Integer;
+    prop_rev_active: Attribute.Boolean & Attribute.DefaultTo<false>;
+    prop_abstract: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        maxLength: 256;
+      }>;
+    prop_motivation: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        maxLength: 256;
+      }>;
+    prop_rationale: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        maxLength: 256;
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::proposal-content.proposal-content',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::proposal-content.proposal-content',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProposalStatusProposalStatus extends Schema.CollectionType {
+  collectionName: 'proposal_statuses';
+  info: {
+    singularName: 'proposal-status';
+    pluralName: 'proposal-statuses';
+    displayName: 'Proposal status';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    prop_status_name: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 80;
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::proposal-status.proposal-status',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::proposal-status.proposal-status',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProposalSubmitionProposalSubmition
+  extends Schema.CollectionType {
+  collectionName: 'proposal_submitions';
+  info: {
+    singularName: 'proposal-submition';
+    pluralName: 'proposal-submitions';
+    displayName: 'Proposal submition';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    sub_proposal: Attribute.String;
+    sub_consent: Attribute.Boolean & Attribute.DefaultTo<true>;
+    sub_json_path: Attribute.JSON;
+    sub_location_url: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        maxLength: 500;
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::proposal-submition.proposal-submition',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::proposal-submition.proposal-submition',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProposalTypeProposalType extends Schema.CollectionType {
+  collectionName: 'proposal_types';
+  info: {
+    singularName: 'proposal-type';
+    pluralName: 'proposal-types';
+    displayName: 'Proposal type';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    prop_type_name: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 80;
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::proposal-type.proposal-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::proposal-type.proposal-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiWalletTypeWalletType extends Schema.CollectionType {
+  collectionName: 'wallet_types';
+  info: {
+    singularName: 'wallet-type';
+    pluralName: 'wallet-types';
+    displayName: 'Wallet type';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    wallet_name: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    wallet_image: Attribute.Text;
+    wallet_active: Attribute.Boolean & Attribute.DefaultTo<true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::wallet-type.wallet-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::wallet-type.wallet-type',
       'oneToOne',
       'admin::user'
     > &
@@ -799,6 +1179,16 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::comment.comment': ApiCommentComment;
+      'api::poll.poll': ApiPollPoll;
+      'api::polls-vote.polls-vote': ApiPollsVotePollsVote;
+      'api::proposal.proposal': ApiProposalProposal;
+      'api::proposal-category.proposal-category': ApiProposalCategoryProposalCategory;
+      'api::proposal-content.proposal-content': ApiProposalContentProposalContent;
+      'api::proposal-status.proposal-status': ApiProposalStatusProposalStatus;
+      'api::proposal-submition.proposal-submition': ApiProposalSubmitionProposalSubmition;
+      'api::proposal-type.proposal-type': ApiProposalTypeProposalType;
+      'api::wallet-type.wallet-type': ApiWalletTypeWalletType;
     }
   }
 }

@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "polls",
+  "info": {
+    "singularName": "poll",
+    "pluralName": "polls",
+    "displayName": "Poll"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "commet_proposal_id": {
+      "type": "string"
+    },
+    "poll_yes": {
+      "type": "integer"
+    },
+    "poll_yes_percentage": {
+      "type": "decimal"
+    },
+    "poll_no": {
+      "type": "integer"
+    },
+    "poll_no_percentage": {
+      "type": "decimal"
+    },
+    "poll_start_dt": {
+      "type": "datetime"
+    }
+  }
+}

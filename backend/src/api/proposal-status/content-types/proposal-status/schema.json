@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "proposal_statuses",
+  "info": {
+    "singularName": "proposal-status",
+    "pluralName": "proposal-statuses",
+    "displayName": "Proposal status"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "prop_status_name": {
+      "type": "string",
+      "maxLength": 80
+    }
+  }
+}
