@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "comments",
+  "info": {
+    "singularName": "comment",
+    "pluralName": "comments",
+    "displayName": "Comment"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "comment_proposal_id": {
+      "type": "string"
+    },
+    "comment_parent_id": {
+      "type": "string"
+    },
+    "comment_user_id": {
+      "type": "string"
+    },
+    "comment_text": {
+      "type": "text",
+      "maxLength": 256
+    }
+  }
+}

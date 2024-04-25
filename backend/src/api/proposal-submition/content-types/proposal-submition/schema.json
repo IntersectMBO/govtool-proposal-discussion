@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "proposal_submitions",
+  "info": {
+    "singularName": "proposal-submition",
+    "pluralName": "proposal-submitions",
+    "displayName": "Proposal submition"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "sub_proposal": {
+      "type": "string"
+    },
+    "sub_consent": {
+      "type": "boolean",
+      "default": true
+    },
+    "sub_json_path": {
+      "type": "json"
+    },
+    "sub_location_url": {
+      "type": "text",
+      "maxLength": 500
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "wallet_types",
+  "info": {
+    "singularName": "wallet-type",
+    "pluralName": "wallet-types",
+    "displayName": "Wallet type"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "wallet_name": {
+      "type": "text",
+      "maxLength": 300
+    },
+    "wallet_image": {
+      "type": "text"
+    },
+    "wallet_active": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

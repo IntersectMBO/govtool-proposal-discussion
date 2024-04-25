@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "proposal_contents",
+  "info": {
+    "singularName": "proposal-content",
+    "pluralName": "proposal-contents",
+    "displayName": "Proposal content"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "parent_proposal": {
+      "type": "string"
+    },
+    "prop_rev_number": {
+      "type": "integer"
+    },
+    "prop_rev_active": {
+      "type": "boolean",
+      "default": false
+    },
+    "prop_abstract": {
+      "type": "text",
+      "maxLength": 256
+    },
+    "prop_motivation": {
+      "type": "text",
+      "maxLength": 256
+    },
+    "prop_rationale": {
+      "type": "text",
+      "maxLength": 256
+    }
+  }
+}
