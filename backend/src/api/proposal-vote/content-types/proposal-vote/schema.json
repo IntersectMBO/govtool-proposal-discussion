@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "proposal_votes",
+  "info": {
+    "singularName": "proposal-vote",
+    "pluralName": "proposal-votes",
+    "displayName": "Proposal vote",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "proposal_id": {
+      "type": "string",
+      "required": true
+    },
+    "user_id": {
+      "type": "string",
+      "required": true
+    },
+    "vote_result": {
+      "type": "boolean"
+    }
+  }
+}

@@ -827,6 +827,40 @@ export interface ApiCommentComment extends Schema.CollectionType {
   };
 }
 
+export interface ApiGovernanceActionTypeGovernanceActionType
+  extends Schema.CollectionType {
+  collectionName: 'governance_action_types';
+  info: {
+    singularName: 'governance-action-type';
+    pluralName: 'governance-action-types';
+    displayName: 'Governance action type';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    gov_action_type_name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 80;
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::governance-action-type.governance-action-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::governance-action-type.governance-action-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiPollPoll extends Schema.CollectionType {
   collectionName: 'polls';
   info: {
@@ -865,7 +899,7 @@ export interface ApiPollVotePollVote extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    proposal_id: Attribute.String;
+    poll_id: Attribute.String;
     user_id: Attribute.String;
     vote_result: Attribute.Boolean;
     createdAt: Attribute.DateTime;
@@ -898,23 +932,6 @@ export interface ApiProposalProposal extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    prop_name: Attribute.String &
-      Attribute.SetMinMaxLength<{
-        maxLength: 60;
-      }>;
-    prop_label_text_top: Attribute.String &
-      Attribute.SetMinMaxLength<{
-        maxLength: 60;
-      }>;
-    prop_r_address: Attribute.String &
-      Attribute.SetMinMaxLength<{
-        maxLength: 200;
-      }>;
-    prop_amount: Attribute.Float;
-    prop_unique_url: Attribute.Text &
-      Attribute.SetMinMaxLength<{
-        maxLength: 300;
-      }>;
     prop_likes: Attribute.Integer;
     prop_dislikes: Attribute.Integer;
     prop_poll_active: Attribute.Boolean & Attribute.DefaultTo<false>;
@@ -922,9 +939,7 @@ export interface ApiProposalProposal extends Schema.CollectionType {
     prop_submited: Attribute.Boolean & Attribute.DefaultTo<false>;
     current_revision: Attribute.Integer;
     proposal_links: Attribute.Component<'proposal.proposal-link', true>;
-    prop_type_id: Attribute.String;
     prop_status_id: Attribute.String;
-    prop_cat_id: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -936,40 +951,6 @@ export interface ApiProposalProposal extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::proposal.proposal',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiProposalCategoryProposalCategory
-  extends Schema.CollectionType {
-  collectionName: 'proposal_categories';
-  info: {
-    singularName: 'proposal-category';
-    pluralName: 'proposal-categories';
-    displayName: 'Proposal category';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    prop_cat_name: Attribute.String &
-      Attribute.SetMinMaxLength<{
-        maxLength: 80;
-      }>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::proposal-category.proposal-category',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::proposal-category.proposal-category',
       'oneToOne',
       'admin::user'
     > &
@@ -1005,6 +986,18 @@ export interface ApiProposalContentProposalContent
       Attribute.SetMinMaxLength<{
         maxLength: 256;
       }>;
+    gov_action_type_id: Attribute.String;
+    prop_name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 60;
+      }>;
+    prop_receiving_address: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }>;
+    prop_amount: Attribute.Float & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1093,32 +1086,31 @@ export interface ApiProposalSubmitionProposalSubmition
   };
 }
 
-export interface ApiProposalTypeProposalType extends Schema.CollectionType {
-  collectionName: 'proposal_types';
+export interface ApiProposalVoteProposalVote extends Schema.CollectionType {
+  collectionName: 'proposal_votes';
   info: {
-    singularName: 'proposal-type';
-    pluralName: 'proposal-types';
-    displayName: 'Proposal type';
+    singularName: 'proposal-vote';
+    pluralName: 'proposal-votes';
+    displayName: 'Proposal vote';
+    description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
-    prop_type_name: Attribute.String &
-      Attribute.SetMinMaxLength<{
-        maxLength: 80;
-      }>;
+    proposal_id: Attribute.String & Attribute.Required;
+    user_id: Attribute.String & Attribute.Required;
+    vote_result: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::proposal-type.proposal-type',
+      'api::proposal-vote.proposal-vote',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::proposal-type.proposal-type',
+      'api::proposal-vote.proposal-vote',
       'oneToOne',
       'admin::user'
     > &
@@ -1180,14 +1172,14 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::comment.comment': ApiCommentComment;
+      'api::governance-action-type.governance-action-type': ApiGovernanceActionTypeGovernanceActionType;
       'api::poll.poll': ApiPollPoll;
       'api::poll-vote.poll-vote': ApiPollVotePollVote;
       'api::proposal.proposal': ApiProposalProposal;
-      'api::proposal-category.proposal-category': ApiProposalCategoryProposalCategory;
       'api::proposal-content.proposal-content': ApiProposalContentProposalContent;
       'api::proposal-status.proposal-status': ApiProposalStatusProposalStatus;
       'api::proposal-submition.proposal-submition': ApiProposalSubmitionProposalSubmition;
-      'api::proposal-type.proposal-type': ApiProposalTypeProposalType;
+      'api::proposal-vote.proposal-vote': ApiProposalVoteProposalVote;
       'api::wallet-type.wallet-type': ApiWalletTypeWalletType;
     }
   }

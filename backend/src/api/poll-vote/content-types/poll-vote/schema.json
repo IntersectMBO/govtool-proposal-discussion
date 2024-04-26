@@ -12,7 +12,7 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "proposal_id": {
+    "poll_id": {
       "type": "string"
     },
     "user_id": {

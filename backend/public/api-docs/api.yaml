@@ -314,7 +314,7 @@ components:
         data:
           type: object
           properties:
-            proposal_id:
+            poll_id:
               type: string
             user_id:
               type: string
@@ -353,7 +353,7 @@ components:
     PollVote:
       type: object
       properties:
-        proposal_id:
+        poll_id:
           type: string
         user_id:
           type: string
@@ -1055,7 +1055,7 @@ paths:
           required: false
           schema:
             type: string
-      operationId: get/comments
+      operationId: Get comment
     post:
       responses:
         '200':
@@ -1097,7 +1097,7 @@ paths:
       tags:
         - Comment
       parameters: []
-      operationId: post/comments
+      operationId: Create comment
       requestBody:
         required: true
         content:
@@ -1153,7 +1153,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: get/comments/{id}
+      operationId: Get single comment
     put:
       responses:
         '200':
@@ -1202,7 +1202,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: put/comments/{id}
+      operationId: Update comment
       requestBody:
         required: true
         content:
@@ -1258,7 +1258,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: delete/comments/{id}
+      operationId: Delete comment
   /polls:
     get:
       responses:
@@ -1372,7 +1372,7 @@ paths:
           required: false
           schema:
             type: string
-      operationId: get/polls
+      operationId: Get polls
     post:
       responses:
         '200':
@@ -1414,7 +1414,7 @@ paths:
       tags:
         - Poll
       parameters: []
-      operationId: post/polls
+      operationId: Create poll
       requestBody:
         required: true
         content:
@@ -1470,7 +1470,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: get/polls/{id}
+      operationId: Get single poll
     put:
       responses:
         '200':
@@ -1519,7 +1519,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: put/polls/{id}
+      operationId: Update poll
       requestBody:
         required: true
         content:
@@ -1575,7 +1575,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: delete/polls/{id}
+      operationId: Delete poll
   /poll-votes:
     get:
       responses:
@@ -1689,7 +1689,7 @@ paths:
           required: false
           schema:
             type: string
-      operationId: get/poll-votes
+      operationId: Get poll votes
     post:
       responses:
         '200':
@@ -1731,7 +1731,7 @@ paths:
       tags:
         - Poll vote
       parameters: []
-      operationId: post/poll-votes
+      operationId: Create poll vote
       requestBody:
         required: true
         content:
@@ -1787,7 +1787,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: get/poll-votes/{id}
+      operationId: Get single poll vote
     put:
       responses:
         '200':
@@ -1836,7 +1836,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: put/poll-votes/{id}
+      operationId: Update poll vote
       requestBody:
         required: true
         content:
@@ -1892,7 +1892,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: delete/poll-votes/{id}
+      operationId: Delete poll vote
   /proposals:
     get:
       responses:
@@ -2006,7 +2006,7 @@ paths:
           required: false
           schema:
             type: string
-      operationId: get/proposals
+      operationId: Get proposals
     post:
       responses:
         '200':
@@ -2048,7 +2048,7 @@ paths:
       tags:
         - Proposal
       parameters: []
-      operationId: post/proposals
+      operationId: Create proposal
       requestBody:
         required: true
         content:
@@ -2104,7 +2104,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: get/proposals/{id}
+      operationId: Get single proposal
     put:
       responses:
         '200':
@@ -2153,7 +2153,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: put/proposals/{id}
+      operationId: Update proposal
       requestBody:
         required: true
         content:
@@ -2209,7 +2209,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: delete/proposals/{id}
+      operationId: Delete proposal
   /proposal-categories:
     get:
       responses:
@@ -2323,7 +2323,7 @@ paths:
           required: false
           schema:
             type: string
-      operationId: get/proposal-categories
+      operationId: Get proposal categories
     post:
       responses:
         '200':
@@ -2365,7 +2365,7 @@ paths:
       tags:
         - Proposal category
       parameters: []
-      operationId: post/proposal-categories
+      operationId: Create proposal category
       requestBody:
         required: true
         content:
@@ -2421,7 +2421,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: get/proposal-categories/{id}
+      operationId: Get single proposal category
     put:
       responses:
         '200':
@@ -2470,7 +2470,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: put/proposal-categories/{id}
+      operationId: Update proposal category
       requestBody:
         required: true
         content:
@@ -2526,7 +2526,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: delete/proposal-categories/{id}
+      operationId: Delete proposal category
   /proposal-contents:
     get:
       responses:
@@ -2640,7 +2640,7 @@ paths:
           required: false
           schema:
             type: string
-      operationId: get/proposal-contents
+      operationId: Get proposal contents
     post:
       responses:
         '200':
@@ -2682,7 +2682,7 @@ paths:
       tags:
         - Proposal content
       parameters: []
-      operationId: post/proposal-contents
+      operationId: Create proposal content
       requestBody:
         required: true
         content:
@@ -2738,7 +2738,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: get/proposal-contents/{id}
+      operationId: Get single proposal content
     put:
       responses:
         '200':
@@ -2787,7 +2787,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: put/proposal-contents/{id}
+      operationId: Update proposal content
       requestBody:
         required: true
         content:
@@ -2843,7 +2843,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: delete/proposal-contents/{id}
+      operationId: Delete proposal content
   /proposal-statuses:
     get:
       responses:
@@ -2957,7 +2957,7 @@ paths:
           required: false
           schema:
             type: string
-      operationId: get/proposal-statuses
+      operationId: Get proposal statuses
     post:
       responses:
         '200':
@@ -2999,7 +2999,7 @@ paths:
       tags:
         - Proposal status
       parameters: []
-      operationId: post/proposal-statuses
+      operationId: Create proposal status
       requestBody:
         required: true
         content:
@@ -3055,7 +3055,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: get/proposal-statuses/{id}
+      operationId: Get single proposal status
     put:
       responses:
         '200':
@@ -3104,7 +3104,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: put/proposal-statuses/{id}
+      operationId: Update proposal status
       requestBody:
         required: true
         content:
@@ -3160,7 +3160,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: delete/proposal-statuses/{id}
+      operationId: Delete proposal status
   /proposal-submitions:
     get:
       responses:
@@ -3274,7 +3274,7 @@ paths:
           required: false
           schema:
             type: string
-      operationId: get/proposal-submitions
+      operationId: Get proposal submitions
     post:
       responses:
         '200':
@@ -3316,7 +3316,7 @@ paths:
       tags:
         - Proposal submition
       parameters: []
-      operationId: post/proposal-submitions
+      operationId: Create proposal submition
       requestBody:
         required: true
         content:
@@ -3372,7 +3372,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: get/proposal-submitions/{id}
+      operationId: Get single proposal submition
     put:
       responses:
         '200':
@@ -3421,7 +3421,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: put/proposal-submitions/{id}
+      operationId: Update proposal submition
       requestBody:
         required: true
         content:
@@ -3477,7 +3477,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: delete/proposal-submitions/{id}
+      operationId: Delete proposal submition
   /proposal-types:
     get:
       responses:
@@ -3591,7 +3591,7 @@ paths:
           required: false
           schema:
             type: string
-      operationId: get/proposal-types
+      operationId: Get proposal types
     post:
       responses:
         '200':
@@ -3633,7 +3633,7 @@ paths:
       tags:
         - Proposal type
       parameters: []
-      operationId: post/proposal-types
+      operationId: Create proposal type
       requestBody:
         required: true
         content:
@@ -3689,7 +3689,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: get/proposal-types/{id}
+      operationId: Get single proposal type
     put:
       responses:
         '200':
@@ -3738,7 +3738,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: put/proposal-types/{id}
+      operationId: Update proposal type
       requestBody:
         required: true
         content:
@@ -3794,7 +3794,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: delete/proposal-types/{id}
+      operationId: Delete proposal type
   /wallet-types:
     get:
       responses:
@@ -3908,7 +3908,7 @@ paths:
           required: false
           schema:
             type: string
-      operationId: get/wallet-types
+      operationId: Get wallet types
     post:
       responses:
         '200':
@@ -3950,7 +3950,7 @@ paths:
       tags:
         - Wallet type
       parameters: []
-      operationId: post/wallet-types
+      operationId: Create wallet type
       requestBody:
         required: true
         content:
@@ -4006,7 +4006,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: get/wallet-types/{id}
+      operationId: Get single wallet type
     put:
       responses:
         '200':
@@ -4055,7 +4055,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: put/wallet-types/{id}
+      operationId: Update wallet type
       requestBody:
         required: true
         content:
@@ -4111,4 +4111,4 @@ paths:
           required: true
           schema:
             type: number
-      operationId: delete/wallet-types/{id}
+      operationId: Delete wallet type

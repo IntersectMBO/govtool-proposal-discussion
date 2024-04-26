@@ -1,0 +1,20 @@
+{
+  "kind": "collectionType",
+  "collectionName": "governance_action_types",
+  "info": {
+    "singularName": "governance-action-type",
+    "pluralName": "governance-action-types",
+    "displayName": "Governance action type"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "gov_action_type_name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 80
+    }
+  }
+}
