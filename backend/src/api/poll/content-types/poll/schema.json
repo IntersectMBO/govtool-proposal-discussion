@@ -16,10 +16,12 @@
       "type": "string"
     },
     "poll_yes": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     },
     "poll_no": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     },
     "poll_start_dt": {
       "type": "datetime"

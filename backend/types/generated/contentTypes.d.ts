@@ -874,8 +874,8 @@ export interface ApiPollPoll extends Schema.CollectionType {
   };
   attributes: {
     proposal_id: Attribute.String;
-    poll_yes: Attribute.Integer;
-    poll_no: Attribute.Integer;
+    poll_yes: Attribute.Integer & Attribute.DefaultTo<0>;
+    poll_no: Attribute.Integer & Attribute.DefaultTo<0>;
     poll_start_dt: Attribute.DateTime;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -896,7 +896,7 @@ export interface ApiPollVotePollVote extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     poll_id: Attribute.String;
@@ -904,7 +904,6 @@ export interface ApiPollVotePollVote extends Schema.CollectionType {
     vote_result: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::poll-vote.poll-vote',
       'oneToOne',
