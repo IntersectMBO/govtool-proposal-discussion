@@ -790,6 +790,50 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface PluginRoutePermissionRoutePermission
+  extends Schema.CollectionType {
+  collectionName: 'route_permissions';
+  info: {
+    singularName: 'route-permission';
+    pluralName: 'route-permissions';
+    displayName: 'route-permission';
+  };
+  options: {
+    draftAndPublish: false;
+    comment: '';
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    action: Attribute.String;
+    role: Attribute.Relation<
+      'plugin::route-permission.route-permission',
+      'oneToOne',
+      'plugin::users-permissions.role'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::route-permission.route-permission',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::route-permission.route-permission',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiCommentComment extends Schema.CollectionType {
   collectionName: 'comments';
   info: {
@@ -936,7 +980,6 @@ export interface ApiProposalProposal extends Schema.CollectionType {
     prop_poll_active: Attribute.Boolean & Attribute.DefaultTo<false>;
     prop_coments_number: Attribute.Integer;
     prop_submited: Attribute.Boolean & Attribute.DefaultTo<false>;
-    current_revision: Attribute.Integer;
     proposal_links: Attribute.Component<'proposal.proposal-link', true>;
     prop_status_id: Attribute.String;
     createdAt: Attribute.DateTime;
@@ -971,7 +1014,6 @@ export interface ApiProposalContentProposalContent
   };
   attributes: {
     proposal_id: Attribute.String;
-    prop_rev_number: Attribute.Integer;
     prop_rev_active: Attribute.Boolean & Attribute.DefaultTo<false>;
     prop_abstract: Attribute.Text &
       Attribute.SetMinMaxLength<{
@@ -1170,6 +1212,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'plugin::route-permission.route-permission': PluginRoutePermissionRoutePermission;
       'api::comment.comment': ApiCommentComment;
       'api::governance-action-type.governance-action-type': ApiGovernanceActionTypeGovernanceActionType;
       'api::poll.poll': ApiPollPoll;
