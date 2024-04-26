@@ -940,7 +940,7 @@ export interface ApiPollVotePollVote extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     poll_id: Attribute.String;
@@ -948,7 +948,6 @@ export interface ApiPollVotePollVote extends Schema.CollectionType {
     vote_result: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::poll-vote.poll-vote',
       'oneToOne',
