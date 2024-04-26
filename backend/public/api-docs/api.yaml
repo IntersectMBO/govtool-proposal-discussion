@@ -41,6 +41,7 @@ info:
 openapi: 3.0.0
 tags:
   - name: Proposal
+  - name: Proposal vote
   - name: Comment
   - name: Poll
   - name: Poll vote
@@ -48,7 +49,7 @@ tags:
   - name: Proposal content
   - name: Proposal status
   - name: Proposal submition
-  - name: Proposal type
+  - name: Governance action type
   - name: Wallet type
   - name: proposal_model
     x-displayName: Proposal model
@@ -58,8 +59,12 @@ tags:
     x-displayName: Proposal content model
     description: |
       <SchemaDefinition schemaRef="#/components/schemas/ProposalContentRequest" showReadOnly={true} showWriteOnly={true} />
-  - name: proposal_type_model
-    x-displayName: Proposal type model
+  - name: proposal_vote_model
+    x-displayName: Proposal vote model
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/ProposalVoteRequest" showReadOnly={true} showWriteOnly={true} />
+  - name: governance_action_type_model
+    x-displayName: Governance action type model
     description: |
       <SchemaDefinition schemaRef="#/components/schemas/ProposalTypeRequest" showReadOnly={true} showWriteOnly={true} />
   - name: comment_model
@@ -95,10 +100,10 @@ x-tagGroups:
     tags:
       - Proposal
       - Proposal content
-      - Proposal category
       - Proposal status
       - Proposal submition
-      - Proposal type
+      - Proposal vote
+      - Governance action type
       - Comment
       - Poll
       - Poll vote
@@ -107,10 +112,10 @@ x-tagGroups:
     tags:
       - proposal_model
       - proposal_content_model
-      - proposal_category_model
       - proposal_status_model
       - proposal_submition_model
-      - proposal_type_model
+      - proposal_vote_model
+      - governance_action_type_model
       - comment_model
       - poll_model
       - poll_vote_model
@@ -157,6 +162,10 @@ components:
       properties:
         data:
           type: object
+          required:
+            - proposal_id
+            - user_id
+            - comment_text
           properties:
             proposal_id:
               type: string
@@ -166,6 +175,7 @@ components:
               type: string
             comment_text:
               type: string
+              maximum: 256
     CommentListResponseDataItem:
       type: object
       properties:
@@ -234,6 +244,8 @@ components:
       properties:
         data:
           type: object
+          required: 
+            - proposal_id
           properties:
             proposal_id:
               type: string
@@ -313,6 +325,10 @@ components:
       properties:
         data:
           type: object
+          required: 
+            - poll_id
+            - user_id
+            - vote_result
           properties:
             poll_id:
               type: string
@@ -379,6 +395,83 @@ components:
           $ref: '#/components/schemas/PollVoteResponseDataObject'
         meta:
           type: object
+    ProposalVoteRequest:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - proposal_id
+            - user_id
+            - vote_result
+          properties:
+            proposal_id:
+              type: string
+            user_id:
+              type: string
+            vote_result:
+              type: boolean
+    ProposalVoteListResponseDataItem:
+      type: object
+      properties:
+        id:
+          type: number
+        attributes:
+          $ref: '#/components/schemas/ProposalVote'
+    ProposalVoteListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProposalVoteListResponseDataItem'
+        meta:
+          type: object
+          properties:
+            pagination:
+              type: object
+              properties:
+                page:
+                  type: integer
+                pageSize:
+                  type: integer
+                  minimum: 25
+                pageCount:
+                  type: integer
+                  maximum: 1
+                total:
+                  type: integer
+    ProposalVote:
+      type: object
+      properties:
+        proposal_id:
+          type: string
+        user_id:
+          type: string
+        vote_result:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    ProposalVoteResponseDataObject:
+      type: object
+      properties:
+        id:
+          type: number
+        attributes:
+          $ref: '#/components/schemas/ProposalVote'
+    ProposalVoteResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ProposalVoteResponseDataObject'
+        meta:
+          type: object
     ProposalRequest:
       type: object
       required:
@@ -387,38 +480,26 @@ components:
         data:
           type: object
           properties:
-            prop_name:
-              type: string
-            prop_label_text_top:
-              type: string
-            prop_r_address:
-              type: string
-            prop_amount:
-              type: number
-              format: float
-            prop_unique_url:
-              type: string
             prop_likes:
               type: integer
+              default: 0
             prop_dislikes:
               type: integer
+              default: 0
             prop_poll_active:
               type: boolean
-            prop_coments_number:
+              default: false
+            prop_comments_number:
               type: integer
+              default: 0
             prop_submited:
               type: boolean
-            current_revision:
-              type: integer
+              default: false
             proposal_links:
               type: array
               items:
                 $ref: '#/components/schemas/ProposalProposalLinkComponent'
-            prop_type_id:
-              type: string
             prop_status_id:
-              type: string
-            prop_cat_id:
               type: string
     ProposalListResponseDataItem:
       type: object
@@ -453,38 +534,21 @@ components:
     Proposal:
       type: object
       properties:
-        prop_name:
-          type: string
-        prop_label_text_top:
-          type: string
-        prop_r_address:
-          type: string
-        prop_amount:
-          type: number
-          format: float
-        prop_unique_url:
-          type: string
         prop_likes:
           type: integer
         prop_dislikes:
           type: integer
         prop_poll_active:
           type: boolean
-        prop_coments_number:
+        prop_comments_number:
           type: integer
         prop_submited:
           type: boolean
-        current_revision:
-          type: integer
         proposal_links:
           type: array
           items:
             $ref: '#/components/schemas/ProposalProposalLinkComponent'
-        prop_type_id:
-          type: string
         prop_status_id:
-          type: string
-        prop_cat_id:
           type: string
         createdAt:
           type: string
@@ -589,19 +653,40 @@ components:
       properties:
         data:
           type: object
+          required:
+            - proposal_id
+            - gov_action_type_id
+            - prop_name
+            - prop_abstract
+            - prop_motivation
+            - prop_rationale
+            - prop_receiving_address
+            - prop_amount
           properties:
             proposal_id:
               type: string
-            prop_rev_number:
-              type: integer
+            gov_action_type_id:
+              type: string
+            prop_name:
+              type: string
+              maximum: 60
             prop_rev_active:
               type: boolean
+              default: false
             prop_abstract:
               type: string
+              maximum: 256
             prop_motivation:
               type: string
+              maximum: 256
             prop_rationale:
               type: string
+              maximum: 256
+            prop_receiving_address:
+              type: string
+              maximum: 200
+            prop_amount:
+              type: number
     ProposalContentListResponseDataItem:
       type: object
       properties:
@@ -637,8 +722,10 @@ components:
       properties:
         proposal_id:
           type: string
-        prop_rev_number:
-          type: integer
+        gov_action_type_id:
+          type: string
+        prop_name:
+          type: string
         prop_rev_active:
           type: boolean
         prop_abstract:
@@ -647,6 +734,10 @@ components:
           type: string
         prop_rationale:
           type: string
+        prop_receiving_address:
+          type: string
+        prop_amount:
+          type: number
         createdAt:
           type: string
           format: date-time
@@ -674,9 +765,12 @@ components:
       properties:
         data:
           type: object
+          required:
+            - prop_status_name
           properties:
             prop_status_name:
               type: string
+              maximum: 80
     ProposalStatusListResponseDataItem:
       type: object
       properties:
@@ -739,12 +833,17 @@ components:
       properties:
         data:
           type: object
+          required:
+            - proposal_id
+            - sub_json_path
+            - sub_location_url
           properties:
             proposal_id:
               type: string
             sub_json_path: {}
             sub_location_url:
               type: string
+              maximum: 500
     ProposalSubmitionListResponseDataItem:
       type: object
       properties:
@@ -810,9 +909,12 @@ components:
       properties:
         data:
           type: object
+          required:
+            - gov_action_type_name
           properties:
-            prop_type_name:
+            gov_action_type_name:
               type: string
+              maximum: 80
     ProposalTypeListResponseDataItem:
       type: object
       properties:
@@ -846,7 +948,7 @@ components:
     ProposalType:
       type: object
       properties:
-        prop_type_name:
+        gov_action_type_name:
           type: string
         createdAt:
           type: string
@@ -875,13 +977,17 @@ components:
       properties:
         data:
           type: object
+          required:
+            - wallet_name
           properties:
             wallet_name:
               type: string
+              maximum: 300
             wallet_image:
               type: string
             wallet_active:
               type: boolean
+              default: true
     WalletTypeListResponseDataItem:
       type: object
       properties:
@@ -1884,6 +1990,323 @@ paths:
                 $ref: '#/components/schemas/Error'
       tags:
         - Poll vote
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          deprecated: false
+          required: true
+          schema:
+            type: number
+      operationId: Delete poll vote
+  /proposal-votes:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PollVoteListResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Proposal vote
+      parameters:
+        - name: sort
+          in: query
+          description: Sort by attributes ascending (asc) or descending (desc)
+          deprecated: false
+          required: false
+          schema:
+            type: string
+        - name: pagination[withCount]
+          in: query
+          description: 'Return page/pageSize (default: true)'
+          deprecated: false
+          required: false
+          schema:
+            type: boolean
+        - name: pagination[page]
+          in: query
+          description: 'Page number (default: 0)'
+          deprecated: false
+          required: false
+          schema:
+            type: integer
+        - name: pagination[pageSize]
+          in: query
+          description: 'Page size (default: 25)'
+          deprecated: false
+          required: false
+          schema:
+            type: integer
+        - name: pagination[start]
+          in: query
+          description: 'Offset value (default: 0)'
+          deprecated: false
+          required: false
+          schema:
+            type: integer
+        - name: pagination[limit]
+          in: query
+          description: 'Number of entities to return (default: 25)'
+          deprecated: false
+          required: false
+          schema:
+            type: integer
+        - name: fields
+          in: query
+          description: 'Fields to return (ex: title,author)'
+          deprecated: false
+          required: false
+          schema:
+            type: string
+        - name: populate
+          in: query
+          description: Relations to return
+          deprecated: false
+          required: false
+          schema:
+            type: string
+        - name: filters
+          in: query
+          description: Filters to apply
+          deprecated: false
+          required: false
+          schema:
+            type: object
+          style: deepObject
+        - name: locale
+          in: query
+          description: Locale to apply
+          deprecated: false
+          required: false
+          schema:
+            type: string
+      operationId: Get proposal votes
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PollVoteResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Proposal vote
+      parameters: []
+      operationId: Create proposal vote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PollVoteRequest'
+  /proposal-votes/{id}:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PollVoteResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Proposal vote
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          deprecated: false
+          required: true
+          schema:
+            type: number
+      operationId: Get single poll vote
+    put:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PollVoteResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Proposal vote
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          deprecated: false
+          required: true
+          schema:
+            type: number
+      operationId: Update poll vote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PollVoteRequest'
+    delete:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Proposal vote
       parameters:
         - name: id
           in: path
@@ -3478,7 +3901,7 @@ paths:
           schema:
             type: number
       operationId: Delete proposal submition
-  /proposal-types:
+  /governance-action-types:
     get:
       responses:
         '200':
@@ -3518,7 +3941,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       tags:
-        - Proposal type
+        - Governance action type
       parameters:
         - name: sort
           in: query
@@ -3591,7 +4014,7 @@ paths:
           required: false
           schema:
             type: string
-      operationId: Get proposal types
+      operationId: Get governance action types
     post:
       responses:
         '200':
@@ -3631,16 +4054,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       tags:
-        - Proposal type
+        - Governance action type
       parameters: []
-      operationId: Create proposal type
+      operationId: Create governance action type
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ProposalTypeRequest'
-  /proposal-types/{id}:
+  /governance-action-types/{id}:
     get:
       responses:
         '200':
@@ -3680,7 +4103,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       tags:
-        - Proposal type
+        - Governance action type
       parameters:
         - name: id
           in: path
@@ -3689,7 +4112,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: Get single proposal type
+      operationId: Get single governance action type
     put:
       responses:
         '200':
@@ -3729,7 +4152,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       tags:
-        - Proposal type
+        - Governance action type
       parameters:
         - name: id
           in: path
@@ -3738,7 +4161,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: Update proposal type
+      operationId: Update governance action type
       requestBody:
         required: true
         content:
@@ -3785,7 +4208,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       tags:
-        - Proposal type
+        - Governance action type
       parameters:
         - name: id
           in: path
@@ -3794,7 +4217,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: Delete proposal type
+      operationId: Delete governance action type
   /wallet-types:
     get:
       responses:

@@ -29,9 +29,6 @@
       "type": "boolean",
       "default": false
     },
-    "current_revision": {
-      "type": "integer"
-    },
     "proposal_links": {
       "type": "component",
       "repeatable": true,
