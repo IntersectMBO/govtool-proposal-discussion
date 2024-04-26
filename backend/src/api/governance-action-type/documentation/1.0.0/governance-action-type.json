@@ -1,5 +1,5 @@
 {
-  "/proposal-categories": {
+  "/governance-action-types": {
     "get": {
       "responses": {
         "200": {
@@ -7,7 +7,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProposalCategoryListResponse"
+                "$ref": "#/components/schemas/GovernanceActionTypeListResponse"
               }
             }
           }
@@ -64,7 +64,7 @@
         }
       },
       "tags": [
-        "Proposal-category"
+        "Governance-action-type"
       ],
       "parameters": [
         {
@@ -169,7 +169,7 @@
           }
         }
       ],
-      "operationId": "get/proposal-categories"
+      "operationId": "get/governance-action-types"
     },
     "post": {
       "responses": {
@@ -178,7 +178,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProposalCategoryResponse"
+                "$ref": "#/components/schemas/GovernanceActionTypeResponse"
               }
             }
           }
@@ -235,23 +235,23 @@
         }
       },
       "tags": [
-        "Proposal-category"
+        "Governance-action-type"
       ],
       "parameters": [],
-      "operationId": "post/proposal-categories",
+      "operationId": "post/governance-action-types",
       "requestBody": {
         "required": true,
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/ProposalCategoryRequest"
+              "$ref": "#/components/schemas/GovernanceActionTypeRequest"
             }
           }
         }
       }
     }
   },
-  "/proposal-categories/{id}": {
+  "/governance-action-types/{id}": {
     "get": {
       "responses": {
         "200": {
@@ -259,7 +259,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProposalCategoryResponse"
+                "$ref": "#/components/schemas/GovernanceActionTypeResponse"
               }
             }
           }
@@ -316,7 +316,7 @@
         }
       },
       "tags": [
-        "Proposal-category"
+        "Governance-action-type"
       ],
       "parameters": [
         {
@@ -330,7 +330,7 @@
           }
         }
       ],
-      "operationId": "get/proposal-categories/{id}"
+      "operationId": "get/governance-action-types/{id}"
     },
     "put": {
       "responses": {
@@ -339,7 +339,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProposalCategoryResponse"
+                "$ref": "#/components/schemas/GovernanceActionTypeResponse"
               }
             }
           }
@@ -396,7 +396,7 @@
         }
       },
       "tags": [
-        "Proposal-category"
+        "Governance-action-type"
       ],
       "parameters": [
         {
@@ -410,13 +410,13 @@
           }
         }
       ],
-      "operationId": "put/proposal-categories/{id}",
+      "operationId": "put/governance-action-types/{id}",
       "requestBody": {
         "required": true,
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/ProposalCategoryRequest"
+              "$ref": "#/components/schemas/GovernanceActionTypeRequest"
             }
           }
         }
@@ -487,7 +487,7 @@
         }
       },
       "tags": [
-        "Proposal-category"
+        "Governance-action-type"
       ],
       "parameters": [
         {
@@ -501,7 +501,7 @@
           }
         }
       ],
-      "operationId": "delete/proposal-categories/{id}"
+      "operationId": "delete/governance-action-types/{id}"
     }
   }
 }

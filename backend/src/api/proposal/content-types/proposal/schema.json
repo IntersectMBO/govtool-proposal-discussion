@@ -12,25 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "prop_name": {
-      "type": "string",
-      "maxLength": 60
-    },
-    "prop_label_text_top": {
-      "type": "string",
-      "maxLength": 60
-    },
-    "prop_r_address": {
-      "type": "string",
-      "maxLength": 200
-    },
-    "prop_amount": {
-      "type": "float"
-    },
-    "prop_unique_url": {
-      "type": "text",
-      "maxLength": 300
-    },
     "prop_likes": {
       "type": "integer"
     },
@@ -56,13 +37,7 @@
       "repeatable": true,
       "component": "proposal.proposal-link"
     },
-    "prop_type_id": {
-      "type": "string"
-    },
     "prop_status_id": {
-      "type": "string"
-    },
-    "prop_cat_id": {
       "type": "string"
     }
   }

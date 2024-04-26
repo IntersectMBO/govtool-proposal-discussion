@@ -33,6 +33,23 @@
     "prop_rationale": {
       "type": "text",
       "maxLength": 256
+    },
+    "gov_action_type_id": {
+      "type": "string"
+    },
+    "prop_name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 60
+    },
+    "prop_receiving_address": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200
+    },
+    "prop_amount": {
+      "type": "float",
+      "required": true
     }
   }
 }
