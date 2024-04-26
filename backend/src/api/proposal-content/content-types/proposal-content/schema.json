@@ -15,9 +15,6 @@
     "proposal_id": {
       "type": "string"
     },
-    "prop_rev_number": {
-      "type": "integer"
-    },
     "prop_rev_active": {
       "type": "boolean",
       "default": false
