@@ -13,17 +13,20 @@
   "pluginOptions": {},
   "attributes": {
     "prop_likes": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     },
     "prop_dislikes": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     },
     "prop_poll_active": {
       "type": "boolean",
       "default": false
     },
-    "prop_coments_number": {
-      "type": "integer"
+    "prop_comments_number": {
+      "type": "integer",
+      "default": 0
     },
     "prop_submited": {
       "type": "boolean",
