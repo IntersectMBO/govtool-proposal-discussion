@@ -13,7 +13,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2024-04-25T07:41:55.048Z"
+    "x-generation-date": "2024-04-30T11:37:50.217Z"
   },
   "x-strapi-config": {
     "plugins": [],
@@ -174,10 +174,6 @@
             "format": "date-time"
           },
           "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "publishedAt": {
             "type": "string",
             "format": "date-time"
           },
@@ -491,6 +487,398 @@
           }
         }
       },
+      "GovernanceActionTypeRequest": {
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "required": [
+              "gov_action_type_name"
+            ],
+            "type": "object",
+            "properties": {
+              "gov_action_type_name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "GovernanceActionTypeListResponseDataItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/GovernanceActionType"
+          }
+        }
+      },
+      "GovernanceActionTypeListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GovernanceActionTypeListResponseDataItem"
+            }
+          },
+          "meta": {
+            "type": "object",
+            "properties": {
+              "pagination": {
+                "type": "object",
+                "properties": {
+                  "page": {
+                    "type": "integer"
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "minimum": 25
+                  },
+                  "pageCount": {
+                    "type": "integer",
+                    "maximum": 1
+                  },
+                  "total": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "GovernanceActionType": {
+        "type": "object",
+        "required": [
+          "gov_action_type_name"
+        ],
+        "properties": {
+          "gov_action_type_name": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "attributes": {
+                    "type": "object",
+                    "properties": {
+                      "firstname": {
+                        "type": "string"
+                      },
+                      "lastname": {
+                        "type": "string"
+                      },
+                      "username": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "resetPasswordToken": {
+                        "type": "string"
+                      },
+                      "registrationToken": {
+                        "type": "string"
+                      },
+                      "isActive": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "type": "object",
+                        "properties": {
+                          "data": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "number"
+                                },
+                                "attributes": {
+                                  "type": "object",
+                                  "properties": {
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "code": {
+                                      "type": "string"
+                                    },
+                                    "description": {
+                                      "type": "string"
+                                    },
+                                    "users": {
+                                      "type": "object",
+                                      "properties": {
+                                        "data": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "id": {
+                                                "type": "number"
+                                              },
+                                              "attributes": {
+                                                "type": "object",
+                                                "properties": {}
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "permissions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "data": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "id": {
+                                                "type": "number"
+                                              },
+                                              "attributes": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "action": {
+                                                    "type": "string"
+                                                  },
+                                                  "actionParameters": {},
+                                                  "subject": {
+                                                    "type": "string"
+                                                  },
+                                                  "properties": {},
+                                                  "conditions": {},
+                                                  "role": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "data": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "id": {
+                                                            "type": "number"
+                                                          },
+                                                          "attributes": {
+                                                            "type": "object",
+                                                            "properties": {}
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  },
+                                                  "createdAt": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                  },
+                                                  "updatedAt": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                  },
+                                                  "createdBy": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "data": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "id": {
+                                                            "type": "number"
+                                                          },
+                                                          "attributes": {
+                                                            "type": "object",
+                                                            "properties": {}
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  },
+                                                  "updatedBy": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "data": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "id": {
+                                                            "type": "number"
+                                                          },
+                                                          "attributes": {
+                                                            "type": "object",
+                                                            "properties": {}
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "createdAt": {
+                                      "type": "string",
+                                      "format": "date-time"
+                                    },
+                                    "updatedAt": {
+                                      "type": "string",
+                                      "format": "date-time"
+                                    },
+                                    "createdBy": {
+                                      "type": "object",
+                                      "properties": {
+                                        "data": {
+                                          "type": "object",
+                                          "properties": {
+                                            "id": {
+                                              "type": "number"
+                                            },
+                                            "attributes": {
+                                              "type": "object",
+                                              "properties": {}
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "updatedBy": {
+                                      "type": "object",
+                                      "properties": {
+                                        "data": {
+                                          "type": "object",
+                                          "properties": {
+                                            "id": {
+                                              "type": "number"
+                                            },
+                                            "attributes": {
+                                              "type": "object",
+                                              "properties": {}
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "blocked": {
+                        "type": "boolean"
+                      },
+                      "preferedLanguage": {
+                        "type": "string"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "createdBy": {
+                        "type": "object",
+                        "properties": {
+                          "data": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "attributes": {
+                                "type": "object",
+                                "properties": {}
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "updatedBy": {
+                        "type": "object",
+                        "properties": {
+                          "data": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "attributes": {
+                                "type": "object",
+                                "properties": {}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "updatedBy": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "attributes": {
+                    "type": "object",
+                    "properties": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "GovernanceActionTypeResponseDataObject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/GovernanceActionType"
+          }
+        }
+      },
+      "GovernanceActionTypeResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/GovernanceActionTypeResponseDataObject"
+          },
+          "meta": {
+            "type": "object"
+          }
+        }
+      },
       "PollRequest": {
         "type": "object",
         "required": [
@@ -512,6 +900,9 @@
               "poll_start_dt": {
                 "type": "string",
                 "format": "date-time"
+              },
+              "is_poll_active": {
+                "type": "boolean"
               }
             }
           }
@@ -579,15 +970,14 @@
             "type": "string",
             "format": "date-time"
           },
+          "is_poll_active": {
+            "type": "boolean"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
           },
           "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "publishedAt": {
             "type": "string",
             "format": "date-time"
           },
@@ -901,7 +1291,7 @@
           }
         }
       },
-      "PollsVoteRequest": {
+      "PollVoteRequest": {
         "type": "object",
         "required": [
           "data"
@@ -910,7 +1300,7 @@
           "data": {
             "type": "object",
             "properties": {
-              "proposal_id": {
+              "poll_id": {
                 "type": "string"
               },
               "user_id": {
@@ -923,24 +1313,24 @@
           }
         }
       },
-      "PollsVoteListResponseDataItem": {
+      "PollVoteListResponseDataItem": {
         "type": "object",
         "properties": {
           "id": {
             "type": "number"
           },
           "attributes": {
-            "$ref": "#/components/schemas/PollsVote"
+            "$ref": "#/components/schemas/PollVote"
           }
         }
       },
-      "PollsVoteListResponse": {
+      "PollVoteListResponse": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/PollsVoteListResponseDataItem"
+              "$ref": "#/components/schemas/PollVoteListResponseDataItem"
             }
           },
           "meta": {
@@ -969,10 +1359,10 @@
           }
         }
       },
-      "PollsVote": {
+      "PollVote": {
         "type": "object",
         "properties": {
-          "proposal_id": {
+          "poll_id": {
             "type": "string"
           },
           "user_id": {
@@ -986,10 +1376,6 @@
             "format": "date-time"
           },
           "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "publishedAt": {
             "type": "string",
             "format": "date-time"
           },
@@ -1281,22 +1667,22 @@
           }
         }
       },
-      "PollsVoteResponseDataObject": {
+      "PollVoteResponseDataObject": {
         "type": "object",
         "properties": {
           "id": {
             "type": "number"
           },
           "attributes": {
-            "$ref": "#/components/schemas/PollsVote"
+            "$ref": "#/components/schemas/PollVote"
           }
         }
       },
-      "PollsVoteResponse": {
+      "PollVoteResponse": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/PollsVoteResponseDataObject"
+            "$ref": "#/components/schemas/PollVoteResponseDataObject"
           },
           "meta": {
             "type": "object"
@@ -1312,22 +1698,6 @@
           "data": {
             "type": "object",
             "properties": {
-              "prop_name": {
-                "type": "string"
-              },
-              "prop_label_text_top": {
-                "type": "string"
-              },
-              "prop_r_address": {
-                "type": "string"
-              },
-              "prop_amount": {
-                "type": "number",
-                "format": "float"
-              },
-              "prop_unique_url": {
-                "type": "string"
-              },
               "prop_likes": {
                 "type": "integer"
               },
@@ -1337,28 +1707,13 @@
               "prop_poll_active": {
                 "type": "boolean"
               },
-              "prop_coments_number": {
+              "prop_comments_number": {
                 "type": "integer"
               },
               "prop_submited": {
                 "type": "boolean"
               },
-              "current_revision": {
-                "type": "integer"
-              },
-              "proposal_links": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/ProposalProposalLinkComponent"
-                }
-              },
-              "prop_type_id": {
-                "type": "string"
-              },
               "prop_status_id": {
-                "type": "string"
-              },
-              "prop_cat_id": {
                 "type": "string"
               }
             }
@@ -1414,22 +1769,6 @@
       "Proposal": {
         "type": "object",
         "properties": {
-          "prop_name": {
-            "type": "string"
-          },
-          "prop_label_text_top": {
-            "type": "string"
-          },
-          "prop_r_address": {
-            "type": "string"
-          },
-          "prop_amount": {
-            "type": "number",
-            "format": "float"
-          },
-          "prop_unique_url": {
-            "type": "string"
-          },
           "prop_likes": {
             "type": "integer"
           },
@@ -1439,28 +1778,13 @@
           "prop_poll_active": {
             "type": "boolean"
           },
-          "prop_coments_number": {
+          "prop_comments_number": {
             "type": "integer"
           },
           "prop_submited": {
             "type": "boolean"
           },
-          "current_revision": {
-            "type": "integer"
-          },
-          "proposal_links": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProposalProposalLinkComponent"
-            }
-          },
-          "prop_type_id": {
-            "type": "string"
-          },
           "prop_status_id": {
-            "type": "string"
-          },
-          "prop_cat_id": {
             "type": "string"
           },
           "createdAt": {
@@ -1468,10 +1792,6 @@
             "format": "date-time"
           },
           "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "publishedAt": {
             "type": "string",
             "format": "date-time"
           },
@@ -1785,413 +2105,6 @@
           }
         }
       },
-      "ProposalProposalLinkComponent": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "prop_link": {
-            "type": "string"
-          },
-          "prop_link_text": {
-            "type": "string"
-          },
-          "prop_link_order": {
-            "type": "integer"
-          }
-        }
-      },
-      "ProposalCategoryRequest": {
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "properties": {
-          "data": {
-            "type": "object",
-            "properties": {
-              "prop_cat_name": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "ProposalCategoryListResponseDataItem": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/ProposalCategory"
-          }
-        }
-      },
-      "ProposalCategoryListResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProposalCategoryListResponseDataItem"
-            }
-          },
-          "meta": {
-            "type": "object",
-            "properties": {
-              "pagination": {
-                "type": "object",
-                "properties": {
-                  "page": {
-                    "type": "integer"
-                  },
-                  "pageSize": {
-                    "type": "integer",
-                    "minimum": 25
-                  },
-                  "pageCount": {
-                    "type": "integer",
-                    "maximum": 1
-                  },
-                  "total": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "ProposalCategory": {
-        "type": "object",
-        "properties": {
-          "prop_cat_name": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "publishedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdBy": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "number"
-                  },
-                  "attributes": {
-                    "type": "object",
-                    "properties": {
-                      "firstname": {
-                        "type": "string"
-                      },
-                      "lastname": {
-                        "type": "string"
-                      },
-                      "username": {
-                        "type": "string"
-                      },
-                      "email": {
-                        "type": "string",
-                        "format": "email"
-                      },
-                      "resetPasswordToken": {
-                        "type": "string"
-                      },
-                      "registrationToken": {
-                        "type": "string"
-                      },
-                      "isActive": {
-                        "type": "boolean"
-                      },
-                      "roles": {
-                        "type": "object",
-                        "properties": {
-                          "data": {
-                            "type": "array",
-                            "items": {
-                              "type": "object",
-                              "properties": {
-                                "id": {
-                                  "type": "number"
-                                },
-                                "attributes": {
-                                  "type": "object",
-                                  "properties": {
-                                    "name": {
-                                      "type": "string"
-                                    },
-                                    "code": {
-                                      "type": "string"
-                                    },
-                                    "description": {
-                                      "type": "string"
-                                    },
-                                    "users": {
-                                      "type": "object",
-                                      "properties": {
-                                        "data": {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "object",
-                                            "properties": {
-                                              "id": {
-                                                "type": "number"
-                                              },
-                                              "attributes": {
-                                                "type": "object",
-                                                "properties": {}
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "permissions": {
-                                      "type": "object",
-                                      "properties": {
-                                        "data": {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "object",
-                                            "properties": {
-                                              "id": {
-                                                "type": "number"
-                                              },
-                                              "attributes": {
-                                                "type": "object",
-                                                "properties": {
-                                                  "action": {
-                                                    "type": "string"
-                                                  },
-                                                  "actionParameters": {},
-                                                  "subject": {
-                                                    "type": "string"
-                                                  },
-                                                  "properties": {},
-                                                  "conditions": {},
-                                                  "role": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "data": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "id": {
-                                                            "type": "number"
-                                                          },
-                                                          "attributes": {
-                                                            "type": "object",
-                                                            "properties": {}
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  },
-                                                  "createdAt": {
-                                                    "type": "string",
-                                                    "format": "date-time"
-                                                  },
-                                                  "updatedAt": {
-                                                    "type": "string",
-                                                    "format": "date-time"
-                                                  },
-                                                  "createdBy": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "data": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "id": {
-                                                            "type": "number"
-                                                          },
-                                                          "attributes": {
-                                                            "type": "object",
-                                                            "properties": {}
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  },
-                                                  "updatedBy": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "data": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "id": {
-                                                            "type": "number"
-                                                          },
-                                                          "attributes": {
-                                                            "type": "object",
-                                                            "properties": {}
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "createdAt": {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    "updatedAt": {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    "createdBy": {
-                                      "type": "object",
-                                      "properties": {
-                                        "data": {
-                                          "type": "object",
-                                          "properties": {
-                                            "id": {
-                                              "type": "number"
-                                            },
-                                            "attributes": {
-                                              "type": "object",
-                                              "properties": {}
-                                            }
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "updatedBy": {
-                                      "type": "object",
-                                      "properties": {
-                                        "data": {
-                                          "type": "object",
-                                          "properties": {
-                                            "id": {
-                                              "type": "number"
-                                            },
-                                            "attributes": {
-                                              "type": "object",
-                                              "properties": {}
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      },
-                      "blocked": {
-                        "type": "boolean"
-                      },
-                      "preferedLanguage": {
-                        "type": "string"
-                      },
-                      "createdAt": {
-                        "type": "string",
-                        "format": "date-time"
-                      },
-                      "updatedAt": {
-                        "type": "string",
-                        "format": "date-time"
-                      },
-                      "createdBy": {
-                        "type": "object",
-                        "properties": {
-                          "data": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "attributes": {
-                                "type": "object",
-                                "properties": {}
-                              }
-                            }
-                          }
-                        }
-                      },
-                      "updatedBy": {
-                        "type": "object",
-                        "properties": {
-                          "data": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "attributes": {
-                                "type": "object",
-                                "properties": {}
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "updatedBy": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "number"
-                  },
-                  "attributes": {
-                    "type": "object",
-                    "properties": {}
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "ProposalCategoryResponseDataObject": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/ProposalCategory"
-          }
-        }
-      },
-      "ProposalCategoryResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ProposalCategoryResponseDataObject"
-          },
-          "meta": {
-            "type": "object"
-          }
-        }
-      },
       "ProposalContentRequest": {
         "type": "object",
         "required": [
@@ -2199,13 +2112,15 @@
         ],
         "properties": {
           "data": {
+            "required": [
+              "prop_name",
+              "prop_receiving_address",
+              "prop_amount"
+            ],
             "type": "object",
             "properties": {
               "proposal_id": {
                 "type": "string"
-              },
-              "prop_rev_number": {
-                "type": "integer"
               },
               "prop_rev_active": {
                 "type": "boolean"
@@ -2218,6 +2133,25 @@
               },
               "prop_rationale": {
                 "type": "string"
+              },
+              "gov_action_type_id": {
+                "type": "string"
+              },
+              "prop_name": {
+                "type": "string"
+              },
+              "prop_receiving_address": {
+                "type": "string"
+              },
+              "prop_amount": {
+                "type": "number",
+                "format": "float"
+              },
+              "proposal_links": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ProposalProposalLinkComponent"
+                }
               }
             }
           }
@@ -2271,12 +2205,14 @@
       },
       "ProposalContent": {
         "type": "object",
+        "required": [
+          "prop_name",
+          "prop_receiving_address",
+          "prop_amount"
+        ],
         "properties": {
           "proposal_id": {
             "type": "string"
-          },
-          "prop_rev_number": {
-            "type": "integer"
           },
           "prop_rev_active": {
             "type": "boolean"
@@ -2290,15 +2226,30 @@
           "prop_rationale": {
             "type": "string"
           },
+          "gov_action_type_id": {
+            "type": "string"
+          },
+          "prop_name": {
+            "type": "string"
+          },
+          "prop_receiving_address": {
+            "type": "string"
+          },
+          "prop_amount": {
+            "type": "number",
+            "format": "float"
+          },
+          "proposal_links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProposalProposalLinkComponent"
+            }
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
           },
           "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "publishedAt": {
             "type": "string",
             "format": "date-time"
           },
@@ -2612,6 +2563,23 @@
           }
         }
       },
+      "ProposalProposalLinkComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "prop_link": {
+            "type": "string"
+          },
+          "prop_link_text": {
+            "type": "string"
+          },
+          "prop_link_order": {
+            "type": "integer"
+          }
+        }
+      },
       "ProposalStatusRequest": {
         "type": "object",
         "required": [
@@ -2685,10 +2653,6 @@
             "format": "date-time"
           },
           "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "publishedAt": {
             "type": "string",
             "format": "date-time"
           },
@@ -3086,10 +3050,6 @@
             "type": "string",
             "format": "date-time"
           },
-          "publishedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
           "createdBy": {
             "type": "object",
             "properties": {
@@ -3400,40 +3360,50 @@
           }
         }
       },
-      "ProposalTypeRequest": {
+      "ProposalVoteRequest": {
         "type": "object",
         "required": [
           "data"
         ],
         "properties": {
           "data": {
+            "required": [
+              "proposal_id",
+              "user_id"
+            ],
             "type": "object",
             "properties": {
-              "prop_type_name": {
+              "proposal_id": {
                 "type": "string"
+              },
+              "user_id": {
+                "type": "string"
+              },
+              "vote_result": {
+                "type": "boolean"
               }
             }
           }
         }
       },
-      "ProposalTypeListResponseDataItem": {
+      "ProposalVoteListResponseDataItem": {
         "type": "object",
         "properties": {
           "id": {
             "type": "number"
           },
           "attributes": {
-            "$ref": "#/components/schemas/ProposalType"
+            "$ref": "#/components/schemas/ProposalVote"
           }
         }
       },
-      "ProposalTypeListResponse": {
+      "ProposalVoteListResponse": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProposalTypeListResponseDataItem"
+              "$ref": "#/components/schemas/ProposalVoteListResponseDataItem"
             }
           },
           "meta": {
@@ -3462,21 +3432,27 @@
           }
         }
       },
-      "ProposalType": {
+      "ProposalVote": {
         "type": "object",
+        "required": [
+          "proposal_id",
+          "user_id"
+        ],
         "properties": {
-          "prop_type_name": {
+          "proposal_id": {
             "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "vote_result": {
+            "type": "boolean"
           },
           "createdAt": {
             "type": "string",
             "format": "date-time"
           },
           "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "publishedAt": {
             "type": "string",
             "format": "date-time"
           },
@@ -3768,22 +3744,22 @@
           }
         }
       },
-      "ProposalTypeResponseDataObject": {
+      "ProposalVoteResponseDataObject": {
         "type": "object",
         "properties": {
           "id": {
             "type": "number"
           },
           "attributes": {
-            "$ref": "#/components/schemas/ProposalType"
+            "$ref": "#/components/schemas/ProposalVote"
           }
         }
       },
-      "ProposalTypeResponse": {
+      "ProposalVoteResponse": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/ProposalTypeResponseDataObject"
+            "$ref": "#/components/schemas/ProposalVoteResponseDataObject"
           },
           "meta": {
             "type": "object"
@@ -3875,10 +3851,6 @@
             "format": "date-time"
           },
           "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "publishedAt": {
             "type": "string",
             "format": "date-time"
           },
@@ -4700,6 +4672,511 @@
         "operationId": "delete/comments/{id}"
       }
     },
+    "/governance-action-types": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GovernanceActionTypeListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Governance-action-type"
+        ],
+        "parameters": [
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort by attributes ascending (asc) or descending (desc)",
+            "deprecated": false,
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pagination[withCount]",
+            "in": "query",
+            "description": "Return page/pageSize (default: true)",
+            "deprecated": false,
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "pagination[page]",
+            "in": "query",
+            "description": "Page number (default: 0)",
+            "deprecated": false,
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pagination[pageSize]",
+            "in": "query",
+            "description": "Page size (default: 25)",
+            "deprecated": false,
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pagination[start]",
+            "in": "query",
+            "description": "Offset value (default: 0)",
+            "deprecated": false,
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pagination[limit]",
+            "in": "query",
+            "description": "Number of entities to return (default: 25)",
+            "deprecated": false,
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Fields to return (ex: title,author)",
+            "deprecated": false,
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "populate",
+            "in": "query",
+            "description": "Relations to return",
+            "deprecated": false,
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filters",
+            "in": "query",
+            "description": "Filters to apply",
+            "deprecated": false,
+            "required": false,
+            "schema": {
+              "type": "object"
+            },
+            "style": "deepObject"
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "description": "Locale to apply",
+            "deprecated": false,
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "operationId": "get/governance-action-types"
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GovernanceActionTypeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Governance-action-type"
+        ],
+        "parameters": [],
+        "operationId": "post/governance-action-types",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GovernanceActionTypeRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/governance-action-types/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GovernanceActionTypeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Governance-action-type"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "deprecated": false,
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "operationId": "get/governance-action-types/{id}"
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GovernanceActionTypeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Governance-action-type"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "deprecated": false,
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "operationId": "put/governance-action-types/{id}",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GovernanceActionTypeRequest"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Governance-action-type"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "deprecated": false,
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "operationId": "delete/governance-action-types/{id}"
+      }
+    },
     "/polls": {
       "get": {
         "responses": {
@@ -5205,7 +5682,7 @@
         "operationId": "delete/polls/{id}"
       }
     },
-    "/polls-votes": {
+    "/poll-votes": {
       "get": {
         "responses": {
           "200": {
@@ -5213,7 +5690,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PollsVoteListResponse"
+                  "$ref": "#/components/schemas/PollVoteListResponse"
                 }
               }
             }
@@ -5270,7 +5747,7 @@
           }
         },
         "tags": [
-          "Polls-vote"
+          "Poll-vote"
         ],
         "parameters": [
           {
@@ -5375,7 +5852,7 @@
             }
           }
         ],
-        "operationId": "get/polls-votes"
+        "operationId": "get/poll-votes"
       },
       "post": {
         "responses": {
@@ -5384,7 +5861,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PollsVoteResponse"
+                  "$ref": "#/components/schemas/PollVoteResponse"
                 }
               }
             }
@@ -5441,23 +5918,23 @@
           }
         },
         "tags": [
-          "Polls-vote"
+          "Poll-vote"
         ],
         "parameters": [],
-        "operationId": "post/polls-votes",
+        "operationId": "post/poll-votes",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PollsVoteRequest"
+                "$ref": "#/components/schemas/PollVoteRequest"
               }
             }
           }
         }
       }
     },
-    "/polls-votes/{id}": {
+    "/poll-votes/{id}": {
       "get": {
         "responses": {
           "200": {
@@ -5465,7 +5942,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PollsVoteResponse"
+                  "$ref": "#/components/schemas/PollVoteResponse"
                 }
               }
             }
@@ -5522,7 +5999,7 @@
           }
         },
         "tags": [
-          "Polls-vote"
+          "Poll-vote"
         ],
         "parameters": [
           {
@@ -5536,7 +6013,7 @@
             }
           }
         ],
-        "operationId": "get/polls-votes/{id}"
+        "operationId": "get/poll-votes/{id}"
       },
       "put": {
         "responses": {
@@ -5545,7 +6022,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PollsVoteResponse"
+                  "$ref": "#/components/schemas/PollVoteResponse"
                 }
               }
             }
@@ -5602,7 +6079,7 @@
           }
         },
         "tags": [
-          "Polls-vote"
+          "Poll-vote"
         ],
         "parameters": [
           {
@@ -5616,13 +6093,13 @@
             }
           }
         ],
-        "operationId": "put/polls-votes/{id}",
+        "operationId": "put/poll-votes/{id}",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PollsVoteRequest"
+                "$ref": "#/components/schemas/PollVoteRequest"
               }
             }
           }
@@ -5693,7 +6170,7 @@
           }
         },
         "tags": [
-          "Polls-vote"
+          "Poll-vote"
         ],
         "parameters": [
           {
@@ -5707,7 +6184,7 @@
             }
           }
         ],
-        "operationId": "delete/polls-votes/{id}"
+        "operationId": "delete/poll-votes/{id}"
       }
     },
     "/proposals": {
@@ -6213,511 +6690,6 @@
           }
         ],
         "operationId": "delete/proposals/{id}"
-      }
-    },
-    "/proposal-categories": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProposalCategoryListResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Proposal-category"
-        ],
-        "parameters": [
-          {
-            "name": "sort",
-            "in": "query",
-            "description": "Sort by attributes ascending (asc) or descending (desc)",
-            "deprecated": false,
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "pagination[withCount]",
-            "in": "query",
-            "description": "Return page/pageSize (default: true)",
-            "deprecated": false,
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "pagination[page]",
-            "in": "query",
-            "description": "Page number (default: 0)",
-            "deprecated": false,
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "pagination[pageSize]",
-            "in": "query",
-            "description": "Page size (default: 25)",
-            "deprecated": false,
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "pagination[start]",
-            "in": "query",
-            "description": "Offset value (default: 0)",
-            "deprecated": false,
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "pagination[limit]",
-            "in": "query",
-            "description": "Number of entities to return (default: 25)",
-            "deprecated": false,
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Fields to return (ex: title,author)",
-            "deprecated": false,
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "populate",
-            "in": "query",
-            "description": "Relations to return",
-            "deprecated": false,
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "filters",
-            "in": "query",
-            "description": "Filters to apply",
-            "deprecated": false,
-            "required": false,
-            "schema": {
-              "type": "object"
-            },
-            "style": "deepObject"
-          },
-          {
-            "name": "locale",
-            "in": "query",
-            "description": "Locale to apply",
-            "deprecated": false,
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "operationId": "get/proposal-categories"
-      },
-      "post": {
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProposalCategoryResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Proposal-category"
-        ],
-        "parameters": [],
-        "operationId": "post/proposal-categories",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProposalCategoryRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/proposal-categories/{id}": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProposalCategoryResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Proposal-category"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "",
-            "deprecated": false,
-            "required": true,
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "operationId": "get/proposal-categories/{id}"
-      },
-      "put": {
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProposalCategoryResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Proposal-category"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "",
-            "deprecated": false,
-            "required": true,
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "operationId": "put/proposal-categories/{id}",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProposalCategoryRequest"
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int64"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Proposal-category"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "",
-            "deprecated": false,
-            "required": true,
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "operationId": "delete/proposal-categories/{id}"
       }
     },
     "/proposal-contents": {
@@ -8235,7 +8207,7 @@
         "operationId": "delete/proposal-submitions/{id}"
       }
     },
-    "/proposal-types": {
+    "/proposal-votes": {
       "get": {
         "responses": {
           "200": {
@@ -8243,7 +8215,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProposalTypeListResponse"
+                  "$ref": "#/components/schemas/ProposalVoteListResponse"
                 }
               }
             }
@@ -8300,7 +8272,7 @@
           }
         },
         "tags": [
-          "Proposal-type"
+          "Proposal-vote"
         ],
         "parameters": [
           {
@@ -8405,7 +8377,7 @@
             }
           }
         ],
-        "operationId": "get/proposal-types"
+        "operationId": "get/proposal-votes"
       },
       "post": {
         "responses": {
@@ -8414,7 +8386,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProposalTypeResponse"
+                  "$ref": "#/components/schemas/ProposalVoteResponse"
                 }
               }
             }
@@ -8471,23 +8443,23 @@
           }
         },
         "tags": [
-          "Proposal-type"
+          "Proposal-vote"
         ],
         "parameters": [],
-        "operationId": "post/proposal-types",
+        "operationId": "post/proposal-votes",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProposalTypeRequest"
+                "$ref": "#/components/schemas/ProposalVoteRequest"
               }
             }
           }
         }
       }
     },
-    "/proposal-types/{id}": {
+    "/proposal-votes/{id}": {
       "get": {
         "responses": {
           "200": {
@@ -8495,7 +8467,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProposalTypeResponse"
+                  "$ref": "#/components/schemas/ProposalVoteResponse"
                 }
               }
             }
@@ -8552,7 +8524,7 @@
           }
         },
         "tags": [
-          "Proposal-type"
+          "Proposal-vote"
         ],
         "parameters": [
           {
@@ -8566,7 +8538,7 @@
             }
           }
         ],
-        "operationId": "get/proposal-types/{id}"
+        "operationId": "get/proposal-votes/{id}"
       },
       "put": {
         "responses": {
@@ -8575,7 +8547,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProposalTypeResponse"
+                  "$ref": "#/components/schemas/ProposalVoteResponse"
                 }
               }
             }
@@ -8632,7 +8604,7 @@
           }
         },
         "tags": [
-          "Proposal-type"
+          "Proposal-vote"
         ],
         "parameters": [
           {
@@ -8646,13 +8618,13 @@
             }
           }
         ],
-        "operationId": "put/proposal-types/{id}",
+        "operationId": "put/proposal-votes/{id}",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProposalTypeRequest"
+                "$ref": "#/components/schemas/ProposalVoteRequest"
               }
             }
           }
@@ -8723,7 +8695,7 @@
           }
         },
         "tags": [
-          "Proposal-type"
+          "Proposal-vote"
         ],
         "parameters": [
           {
@@ -8737,7 +8709,7 @@
             }
           }
         ],
-        "operationId": "delete/proposal-types/{id}"
+        "operationId": "delete/proposal-votes/{id}"
       }
     },
     "/wallet-types": {

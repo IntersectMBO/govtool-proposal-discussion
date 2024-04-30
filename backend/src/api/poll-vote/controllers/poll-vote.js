@@ -108,7 +108,7 @@ module.exports = createCoreController(
 					return ctx.badRequest(null, "Poll not updated");
 				}
 
-				return this.transformResponse(updatedPoll);
+				return this.transformResponse(pollVote);
 				// Global error catch
 			} catch (error) {
 				pollVote && (await deletePollVote());
@@ -131,6 +131,7 @@ module.exports = createCoreController(
 			}
 
 			let pollVote;
+			let updatedPollVote;
 			let poll;
 
 			const rollbackPollVote = async () => {
@@ -182,7 +183,7 @@ module.exports = createCoreController(
 						);
 					}
 
-					const updatedPollVote = await strapi.entityService.update(
+					updatedPollVote = await strapi.entityService.update(
 						"api::poll-vote.poll-vote",
 						id,
 						{ data: { ...pollVote, vote_result: voteResult } }
@@ -229,7 +230,7 @@ module.exports = createCoreController(
 						return ctx.badRequest(null, "Poll not updated");
 					}
 
-					return this.transformResponse(updatedPoll);
+					return this.transformResponse(updatedPollVote);
 				} catch (error) {
 					return ctx.badRequest(null, "Poll not updated");
 				}
