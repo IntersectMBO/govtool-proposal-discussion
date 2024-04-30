@@ -9,7 +9,7 @@ export default function Home({ params: { locale } }) {
 		<main>
 			<div>
 				{/*Render the translated title. */}
-				<h1>{t("title")}</h1>
+				{/* <h1>{t("title")}</h1> */}
 			</div>
 		</main>
 	);
