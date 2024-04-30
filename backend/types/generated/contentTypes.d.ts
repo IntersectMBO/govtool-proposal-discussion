@@ -843,7 +843,7 @@ export interface ApiCommentComment extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     proposal_id: Attribute.String;
@@ -855,7 +855,6 @@ export interface ApiCommentComment extends Schema.CollectionType {
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::comment.comment',
       'oneToOne',
@@ -914,16 +913,16 @@ export interface ApiPollPoll extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     proposal_id: Attribute.String;
     poll_yes: Attribute.Integer & Attribute.DefaultTo<0>;
     poll_no: Attribute.Integer & Attribute.DefaultTo<0>;
     poll_start_dt: Attribute.DateTime;
+    is_poll_active: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::poll.poll', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::poll.poll', 'oneToOne', 'admin::user'> &
@@ -972,7 +971,7 @@ export interface ApiProposalProposal extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     prop_likes: Attribute.Integer;
@@ -980,11 +979,9 @@ export interface ApiProposalProposal extends Schema.CollectionType {
     prop_poll_active: Attribute.Boolean & Attribute.DefaultTo<false>;
     prop_coments_number: Attribute.Integer;
     prop_submited: Attribute.Boolean & Attribute.DefaultTo<false>;
-    proposal_links: Attribute.Component<'proposal.proposal-link', true>;
     prop_status_id: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::proposal.proposal',
       'oneToOne',
@@ -1010,7 +1007,7 @@ export interface ApiProposalContentProposalContent
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     proposal_id: Attribute.String;
@@ -1039,9 +1036,9 @@ export interface ApiProposalContentProposalContent
         maxLength: 200;
       }>;
     prop_amount: Attribute.Float & Attribute.Required;
+    proposal_links: Attribute.Component<'proposal.proposal-link', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::proposal-content.proposal-content',
       'oneToOne',
@@ -1063,9 +1060,10 @@ export interface ApiProposalStatusProposalStatus extends Schema.CollectionType {
     singularName: 'proposal-status';
     pluralName: 'proposal-statuses';
     displayName: 'Proposal status';
+    description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     prop_status_name: Attribute.String &
@@ -1074,7 +1072,6 @@ export interface ApiProposalStatusProposalStatus extends Schema.CollectionType {
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::proposal-status.proposal-status',
       'oneToOne',
@@ -1100,7 +1097,7 @@ export interface ApiProposalSubmitionProposalSubmition
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     proposal_id: Attribute.String;
@@ -1111,7 +1108,6 @@ export interface ApiProposalSubmitionProposalSubmition
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::proposal-submition.proposal-submition',
       'oneToOne',
@@ -1165,9 +1161,10 @@ export interface ApiWalletTypeWalletType extends Schema.CollectionType {
     singularName: 'wallet-type';
     pluralName: 'wallet-types';
     displayName: 'Wallet type';
+    description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     wallet_name: Attribute.Text &
@@ -1178,7 +1175,6 @@ export interface ApiWalletTypeWalletType extends Schema.CollectionType {
     wallet_active: Attribute.Boolean & Attribute.DefaultTo<true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::wallet-type.wallet-type',
       'oneToOne',

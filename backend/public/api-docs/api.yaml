@@ -256,6 +256,9 @@ components:
             poll_start_dt:
               type: string
               format: date-time
+            is_poll_active:
+              type: boolean
+              default: false
     PollListResponseDataItem:
       type: object
       properties:
@@ -298,6 +301,9 @@ components:
         poll_start_dt:
           type: string
           format: date-time
+        is_poll_active:
+          type: boolean
+          default: false 
         createdAt:
           type: string
           format: date-time
@@ -495,10 +501,6 @@ components:
             prop_submited:
               type: boolean
               default: false
-            proposal_links:
-              type: array
-              items:
-                $ref: '#/components/schemas/ProposalProposalLinkComponent'
             prop_status_id:
               type: string
     ProposalListResponseDataItem:
@@ -544,10 +546,6 @@ components:
           type: integer
         prop_submited:
           type: boolean
-        proposal_links:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProposalProposalLinkComponent'
         prop_status_id:
           type: string
         createdAt:
@@ -687,6 +685,10 @@ components:
               maximum: 200
             prop_amount:
               type: number
+            proposal_links:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProposalProposalLinkComponent'
     ProposalContentListResponseDataItem:
       type: object
       properties:
@@ -738,6 +740,10 @@ components:
           type: string
         prop_amount:
           type: number
+        proposal_links:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProposalProposalLinkComponent'
         createdAt:
           type: string
           format: date-time
@@ -1161,7 +1167,7 @@ paths:
           required: false
           schema:
             type: string
-      operationId: Get comment
+      operationId: Get comments
     post:
       responses:
         '200':
@@ -1210,161 +1216,161 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CommentRequest'
-  /comments/{id}:
-    get:
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommentResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      tags:
-        - Comment
-      parameters:
-        - name: id
-          in: path
-          description: ''
-          deprecated: false
-          required: true
-          schema:
-            type: number
-      operationId: Get single comment
-    put:
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommentResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      tags:
-        - Comment
-      parameters:
-        - name: id
-          in: path
-          description: ''
-          deprecated: false
-          required: true
-          schema:
-            type: number
-      operationId: Update comment
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CommentRequest'
-    delete:
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      tags:
-        - Comment
-      parameters:
-        - name: id
-          in: path
-          description: ''
-          deprecated: false
-          required: true
-          schema:
-            type: number
-      operationId: Delete comment
+  # /comments/{id}:
+    # get:
+    #   responses:
+    #     '200':
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/CommentResponse'
+    #     '400':
+    #       description: Bad Request
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '401':
+    #       description: Unauthorized
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '403':
+    #       description: Forbidden
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '404':
+    #       description: Not Found
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '500':
+    #       description: Internal Server Error
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #   tags:
+    #     - Comment
+    #   parameters:
+    #     - name: id
+    #       in: path
+    #       description: ''
+    #       deprecated: false
+    #       required: true
+    #       schema:
+    #         type: number
+    #   operationId: Get single comment
+    # put:
+    #   responses:
+    #     '200':
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/CommentResponse'
+    #     '400':
+    #       description: Bad Request
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '401':
+    #       description: Unauthorized
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '403':
+    #       description: Forbidden
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '404':
+    #       description: Not Found
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '500':
+    #       description: Internal Server Error
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #   tags:
+    #     - Comment
+    #   parameters:
+    #     - name: id
+    #       in: path
+    #       description: ''
+    #       deprecated: false
+    #       required: true
+    #       schema:
+    #         type: number
+    #   operationId: Update comment
+    #   requestBody:
+    #     required: true
+    #     content:
+    #       application/json:
+    #         schema:
+    #           $ref: '#/components/schemas/CommentRequest'
+    # delete:
+    #   responses:
+    #     '200':
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             type: integer
+    #             format: int64
+    #     '400':
+    #       description: Bad Request
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '401':
+    #       description: Unauthorized
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '403':
+    #       description: Forbidden
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '404':
+    #       description: Not Found
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '500':
+    #       description: Internal Server Error
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #   tags:
+    #     - Comment
+    #   parameters:
+    #     - name: id
+    #       in: path
+    #       description: ''
+    #       deprecated: false
+    #       required: true
+    #       schema:
+    #         type: number
+    #   operationId: Delete comment
   /polls:
     get:
       responses:
@@ -1528,55 +1534,55 @@ paths:
             schema:
               $ref: '#/components/schemas/PollRequest'
   /polls/{id}:
-    get:
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PollResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      tags:
-        - Poll
-      parameters:
-        - name: id
-          in: path
-          description: ''
-          deprecated: false
-          required: true
-          schema:
-            type: number
-      operationId: Get single poll
+    # get:
+    #   responses:
+    #     '200':
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/PollResponse'
+    #     '400':
+    #       description: Bad Request
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '401':
+    #       description: Unauthorized
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '403':
+    #       description: Forbidden
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '404':
+    #       description: Not Found
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '500':
+    #       description: Internal Server Error
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #   tags:
+    #     - Poll
+    #   parameters:
+    #     - name: id
+    #       in: path
+    #       description: ''
+    #       deprecated: false
+    #       required: true
+    #       schema:
+    #         type: number
+    #   operationId: Get single poll
     put:
       responses:
         '200':
@@ -1632,56 +1638,56 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PollRequest'
-    delete:
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      tags:
-        - Poll
-      parameters:
-        - name: id
-          in: path
-          description: ''
-          deprecated: false
-          required: true
-          schema:
-            type: number
-      operationId: Delete poll
+    # delete:
+    #   responses:
+    #     '200':
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             type: integer
+    #             format: int64
+    #     '400':
+    #       description: Bad Request
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '401':
+    #       description: Unauthorized
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '403':
+    #       description: Forbidden
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '404':
+    #       description: Not Found
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '500':
+    #       description: Internal Server Error
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #   tags:
+    #     - Poll
+    #   parameters:
+    #     - name: id
+    #       in: path
+    #       description: ''
+    #       deprecated: false
+    #       required: true
+    #       schema:
+    #         type: number
+    #   operationId: Delete poll
   /poll-votes:
     get:
       responses:
@@ -1845,55 +1851,55 @@ paths:
             schema:
               $ref: '#/components/schemas/PollVoteRequest'
   /poll-votes/{id}:
-    get:
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PollVoteResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      tags:
-        - Poll vote
-      parameters:
-        - name: id
-          in: path
-          description: ''
-          deprecated: false
-          required: true
-          schema:
-            type: number
-      operationId: Get single poll vote
+    # get:
+    #   responses:
+    #     '200':
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/PollVoteResponse'
+    #     '400':
+    #       description: Bad Request
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '401':
+    #       description: Unauthorized
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '403':
+    #       description: Forbidden
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '404':
+    #       description: Not Found
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '500':
+    #       description: Internal Server Error
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #   tags:
+    #     - Poll vote
+    #   parameters:
+    #     - name: id
+    #       in: path
+    #       description: ''
+    #       deprecated: false
+    #       required: true
+    #       schema:
+    #         type: number
+    #   operationId: Get single poll vote
     put:
       responses:
         '200':
@@ -1949,56 +1955,56 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PollVoteRequest'
-    delete:
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      tags:
-        - Poll vote
-      parameters:
-        - name: id
-          in: path
-          description: ''
-          deprecated: false
-          required: true
-          schema:
-            type: number
-      operationId: Delete poll vote
+    # delete:
+    #   responses:
+    #     '200':
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             type: integer
+    #             format: int64
+    #     '400':
+    #       description: Bad Request
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '401':
+    #       description: Unauthorized
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '403':
+    #       description: Forbidden
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '404':
+    #       description: Not Found
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '500':
+    #       description: Internal Server Error
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #   tags:
+    #     - Poll vote
+    #   parameters:
+    #     - name: id
+    #       in: path
+    #       description: ''
+    #       deprecated: false
+    #       required: true
+    #       schema:
+    #         type: number
+    #   operationId: Delete poll vote
   /proposal-votes:
     get:
       responses:
@@ -2007,7 +2013,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PollVoteListResponse'
+                $ref: '#/components/schemas/ProposalVoteListResponse'
         '400':
           description: Bad Request
           content:
@@ -2120,7 +2126,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PollVoteResponse'
+                $ref: '#/components/schemas/ProposalVoteResponse'
         '400':
           description: Bad Request
           content:
@@ -2160,112 +2166,112 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PollVoteRequest'
+              $ref: '#/components/schemas/ProposalVoteRequest'
   /proposal-votes/{id}:
-    get:
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PollVoteResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      tags:
-        - Proposal vote
-      parameters:
-        - name: id
-          in: path
-          description: ''
-          deprecated: false
-          required: true
-          schema:
-            type: number
-      operationId: Get single poll vote
-    put:
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PollVoteResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      tags:
-        - Proposal vote
-      parameters:
-        - name: id
-          in: path
-          description: ''
-          deprecated: false
-          required: true
-          schema:
-            type: number
-      operationId: Update poll vote
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PollVoteRequest'
+    # get:
+    #   responses:
+    #     '200':
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/PollVoteResponse'
+    #     '400':
+    #       description: Bad Request
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '401':
+    #       description: Unauthorized
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '403':
+    #       description: Forbidden
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '404':
+    #       description: Not Found
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '500':
+    #       description: Internal Server Error
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #   tags:
+    #     - Proposal vote
+    #   parameters:
+    #     - name: id
+    #       in: path
+    #       description: ''
+    #       deprecated: false
+    #       required: true
+    #       schema:
+    #         type: number
+    #   operationId: Get single proposal vote
+    # put:
+    #   responses:
+    #     '200':
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/PollVoteResponse'
+    #     '400':
+    #       description: Bad Request
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '401':
+    #       description: Unauthorized
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '403':
+    #       description: Forbidden
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '404':
+    #       description: Not Found
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '500':
+    #       description: Internal Server Error
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #   tags:
+    #     - Proposal vote
+    #   parameters:
+    #     - name: id
+    #       in: path
+    #       description: ''
+    #       deprecated: false
+    #       required: true
+    #       schema:
+    #         type: number
+    #   operationId: Update proposal vote
+    #   requestBody:
+    #     required: true
+    #     content:
+    #       application/json:
+    #         schema:
+    #           $ref: '#/components/schemas/PollVoteRequest'
     delete:
       responses:
         '200':
@@ -2315,7 +2321,7 @@ paths:
           required: true
           schema:
             type: number
-      operationId: Delete poll vote
+      operationId: Delete proposal vote
   /proposals:
     get:
       responses:
@@ -3217,56 +3223,56 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProposalContentRequest'
-    delete:
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      tags:
-        - Proposal content
-      parameters:
-        - name: id
-          in: path
-          description: ''
-          deprecated: false
-          required: true
-          schema:
-            type: number
-      operationId: Delete proposal content
+    # delete:
+    #   responses:
+    #     '200':
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             type: integer
+    #             format: int64
+    #     '400':
+    #       description: Bad Request
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '401':
+    #       description: Unauthorized
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '403':
+    #       description: Forbidden
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '404':
+    #       description: Not Found
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '500':
+    #       description: Internal Server Error
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #   tags:
+    #     - Proposal content
+    #   parameters:
+    #     - name: id
+    #       in: path
+    #       description: ''
+    #       deprecated: false
+    #       required: true
+    #       schema:
+    #         type: number
+    #   operationId: Delete proposal content
   /proposal-statuses:
     get:
       responses:
@@ -3430,55 +3436,55 @@ paths:
             schema:
               $ref: '#/components/schemas/ProposalStatusRequest'
   /proposal-statuses/{id}:
-    get:
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProposalStatusResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      tags:
-        - Proposal status
-      parameters:
-        - name: id
-          in: path
-          description: ''
-          deprecated: false
-          required: true
-          schema:
-            type: number
-      operationId: Get single proposal status
+    # get:
+    #   responses:
+    #     '200':
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/ProposalStatusResponse'
+    #     '400':
+    #       description: Bad Request
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '401':
+    #       description: Unauthorized
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '403':
+    #       description: Forbidden
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '404':
+    #       description: Not Found
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '500':
+    #       description: Internal Server Error
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #   tags:
+    #     - Proposal status
+    #   parameters:
+    #     - name: id
+    #       in: path
+    #       description: ''
+    #       deprecated: false
+    #       required: true
+    #       schema:
+    #         type: number
+    #   operationId: Get single proposal status
     put:
       responses:
         '200':
@@ -4064,55 +4070,55 @@ paths:
             schema:
               $ref: '#/components/schemas/ProposalTypeRequest'
   /governance-action-types/{id}:
-    get:
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProposalTypeResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      tags:
-        - Governance action type
-      parameters:
-        - name: id
-          in: path
-          description: ''
-          deprecated: false
-          required: true
-          schema:
-            type: number
-      operationId: Get single governance action type
+    # get:
+    #   responses:
+    #     '200':
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/ProposalTypeResponse'
+    #     '400':
+    #       description: Bad Request
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '401':
+    #       description: Unauthorized
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '403':
+    #       description: Forbidden
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '404':
+    #       description: Not Found
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '500':
+    #       description: Internal Server Error
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #   tags:
+    #     - Governance action type
+    #   parameters:
+    #     - name: id
+    #       in: path
+    #       description: ''
+    #       deprecated: false
+    #       required: true
+    #       schema:
+    #         type: number
+    #   operationId: Get single governance action type
     put:
       responses:
         '200':
@@ -4381,55 +4387,55 @@ paths:
             schema:
               $ref: '#/components/schemas/WalletTypeRequest'
   /wallet-types/{id}:
-    get:
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/WalletTypeResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      tags:
-        - Wallet type
-      parameters:
-        - name: id
-          in: path
-          description: ''
-          deprecated: false
-          required: true
-          schema:
-            type: number
-      operationId: Get single wallet type
+    # get:
+    #   responses:
+    #     '200':
+    #       description: OK
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/WalletTypeResponse'
+    #     '400':
+    #       description: Bad Request
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '401':
+    #       description: Unauthorized
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '403':
+    #       description: Forbidden
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '404':
+    #       description: Not Found
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '500':
+    #       description: Internal Server Error
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #   tags:
+    #     - Wallet type
+    #   parameters:
+    #     - name: id
+    #       in: path
+    #       description: ''
+    #       deprecated: false
+    #       required: true
+    #       schema:
+    #         type: number
+    #   operationId: Get single wallet type
     put:
       responses:
         '200':
