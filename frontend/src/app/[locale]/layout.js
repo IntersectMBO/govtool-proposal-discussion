@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { unstable_setRequestLocale } from "next-intl/server";
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
+import { ThemeProviderWrapper } from '@/components';
 const inter = Inter({ subsets: ["latin"] });
 
 export function generateStaticParams() {
@@ -13,8 +14,8 @@ export function generateStaticParams() {
 
 // Define common metadata for the application.
 export const metadata = {
-	title: "Web App Boilerplate",
-	description: "Web App Boilerplate",
+	title: "Govtool Proposal Discussion",
+	description: "Govtool Proposal Discussion",
 };
 
 async function RootLayout({ children, params: { locale } }) {
@@ -42,7 +43,10 @@ async function RootLayout({ children, params: { locale } }) {
 				{/* Provide internationalization context. */}
 				<NextIntlClientProvider locale={locale} messages={messages}>
 					{/* Wrap children in global state context */}
-					<AppContextProvider>{children}</AppContextProvider>
+
+					<AppContextProvider>
+						<ThemeProviderWrapper children={children} />
+					</AppContextProvider>
 				</NextIntlClientProvider>
 			</body>
 		</html>
