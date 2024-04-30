@@ -8,7 +8,7 @@
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -28,11 +28,6 @@
     "prop_submited": {
       "type": "boolean",
       "default": false
-    },
-    "proposal_links": {
-      "type": "component",
-      "repeatable": true,
-      "component": "proposal.proposal-link"
     },
     "prop_status_id": {
       "type": "string"

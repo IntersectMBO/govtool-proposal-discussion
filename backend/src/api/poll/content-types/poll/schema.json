@@ -8,7 +8,7 @@
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -25,6 +25,10 @@
     },
     "poll_start_dt": {
       "type": "datetime"
+    },
+    "is_poll_active": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

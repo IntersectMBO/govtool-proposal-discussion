@@ -4,10 +4,11 @@
   "info": {
     "singularName": "wallet-type",
     "pluralName": "wallet-types",
-    "displayName": "Wallet type"
+    "displayName": "Wallet type",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
