@@ -39,7 +39,7 @@ async function RootLayout({ children, params: { locale } }) {
 				<link rel="icon" href="/favicon.ico" sizes="any" />
 			</head>
 			{/* Apply font class and suppress hydration warning. */}
-			<body className={inter.className} suppressHydrationWarning={true}>
+			<body style={{ margin: '0' }} suppressHydrationWarning={true}>
 				{/* Provide internationalization context. */}
 				<NextIntlClientProvider locale={locale} messages={messages}>
 					{/* Wrap children in global state context */}
