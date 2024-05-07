@@ -763,16 +763,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    user_avatar: Attribute.Text;
-    user_summary: Attribute.String &
-      Attribute.SetMinMaxLength<{
-        maxLength: 300;
-      }>;
-    user_wallet_adr: Attribute.String &
-      Attribute.SetMinMaxLength<{
-        maxLength: 200;
-      }>;
-    wallet_type_id: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -783,6 +773,50 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'plugin::users-permissions.user',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginRoutePermissionRoutePermission
+  extends Schema.CollectionType {
+  collectionName: 'route_permissions';
+  info: {
+    singularName: 'route-permission';
+    pluralName: 'route-permissions';
+    displayName: 'route-permission';
+  };
+  options: {
+    draftAndPublish: false;
+    comment: '';
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    action: Attribute.String;
+    role: Attribute.Relation<
+      'plugin::route-permission.route-permission',
+      'oneToOne',
+      'plugin::users-permissions.role'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::route-permission.route-permission',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::route-permission.route-permission',
       'oneToOne',
       'admin::user'
     > &
@@ -1164,6 +1198,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'plugin::route-permission.route-permission': PluginRoutePermissionRoutePermission;
       'api::comment.comment': ApiCommentComment;
       'api::governance-action-type.governance-action-type': ApiGovernanceActionTypeGovernanceActionType;
       'api::poll.poll': ApiPollPoll;
