@@ -1,3 +1,12 @@
-import axiosInstance from "@/lib/axiosInstance";
+import axiosInstance from '@/lib/axiosInstance';
 
-//This file contains API functions to interact with the backend
+export const loginUser = async (loginData) => {
+	try {
+		const { data } = await axiosInstance.post(`/api/auth/local`, {
+			...loginData,
+		});
+		return data;
+	} catch (error) {
+		console.error(error);
+	}
+};

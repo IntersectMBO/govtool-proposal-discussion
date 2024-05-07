@@ -8,21 +8,20 @@ import {
 	responsiveFontSizes,
 } from '@mui/material/styles';
 import { Sidebar, MobileNavbar } from '@/components';
-import { useAppContext } from '@/context/context';
 import { usePathname } from '@/navigation';
+import { Header } from '@/components';
 
 let theme = createTheme({
 	palette: {
 		primary: {
 			main: '#0034AE',
-		}
-	}
+		},
+	},
 });
 
 theme = responsiveFontSizes(theme);
 
 function ThemeProviderWrapper({ children }) {
-	const { pageBackground } = useAppContext();
 	const mobileNavRef = useRef();
 
 	const [mobileNavHeight, setMobileNavHeight] = useState(0);
@@ -53,36 +52,27 @@ function ThemeProviderWrapper({ children }) {
 
 	return (
 		<ThemeProvider theme={theme}>
-			{pathname.includes('/') && (
-				<Sidebar drawerWidth={drawerWidth} />
-			)}
-			{pathname.includes('/') && (
-				<MobileNavbar ref={mobileNavRef} />
-			)}
-			<Box 
+			{pathname.includes('/') && <Sidebar drawerWidth={drawerWidth} />}
+			{pathname.includes('/') && <MobileNavbar ref={mobileNavRef} />}
+			<Box
 				component="main"
 				sx={{
 					flexGrow: 1,
 					p: 0,
 					backgroundColor: theme.palette.background.default,
-					backgroundImage: pageBackground,
-					backgroundSize: 'cover',
-					backgroundSize: '100%',
-					backgroundPosition: 'center calc(100% + 50px)',
-					backgroundRepeat: 'no-repeat',
 					height: {
 						xs: `calc(100dvh - ${mobileNavHeight}px)`,
 						md: '100dvh',
 					},
-					padding: pathname.includes('/dashboard')
-						? {
-								xs: `20px`,
-								md: `20px 20px 20px ${drawerWidth + 40}px`,
-							}
-						: '0px',
+					padding: {
+						xs: `20px`,
+						md: `20px 20px 20px ${drawerWidth + 40}px`,
+					},
+
 					overflow: 'auto',
 				}}
 			>
+				<Header />
 				{children}
 			</Box>
 		</ThemeProvider>

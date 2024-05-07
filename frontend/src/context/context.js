@@ -1,26 +1,27 @@
 // The "use client" directive indicates that this module is intended to run in the client environment,
 // which is particularly relevant for Next.js applications that support server-side rendering (SSR).
-"use client";
+'use client';
 import { useState } from 'react';
 
 // Import createContext and useContext hooks from React to create and consume the context.
-import { createContext, useContext } from "react";
+import { createContext, useContext } from 'react';
 
 // Create a new Context object. This will be used to provide and consume the context.
 const AppContext = createContext();
 
 // Define a provider component. This component will wrap the part of your app where you want the context to be accessible.
 export function AppContextProvider({ children }) {
-	const [pageBackground, setPageBackground] = useState(
-		
-	); // TODO: add background image
+	const [user, setUser] = useState();
 
 	// Render the provider component of your context, passing in the values or functions as the value prop.
 	// Any child components will be able to access these values via the useAppContext hook.
 	return (
-		<AppContext.Provider value={{ 
-			pageBackground
-		 }}>
+		<AppContext.Provider
+			value={{
+				user,
+				setUser,
+			}}
+		>
 			{children}
 		</AppContext.Provider>
 	);
@@ -35,7 +36,7 @@ export function useAppContext() {
 	// This helps prevent errors from occurring if the context is used outside of the provider.
 	if (context === undefined) {
 		throw new Error(
-			"useAppContext must be used within a AppContextProvider"
+			'useAppContext must be used within a AppContextProvider'
 		);
 	}
 

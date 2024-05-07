@@ -64,20 +64,6 @@
       "target": "plugin::users-permissions.role",
       "inversedBy": "users",
       "configurable": false
-    },
-    "user_avatar": {
-      "type": "text"
-    },
-    "user_summary": {
-      "type": "string",
-      "maxLength": 300
-    },
-    "user_wallet_adr": {
-      "type": "string",
-      "maxLength": 200
-    },
-    "wallet_type_id": {
-      "type": "string"
     }
   }
 }

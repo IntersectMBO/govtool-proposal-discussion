@@ -3,7 +3,3 @@
 // It includes a range of generic helpers for tasks like data manipulation, formatting, and validation.
 // Additionally, this file may contain functions for testing purposes, providing a toolkit for verifying the correctness and efficiency of larger functions.
 // By centralizing these utilities, we promote a modular and maintainable codebase, facilitating ease of development and testing.
-
-export const sumTestExample = (a, b) => {
-	return a + b;
-};
