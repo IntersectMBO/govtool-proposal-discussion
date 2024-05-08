@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { connectWallet } from '@/lib/helpers';
@@ -10,7 +12,9 @@ const Header = () => {
 	};
 	return (
 		<Box display="flex" justifyContent="space-between" alignItems="center">
-			<Typography variant="h4">Proposed Governance Actions</Typography>
+			<Typography variant="h4" component="h1">
+				Proposed Governance Actions
+			</Typography>
 
 			{user ? (
 				<Button variant="contained" onClick={() => setUser(null)}>
