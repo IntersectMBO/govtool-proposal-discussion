@@ -11,7 +11,13 @@ const Header = () => {
 		setUser(await connectWallet('nufi'));
 	};
 	return (
-		<Box display="flex" justifyContent="space-between" alignItems="center">
+		<Box
+			display="flex"
+			justifyContent="space-between"
+			alignItems="center"
+			borderBottom="1px solid #E0E0E0"
+			py={3}
+		>
 			<Typography variant="h4" component="h1">
 				Proposed Governance Actions
 			</Typography>
