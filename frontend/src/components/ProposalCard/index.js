@@ -136,9 +136,11 @@ const ProposalCard = ({ proposal }) => {
 									badgeContent={32}
 									color={"error"}
 									aria-label="comments"
-								>
-									<IconChatAlt />
-								</Badge>
+									sx={{
+										transform: "translate(30px, -20px)",
+									}}
+								></Badge>
+								<IconChatAlt />
 							</IconButton>
 							<IconButton aria-label="edit">
 								<IconPencilAlt />
