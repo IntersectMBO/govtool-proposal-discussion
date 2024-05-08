@@ -83,7 +83,8 @@ const MobileNavbar = forwardRef((props, ref) => {
 								borderRadius: "100px",
 								backgroundColor:
 									removeLangPath(pathname) === item.path
-										? "#3052F51F"
+										? // ? "#3052F51F"
+										  "transparent"
 										: "transparent",
 								marginBottom: "8px",
 							}}
