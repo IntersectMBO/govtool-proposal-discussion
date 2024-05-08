@@ -1,11 +1,18 @@
-'use client';
-import Logo from '@/assets/svgs/logo';
-import GovTool from '@/assets/svgs/govTool';
-import { navItems } from '@/constants';
-import { usePathname, useRouter } from '@/navigation';
+"use client";
+import GovTool from "@/assets/svgs/govTool";
+import Logo from "@/assets/svgs/logo";
+import { navItems } from "@/constants";
+import { useAppContext } from "@/context/context";
+import { connectWallet } from "@/lib/helpers";
+import { usePathname, useRouter } from "@/navigation";
+import {
+	IconMenu,
+	IconPlusCircle,
+} from "@intersect.mbo/intersectmbo.org-icons-set";
 import {
 	AppBar,
 	Box,
+	Button,
 	Drawer,
 	IconButton,
 	List,
@@ -14,19 +21,20 @@ import {
 	ListItemText,
 	Toolbar,
 	Typography,
-	Button
-} from '@mui/material';
-import { forwardRef, useState } from 'react';
-import { IconMenu, IconPlusCircle} from '@intersect.mbo/intersectmbo.org-icons-set';
-import { useMediaQuery } from '@mui/material';
-
+	useMediaQuery,
+} from "@mui/material";
+import { forwardRef, useState } from "react";
 
 const MobileNavbar = forwardRef((props, ref) => {
+	const { setUser, user } = useAppContext();
+
 	const pathname = usePathname();
 	const router = useRouter();
 	const [mobileOpen, setMobileOpen] = useState(false);
 
-	const isTablet = useMediaQuery(theme => theme.breakpoints.between('sm', 'md'));
+	const isTablet = useMediaQuery((theme) =>
+		theme.breakpoints.between("sm", "md")
+	);
 
 	const removeLangPath = (pathname) => {
 		const regex = /^\/..\/(.*)$/;
@@ -38,42 +46,46 @@ const MobileNavbar = forwardRef((props, ref) => {
 		setMobileOpen(!mobileOpen);
 	};
 
+	const handleWalletConnect = async () => {
+		setUser(await connectWallet("nufi"));
+	};
+
 	const drawer = (
 		<Box
 			onClick={handleDrawerToggle}
-			sx={{ textAlign: 'center', height: '100%' }}
+			sx={{ textAlign: "center", height: "100%" }}
 		>
-			<Box sx={{ padding: '20px' }}>
+			<Box sx={{ padding: "20px" }}>
 				<Logo />
 				<GovTool />
 			</Box>
 			<Box
 				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-					alignItems: 'start',
-					justifyContent: 'space-between',
-					height: 'calc(100% - 150px)',
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "start",
+					justifyContent: "space-between",
+					height: "calc(100% - 150px)",
 				}}
 			>
-				<List sx={{ padding: '12px', width: '100%' }}>
+				<List sx={{ padding: "12px", width: "100%" }}>
 					{navItems.map((item) => (
 						<ListItem
 							sx={{
-								'&:hover': {
-									backgroundColor: '#3052F51F',
-									cursor: 'pointer',
-									borderRadius: '100px',
+								"&:hover": {
+									backgroundColor: "#3052F51F",
+									cursor: "pointer",
+									borderRadius: "100px",
 								},
-								height: '56px',
-								display: 'flex',
-								alignItems: 'center',
-								borderRadius: '100px',
+								height: "56px",
+								display: "flex",
+								alignItems: "center",
+								borderRadius: "100px",
 								backgroundColor:
 									removeLangPath(pathname) === item.path
-										? '#3052F51F'
-										: 'transparent',
-								marginBottom: '8px',
+										? "#3052F51F"
+										: "transparent",
+								marginBottom: "8px",
 							}}
 							key={item.name}
 							onClick={() => router.push(item.path)} // Navigate to the path when clicked
@@ -103,36 +115,54 @@ const MobileNavbar = forwardRef((props, ref) => {
 		<AppBar
 			position="static"
 			sx={{
-				display: { xs: 'flex', md: 'none' },
-				background: 'transparent',
+				display: { xs: "flex", md: "none" },
+				background: "transparent",
 			}}
 			ref={ref}
 		>
 			<Toolbar
 				disableGutters
 				sx={{
-					justifyContent: 'space-between',
+					justifyContent: "space-between",
 					px: 2,
 					py: 1,
 				}}
 			>
-				<Box>
+				<Box display={"flex"} justifyContent={"center"}>
 					<Logo />
 					{isTablet && <GovTool />}
 				</Box>
 
 				<Box>
-					<Button 
-						variant='contained' 
-						color='primary' 
-						sx={{
-							borderRadius: '30px',
-							marginRight: 2
-						}}
-						startIcon={<IconPlusCircle fill='white'/> }
-					>
-						{isTablet ? 'Propose a Governance Action' : 'Propose a GA'}
-					</Button>
+					{user ? (
+						<Button
+							variant="contained"
+							color="primary"
+							sx={{
+								borderRadius: "30px",
+								marginRight: 2,
+							}}
+							startIcon={<IconPlusCircle fill="white" />}
+							onClick={() => setUser(null)}
+						>
+							{isTablet
+								? "Propose a Governance Action"
+								: "Propose a GA"}
+						</Button>
+					) : (
+						<Button
+							variant="contained"
+							color="primary"
+							sx={{
+								borderRadius: "30px",
+								marginRight: 2,
+							}}
+							startIcon={<IconPlusCircle fill="white" />}
+							onClick={handleWalletConnect}
+						>
+							Connect wallet
+						</Button>
+					)}
 
 					<IconButton
 						size="large"
@@ -153,10 +183,6 @@ const MobileNavbar = forwardRef((props, ref) => {
 						{drawer}
 					</Drawer>
 				</Box>
-
-				
-
-				
 			</Toolbar>
 		</AppBar>
 	);

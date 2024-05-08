@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import {
 	Box,
 	Button,
@@ -8,23 +7,24 @@ import {
 	CardContent,
 	Grid,
 	IconButton,
-	Typography,
 	TextField,
-} from '@mui/material';
+	Typography,
+} from "@mui/material";
 
+import { Link } from "@/navigation";
+import { useTheme } from "@emotion/react";
 import {
+	IconCheveronLeft,
 	IconDotsVertical,
 	IconLink,
 	IconSort,
-	IconCheveronLeft,
-} from '@intersect.mbo/intersectmbo.org-icons-set';
-import { useTheme } from '@emotion/react';
+} from "@intersect.mbo/intersectmbo.org-icons-set";
 import proposalContent from './proposal-content.json';
 const ProposalPage = ({ params: { id } }) => {
 	const theme = useTheme();
 	return (
 		<Box>
-			<Box mt={4}>
+			<Box mt={3}>
 				<Button
 					startIcon={
 						<IconCheveronLeft
@@ -33,6 +33,8 @@ const ProposalPage = ({ params: { id } }) => {
 							fill={theme.palette.primary.main}
 						/>
 					}
+					component={Link}
+					href="/proposed-governance-actions"
 				>
 					Show all
 				</Button>
@@ -50,12 +52,12 @@ const ProposalPage = ({ params: { id } }) => {
 							display="flex"
 							alignItems="center"
 							justifyContent="space-between"
-							flexDirection={{ xs: 'column', sm: 'row' }}
+							flexDirection={{ xs: "column", sm: "row" }}
 						>
 							<Box
 								textAlign={{
-									xs: 'center',
-									sm: 'left',
+									xs: "center",
+									sm: "left",
 								}}
 							>
 								<Typography variant="body2">
@@ -124,7 +126,7 @@ const ProposalPage = ({ params: { id } }) => {
 							justifyContent="space-between"
 						>
 							<Typography variant="caption">
-								Last Edit:{' '}
+								Last Edit:{" "}
 								{proposalContent?.attributes?.createdAt}
 							</Typography>
 							<Button
@@ -168,7 +170,7 @@ const ProposalPage = ({ params: { id } }) => {
 							</Typography>
 
 							<Box>
-								{['Feedback', 'Link Name'].map(
+								{["Feedback", "Link Name"].map(
 									(item, index) => (
 										<Button
 											key={index}

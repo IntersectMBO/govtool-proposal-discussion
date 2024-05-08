@@ -3,9 +3,9 @@
 // These constants ensure uniform behavior and settings across different parts of the app.
 // Refer to this file to use or update default configurations for consistent application functionality.
 import {
-    IconAcademicCap,
-    IconViewGrid
-} from '@intersect.mbo/intersectmbo.org-icons-set';
+	IconAcademicCap,
+	IconViewGrid,
+} from "@intersect.mbo/intersectmbo.org-icons-set";
 
 // Define an array of available language locales for the application.
 export const locales = ["en", "de"];
@@ -16,33 +16,37 @@ export const defaultLocale = "en";
 // Sidebar items
 export const navItems = [
 	{
-		name: 'Dashboard',
+		name: "Dashboard",
 		icon: <IconViewGrid width="24" height="24" />,
-		path: '/',
-		id: 'sidebar-dashboard',
+		// path: '/',
+		path: "/proposed-governance-actions",
+		id: "sidebar-dashboard",
 	},
 	{
-		name: 'DRep Directory',
+		name: "DRep Directory",
 		icon: <IconAcademicCap width="24" height="24" />,
-		path: '/drep-directory',
-		id: 'sidebar-drep-directory',
+		// path: '/drep-directory',
+		path: "/proposed-governance-actions",
+		id: "sidebar-drep-directory",
 	},
-    {
-		name: 'Proposed Governance Actions',
+	{
+		name: "Proposed Governance Actions",
 		icon: <IconAcademicCap width="24" height="24" />,
-		path: '/proposed-governance-actions',
-		id: 'sidebar-proposed-governance-actions',
+		path: "/proposed-governance-actions",
+		id: "sidebar-proposed-governance-actions",
 	},
-    {
-		name: 'Guides',
+	{
+		name: "Guides",
 		icon: <IconAcademicCap width="24" height="24" />,
-		path: '/guides',
-		id: 'sidebar-guides',
+		// path: '/guides',
+		path: "/proposed-governance-actions",
+		id: "sidebar-guides",
 	},
-    {
-		name: 'FAQs',
+	{
+		name: "FAQs",
 		icon: <IconAcademicCap width="24" height="24" />,
-		path: '/faq',
-		id: 'sidebar-faq',
+		// path: '/faq',
+		path: "/proposed-governance-actions",
+		id: "sidebar-faq",
 	},
 ];
