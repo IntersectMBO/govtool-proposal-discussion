@@ -1,9 +1,8 @@
 'use client';
 
-import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
-import { connectWallet } from '@/lib/helpers';
 import { useAppContext } from '@/context/context';
+import { connectWallet } from "@/lib/helpers";
+import { Box, Button, Typography } from "@mui/material";
 const Header = () => {
 	const { setUser, user } = useAppContext();
 
@@ -22,15 +21,17 @@ const Header = () => {
 				Proposed Governance Actions
 			</Typography>
 
-			{user ? (
-				<Button variant="contained" onClick={() => setUser(null)}>
-					Propose a Governance Action
-				</Button>
-			) : (
-				<Button variant="contained" onClick={handleWalletConnect}>
-					Connect Wallet
-				</Button>
-			)}
+			<Box sx={{ display: { xs: "none", md: "flex" } }}>
+				{user ? (
+					<Button variant="contained" onClick={() => setUser(null)}>
+						Propose a Governance Action
+					</Button>
+				) : (
+					<Button variant="contained" onClick={handleWalletConnect}>
+						Connect Wallet
+					</Button>
+				)}
+			</Box>
 		</Box>
 	);
 };
