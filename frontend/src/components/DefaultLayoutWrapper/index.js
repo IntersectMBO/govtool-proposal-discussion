@@ -1,6 +1,6 @@
 'use client';
 import React, { useRef, useState, useEffect } from 'react';
-import { Sidebar, MobileNavbar, Header } from '@/components';
+import { Sidebar, MobileNavbar, Header, Footer } from '@/components';
 import { Box } from '@mui/material';
 
 const DefaultLayoutWrapper = ({ children }) => {
@@ -58,6 +58,7 @@ const DefaultLayoutWrapper = ({ children }) => {
 			>
 				<Header />
 				{children}
+				<Footer sx={{ mt: 6 }} />
 			</Box>
 		</Box>
 	);
