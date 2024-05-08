@@ -1,11 +1,9 @@
-import { locales } from "@/constants";
-import { AppContextProvider } from "@/context/context";
-import { NextIntlClientProvider } from "next-intl";
-import { unstable_setRequestLocale } from "next-intl/server";
-import { Inter } from "next/font/google";
-import { notFound } from "next/navigation";
-import { ThemeProviderWrapper } from '@/components';
-const inter = Inter({ subsets: ["latin"] });
+import { locales } from '@/constants';
+import { AppContextProvider } from '@/context/context';
+import { NextIntlClientProvider } from 'next-intl';
+import { unstable_setRequestLocale } from 'next-intl/server';
+import { notFound } from 'next/navigation';
+import { ThemeProviderWrapper, DefaultLayoutWrapper } from '@/components';
 
 export function generateStaticParams() {
 	// Generate static params for each locale, used in static generation methods.
@@ -14,8 +12,8 @@ export function generateStaticParams() {
 
 // Define common metadata for the application.
 export const metadata = {
-	title: "Govtool Proposal Discussion",
-	description: "Govtool Proposal Discussion",
+	title: 'Govtool Proposal Discussion',
+	description: 'Govtool Proposal Discussion',
 };
 
 async function RootLayout({ children, params: { locale } }) {
@@ -26,7 +24,8 @@ async function RootLayout({ children, params: { locale } }) {
 	let messages;
 	try {
 		// Attempt to dynamically load the message bundle for the current locale.
-		messages = (await import(`../../../messages/${locale}.json`)).default;
+		messages = (await import(`../../../../messages/${locale}.json`))
+			.default;
 	} catch (error) {
 		notFound(); // Trigger a 404 if the message bundle cannot be loaded.
 	}
@@ -45,7 +44,11 @@ async function RootLayout({ children, params: { locale } }) {
 					{/* Wrap children in global state context */}
 
 					<AppContextProvider>
-						<ThemeProviderWrapper children={children} />
+						<ThemeProviderWrapper>
+							<DefaultLayoutWrapper>
+								{children}
+							</DefaultLayoutWrapper>
+						</ThemeProviderWrapper>
 					</AppContextProvider>
 				</NextIntlClientProvider>
 			</body>
