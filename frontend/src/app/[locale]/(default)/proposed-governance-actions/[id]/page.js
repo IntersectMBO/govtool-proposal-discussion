@@ -9,19 +9,19 @@ import {
 	IconButton,
 	TextField,
 	Typography,
-} from "@mui/material";
-
-import { getSingleProposal } from "@/lib/api";
-import { formatIsoDate } from "@/lib/utils";
-import { Link } from "@/navigation";
-import { useTheme } from "@emotion/react";
+} from '@mui/material';
+import { CommentCard } from '@/components';
+import { getSingleProposal } from '@/lib/api';
+import { formatIsoDate } from '@/lib/utils';
+import { Link } from '@/navigation';
+import { useTheme } from '@emotion/react';
 import {
 	IconCheveronLeft,
 	IconDotsVertical,
 	IconLink,
 	IconSort,
-} from "@intersect.mbo/intersectmbo.org-icons-set";
-import { useEffect, useState } from "react";
+} from '@intersect.mbo/intersectmbo.org-icons-set';
+import { useEffect, useState } from 'react';
 const ProposalPage = ({ params: { id } }) => {
 	const theme = useTheme();
 	const [proposal, setProposal] = useState(null);
@@ -76,12 +76,12 @@ const ProposalPage = ({ params: { id } }) => {
 							display="flex"
 							alignItems="center"
 							justifyContent="space-between"
-							flexDirection={{ xs: "column", sm: "row" }}
+							flexDirection={{ xs: 'column', sm: 'row' }}
 						>
 							<Box
 								textAlign={{
-									xs: "center",
-									sm: "left",
+									xs: 'center',
+									sm: 'left',
 								}}
 							>
 								<Typography variant="body2">
@@ -292,6 +292,10 @@ const ProposalPage = ({ params: { id } }) => {
 						</Box>
 					</CardContent>
 				</Card>
+			</Box>
+
+			<Box mt={4}>
+				<CommentCard />
 			</Box>
 		</Box>
 	);
