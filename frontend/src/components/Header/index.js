@@ -3,7 +3,10 @@
 import { useAppContext } from '@/context/context';
 import { connectWallet } from "@/lib/helpers";
 import { Box, Button, Typography } from "@mui/material";
+import { useRouter } from '@/navigation';
+
 const Header = () => {
+	const router = useRouter();
 	const { setUser, user } = useAppContext();
 
 	const handleWalletConnect = async () => {
@@ -23,7 +26,7 @@ const Header = () => {
 
 			<Box sx={{ display: { xs: "none", md: "flex" } }}>
 				{user ? (
-					<Button variant="contained" onClick={() => setUser(null)}>
+					<Button variant="contained" onClick={() => router.push("/proposal-creation")}>
 						Propose a Governance Action
 					</Button>
 				) : (

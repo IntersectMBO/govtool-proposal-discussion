@@ -144,7 +144,7 @@ const MobileNavbar = forwardRef((props, ref) => {
 								marginRight: 2,
 							}}
 							startIcon={<IconPlusCircle fill="white" />}
-							onClick={() => setUser(null)}
+							onClick={() => router.push("/proposal-creation")}
 						>
 							{isTablet
 								? "Propose a Governance Action"

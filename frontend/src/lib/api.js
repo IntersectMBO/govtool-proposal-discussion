@@ -23,3 +23,12 @@ export const getProposals = async () => {
 		return error;
 	}
 };
+export const getGovernanceActionTypes = async () => {
+	try {
+		const { data } = await axiosInstance.get(`/api/governance-action-types`);
+		
+		return data;
+	} catch (error) {
+		return error;
+	}
+};
