@@ -1,5 +1,4 @@
-import axiosInstance from '@/lib/axiosInstance';
-import axios from "axios";
+import axiosInstance from "@/lib/axiosInstance";
 
 export const loginUser = async (loginData) => {
 	try {
@@ -13,26 +12,20 @@ export const loginUser = async (loginData) => {
 };
 export const getProposals = async () => {
 	try {
-		// const { data } = await axiosInstance.get(`/api/proposals`)
-		const { data } = await axios.get(
-			`https://my.api.mockaroo.com/proposals.json?key=5d22e910`
+		const { data } = await axiosInstance.get(
+			`/api/proposals?pagination[page]=1&pagination[pageSize]=3&sort[createdAt]=desc`
 		);
 
-		return data;
+		return data?.data;
 	} catch (error) {
 		return error;
 	}
 };
-export const getSingleProposal = async () => {
+export const getSingleProposal = async (id) => {
 	try {
-		// const { data } = await axiosInstance.get(`/api/proposals`)
-		const { data } = await axios.get(
-			`https://my.api.mockaroo.com/proposals.json?key=5d22e910`
-		);
+		const { data } = await axiosInstance.get(`/api/proposals/${id}`);
 
-		let oneItem = data[0];
-
-		return oneItem;
+		return data?.data;
 	} catch (error) {
 		return error;
 	}

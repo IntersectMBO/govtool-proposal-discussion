@@ -13,6 +13,8 @@ module.exports = createCoreController(
 		async find(ctx) {
 			const sanitizedQueryParams = await this.sanitizeQuery(ctx);
 
+			sanitizedQueryParams.populate = ["proposal_links"];
+
 			const { results, pagination } = await strapi
 				.service("api::proposal-content.proposal-content")
 				.find(sanitizedQueryParams);
@@ -31,12 +33,12 @@ module.exports = createCoreController(
 				}
 			);
 
-			results.forEach((proposal) => {
+			for (const proposal of results) {
 				proposal.gov_action_type = govActionTypes.find(
 					(govActionType) =>
 						+govActionType.id === +proposal.gov_action_type_id
 				);
-			});
+			}
 
 			return this.transformResponse(results, { pagination });
 		},

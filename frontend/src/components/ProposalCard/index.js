@@ -21,8 +21,12 @@ import { useTheme } from "@emotion/react";
 
 const ProposalCard = ({ proposal }) => {
 	const theme = useTheme();
+
 	return (
-		<Card raised sx={{ display: "flex", flexDirection: "column" }}>
+		<Card
+			raised
+			sx={{ display: "flex", flexDirection: "column", width: "100%" }}
+		>
 			<CardHeader
 				action={
 					<IconButton aria-label="settings">
@@ -42,7 +46,7 @@ const ProposalCard = ({ proposal }) => {
 							textOverflow: "ellipsis",
 						}}
 					>
-						{proposal?.attributes?.prop_name}
+						{proposal?.attributes?.content?.attributes?.prop_name}
 					</Typography>
 				}
 			/>
@@ -75,7 +79,10 @@ const ProposalCard = ({ proposal }) => {
 								textOverflow: "ellipsis",
 							}}
 						>
-							{proposal?.attributes?.prop_abstract}
+							{
+								proposal?.attributes?.content?.attributes
+									?.prop_abstract
+							}
 						</Typography>
 					</Box>
 					<Box>
@@ -92,8 +99,8 @@ const ProposalCard = ({ proposal }) => {
 							color="text.darkPurple"
 						>
 							{
-								proposal?.attributes?.gov_action_type
-									?.gov_action_type_name
+								proposal?.attributes?.content?.attributes
+									?.gov_action_type?.gov_action_type_name
 							}
 						</Typography>
 					</Box>
@@ -133,11 +140,19 @@ const ProposalCard = ({ proposal }) => {
 						<Box display={"flex"} gap={1}>
 							<IconButton>
 								<Badge
-									badgeContent={32}
-									color={"error"}
+									badgeContent={
+										proposal?.attributes
+											?.prop_comments_number || 0
+									}
 									aria-label="comments"
+									showZero
 									sx={{
 										transform: "translate(30px, -20px)",
+										"& .MuiBadge-badge": {
+											color: "white",
+											backgroundColor: (theme) =>
+												theme.palette.badgeColors.error,
+										},
 									}}
 								></Badge>
 								<IconChatAlt />
