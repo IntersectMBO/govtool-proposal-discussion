@@ -22,7 +22,11 @@ const ProposedGovernanceActions = () => {
 	const theme = useTheme();
 
 	const [proposals, setProposals] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [mounted, setMounted] = useState(false);
+
 	const fetchProposals = async () => {
+		setLoading(true);
 		try {
 			const response = await getProposals();
 			if (!response) return;
@@ -30,12 +34,18 @@ const ProposedGovernanceActions = () => {
 			setProposals(response);
 		} catch (error) {
 			console.error(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	useEffect(() => {
-		fetchProposals();
-	}, []);
+		if (!mounted) {
+			setMounted(true);
+		} else {
+			fetchProposals();
+		}
+	}, [mounted]);
 	return (
 		<Box sx={{ mt: 3 }}>
 			<Grid container spacing={3}>
@@ -86,58 +96,80 @@ const ProposedGovernanceActions = () => {
 						</Grid>
 					</Grid>
 				</Grid>
-				<Grid item>
-					<Box gap={2} display={"flex"} alignItems={"center"}>
-						<Typography
-							variant="h5"
-							component="h2"
-							color="text.black"
-						>
-							Info
-						</Typography>
-						<Button variant="outlined">Show all</Button>
-					</Box>
-				</Grid>
-				<Grid item>
-					<Grid container spacing={3}>
-						{proposals?.map((proposal, index) => (
-							<Grid
-								item
-								key={`${proposal?.id}-${index}-${proposal?.attributes?.prop_name}`}
-								md
-								display={"flex"}
-							>
-								<ProposalCard proposal={proposal} />
+				{!loading ? (
+					proposals?.length > 0 ? (
+						<>
+							<Grid item>
+								<Box
+									gap={2}
+									display={"flex"}
+									alignItems={"center"}
+								>
+									<Typography
+										variant="h5"
+										component="h2"
+										color="text.black"
+									>
+										Info
+									</Typography>
+									<Button variant="outlined">Show all</Button>
+								</Box>
 							</Grid>
-						))}
-					</Grid>
-				</Grid>
-				<Grid item>
-					<Box gap={2} display={"flex"} alignItems={"center"}>
-						<Typography
-							variant="h5"
-							component="h2"
-							color="text.black"
-						>
-							Info
-						</Typography>
-						<Button variant="outlined">Show all</Button>
-					</Box>
-				</Grid>
-				<Grid item>
-					<Grid container spacing={3}>
-						{proposals?.map((proposal, index) => (
-							<Grid
-								item
-								key={`${proposal?.id}-${index}-${proposal?.attributes?.prop_name}`}
-								md
-								display={"flex"}
-							>
-								<ProposalCard proposal={proposal} />
+							<Grid item>
+								<Grid container spacing={3}>
+									{proposals?.map((proposal, index) => (
+										<Grid
+											item
+											key={`${proposal?.id}-${index}-${proposal?.attributes?.prop_name}`}
+											display={"flex"}
+											xs={12}
+											md={6}
+											lg
+										>
+											<ProposalCard proposal={proposal} />
+										</Grid>
+									))}
+								</Grid>
 							</Grid>
-						))}
+							<Grid item>
+								<Box
+									gap={2}
+									display={"flex"}
+									alignItems={"center"}
+								>
+									<Typography
+										variant="h5"
+										component="h2"
+										color="text.black"
+									>
+										Info
+									</Typography>
+									<Button variant="outlined">Show all</Button>
+								</Box>
+							</Grid>
+							<Grid item>
+								<Grid container spacing={3}>
+									{proposals?.map((proposal, index) => (
+										<Grid
+											item
+											key={`${proposal?.id}-${index}-${proposal?.attributes?.prop_name}`}
+											md
+											display={"flex"}
+										>
+											<ProposalCard proposal={proposal} />
+										</Grid>
+									))}
+								</Grid>
+							</Grid>
+						</>
+					) : (
+						<Typography variant="h5">No proposals found</Typography>
+					)
+				) : (
+					<Grid item display={"flex"} flexDirection={"row"} xs={12}>
+						<Typography variant="h5">Loading...</Typography>
 					</Grid>
-				</Grid>
+				)}
 			</Grid>
 		</Box>
 	);

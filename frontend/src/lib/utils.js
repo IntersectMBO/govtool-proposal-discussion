@@ -5,10 +5,15 @@
 // By centralizing these utilities, we promote a modular and maintainable codebase, facilitating ease of development and testing.
 
 export const formatIsoDate = (isoDate) => {
+	if (!isoDate) return "";
 	const date = new Date(isoDate);
-	return new Intl.DateTimeFormat("en-US", {
-		day: "2-digit",
+	let dateString = new Intl.DateTimeFormat("en-US", {
+		day: "numeric",
 		month: "long",
 		year: "numeric",
-	}).format(date);
+	})
+		?.format(date)
+		?.replace(",", "");
+	let parts = dateString.split(" ");
+	return parts[1] + " " + parts[0] + " " + parts[2];
 };

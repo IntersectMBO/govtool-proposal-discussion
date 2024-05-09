@@ -23,3 +23,17 @@ export const getProposals = async () => {
 		return error;
 	}
 };
+export const getSingleProposal = async () => {
+	try {
+		// const { data } = await axiosInstance.get(`/api/proposals`)
+		const { data } = await axios.get(
+			`https://my.api.mockaroo.com/proposals.json?key=5d22e910`
+		);
+
+		let oneItem = data[0];
+
+		return oneItem;
+	} catch (error) {
+		return error;
+	}
+};
