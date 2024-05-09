@@ -1,9 +1,28 @@
-'use strict';
+//@ts-nocheck
+"use strict";
 
 /**
  * proposal router
  */
 
-const { createCoreRouter } = require('@strapi/strapi').factories;
+const { createCoreRouter } = require("@strapi/strapi").factories;
 
-module.exports = createCoreRouter('api::proposal.proposal');
+module.exports = createCoreRouter("api::proposal.proposal", {
+	config: {
+		find: {
+			roles: ["authenticated", "public"],
+		},
+		create: {
+			roles: [],
+		},
+		findOne: {
+			roles: ["authenticated", "public"],
+		},
+		update: {
+			roles: [],
+		},
+		delete: {
+			roles: [],
+		},
+	},
+});
