@@ -1,6 +1,7 @@
 'use client';
 
 import {
+	Badge,
 	Box,
 	Button,
 	Card,
@@ -16,10 +17,13 @@ import { formatIsoDate } from "@/lib/utils";
 import { Link } from "@/navigation";
 import { useTheme } from "@emotion/react";
 import {
+	IconChatAlt,
 	IconCheveronLeft,
 	IconDotsVertical,
 	IconLink,
 	IconSort,
+	IconThumbDown,
+	IconThumbUp,
 } from "@intersect.mbo/intersectmbo.org-icons-set";
 import { useEffect, useState } from "react";
 const ProposalPage = ({ params: { id } }) => {
@@ -220,6 +224,77 @@ const ProposalPage = ({ params: { id } }) => {
 										</Button>
 									)
 								)}
+							</Box>
+						</Box>
+						<Box
+							mt={4}
+							display={"flex"}
+							flexDirection={"row"}
+							justifyContent={"space-between"}
+						>
+							<IconButton>
+								<Badge
+									badgeContent={32}
+									color={"primary"}
+									aria-label="comments"
+									showZero
+									sx={{
+										transform: "translate(30px, -20px)",
+										"& .MuiBadge-badge": {
+											color: "white",
+											backgroundColor: (theme) =>
+												theme.palette.badgeColors
+													.primary,
+										},
+									}}
+								></Badge>
+								<IconChatAlt />
+							</IconButton>
+							<Box display={"flex"} gap={1}>
+								<IconButton
+									sx={{
+										border: (theme) =>
+											`1px solid ${theme.palette.iconButton.outlineLightColor}`,
+									}}
+								>
+									<Badge
+										badgeContent={1}
+										color={"primary"}
+										aria-label="comments"
+										sx={{
+											transform: "translate(30px, -20px)",
+											"& .MuiBadge-badge": {
+												color: "white",
+												backgroundColor: (theme) =>
+													theme.palette.badgeColors
+														.secondary,
+											},
+										}}
+									></Badge>
+									<IconThumbUp />
+								</IconButton>
+								<IconButton
+									sx={{
+										border: (theme) =>
+											`1px solid ${theme.palette.iconButton.outlineLightColor}`,
+									}}
+								>
+									<Badge
+										badgeContent={0}
+										showZero
+										aria-label="comments"
+										sx={{
+											transform: "translate(30px, -20px)",
+											"& .MuiBadge-badge": {
+												color: "white",
+												backgroundColor: (theme) =>
+													theme.palette.badgeColors
+														.errorLight,
+											},
+										}}
+									></Badge>
+									<IconThumbDown />
+								</IconButton>
 							</Box>
 						</Box>
 					</CardContent>
