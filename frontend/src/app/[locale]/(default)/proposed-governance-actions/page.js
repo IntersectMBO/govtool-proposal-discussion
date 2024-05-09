@@ -31,7 +31,12 @@ const ProposedGovernanceActions = () => {
 			const response = await getProposals();
 			if (!response) return;
 
-			setProposals(response);
+			let data = [...response];
+			let filteredData = data?.filter(
+				(proposal) => !!proposal?.attributes?.content
+			);
+
+			setProposals(filteredData);
 		} catch (error) {
 			console.error(error);
 		} finally {
@@ -48,7 +53,7 @@ const ProposedGovernanceActions = () => {
 	}, [mounted]);
 	return (
 		<Box sx={{ mt: 3 }}>
-			<Grid container spacing={3}>
+			<Grid container spacing={3} flexDirection={"column"}>
 				<Grid item display={"flex"} flexDirection={"row"} xs={12}>
 					<Grid
 						container
@@ -153,8 +158,10 @@ const ProposedGovernanceActions = () => {
 										<Grid
 											item
 											key={`${proposal?.id}-${index}-${proposal?.attributes?.prop_name}`}
-											md
 											display={"flex"}
+											xs={12}
+											md={6}
+											lg
 										>
 											<ProposalCard proposal={proposal} />
 										</Grid>
