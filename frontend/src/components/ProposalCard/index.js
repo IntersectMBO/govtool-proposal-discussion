@@ -136,9 +136,17 @@ const ProposalCard = ({ proposal }) => {
 									badgeContent={32}
 									color={"error"}
 									aria-label="comments"
-								>
-									<IconChatAlt />
-								</Badge>
+									showZero
+									sx={{
+										transform: "translate(30px, -20px)",
+										"& .MuiBadge-badge": {
+											color: "white",
+											backgroundColor: (theme) =>
+												theme.palette.badgeColors.error,
+										},
+									}}
+								></Badge>
+								<IconChatAlt />
 							</IconButton>
 							<IconButton aria-label="edit">
 								<IconPencilAlt />

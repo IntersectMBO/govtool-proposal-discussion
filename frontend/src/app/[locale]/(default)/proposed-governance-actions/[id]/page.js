@@ -1,6 +1,7 @@
 'use client';
 
 import {
+	Badge,
 	Box,
 	Button,
 	Card,
@@ -11,17 +12,42 @@ import {
 	Typography,
 } from "@mui/material";
 
+import { getSingleProposal } from "@/lib/api";
+import { formatIsoDate } from "@/lib/utils";
 import { Link } from "@/navigation";
 import { useTheme } from "@emotion/react";
 import {
+	IconChatAlt,
 	IconCheveronLeft,
 	IconDotsVertical,
 	IconLink,
 	IconSort,
+	IconThumbDown,
+	IconThumbUp,
 } from "@intersect.mbo/intersectmbo.org-icons-set";
-import proposalContent from './proposal-content.json';
+import { useEffect, useState } from "react";
 const ProposalPage = ({ params: { id } }) => {
 	const theme = useTheme();
+	const [proposal, setProposal] = useState(null);
+	const [mounted, setMounted] = useState(false);
+
+	const fetchProposal = async () => {
+		try {
+			const response = await getSingleProposal();
+			if (!response) return;
+			setProposal(response);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	useEffect(() => {
+		if (!mounted) {
+			setMounted(true);
+		} else {
+			fetchProposal();
+		}
+	}, [id, mounted]);
 	return (
 		<Box>
 			<Box mt={3}>
@@ -44,7 +70,9 @@ const ProposalPage = ({ params: { id } }) => {
 				<Card variant="outlined">
 					<Box textAlign="center">
 						<Typography variant="caption">
-							Proposed on: 28 May 2023
+							{`Proposed on: ${formatIsoDate(
+								proposal?.attributes?.createdAt
+							)}`}
 						</Typography>
 					</Box>
 					<CardContent>
@@ -86,7 +114,7 @@ const ProposalPage = ({ params: { id } }) => {
 						<Grid container>
 							<Grid item xs={11}>
 								<Typography variant="h4" component="h2">
-									{proposalContent?.attributes?.prop_name}
+									{proposal?.attributes?.prop_name}
 								</Typography>
 							</Grid>
 
@@ -113,7 +141,7 @@ const ProposalPage = ({ params: { id } }) => {
 							</Typography>
 							<Typography variant="body2">
 								{
-									proposalContent?.attributes?.gov_action_type
+									proposal?.attributes?.gov_action_type
 										?.gov_action_type_name
 								}
 							</Typography>
@@ -126,8 +154,9 @@ const ProposalPage = ({ params: { id } }) => {
 							justifyContent="space-between"
 						>
 							<Typography variant="caption">
-								Last Edit:{" "}
-								{proposalContent?.attributes?.createdAt}
+								{`Last Edit: ${formatIsoDate(
+									proposal?.attributes?.createdAt
+								)}`}
 							</Typography>
 							<Button
 								variant="outlined"
@@ -146,7 +175,7 @@ const ProposalPage = ({ params: { id } }) => {
 						<Box mt={4}>
 							<Typography variant="caption">Abstract</Typography>
 							<Typography variant="body2">
-								{proposalContent?.attributes?.prop_abstract}
+								{proposal?.attributes?.prop_abstract}
 							</Typography>
 						</Box>
 						<Box mt={4}>
@@ -154,13 +183,13 @@ const ProposalPage = ({ params: { id } }) => {
 								Motivation
 							</Typography>
 							<Typography variant="body2">
-								{proposalContent?.attributes?.prop_motivation}
+								{proposal?.attributes?.prop_motivation}
 							</Typography>
 						</Box>
 						<Box mt={4}>
 							<Typography variant="caption">Rationale</Typography>
 							<Typography variant="body2">
-								{proposalContent?.attributes?.prop_rationale}
+								{proposal?.attributes?.prop_rationale}
 							</Typography>
 						</Box>
 
@@ -170,7 +199,7 @@ const ProposalPage = ({ params: { id } }) => {
 							</Typography>
 
 							<Box>
-								{["Feedback", "Link Name"].map(
+								{proposal?.attributes?.proposal_links?.map(
 									(item, index) => (
 										<Button
 											key={index}
@@ -188,11 +217,84 @@ const ProposalPage = ({ params: { id } }) => {
 													}
 												/>
 											}
+											component={Link}
+											href={`${item?.prop_link}`}
 										>
-											{item}
+											{item?.prop_link_text}
 										</Button>
 									)
 								)}
+							</Box>
+						</Box>
+						<Box
+							mt={4}
+							display={"flex"}
+							flexDirection={"row"}
+							justifyContent={"space-between"}
+						>
+							<IconButton>
+								<Badge
+									badgeContent={32}
+									color={"primary"}
+									aria-label="comments"
+									showZero
+									sx={{
+										transform: "translate(30px, -20px)",
+										"& .MuiBadge-badge": {
+											color: "white",
+											backgroundColor: (theme) =>
+												theme.palette.badgeColors
+													.primary,
+										},
+									}}
+								></Badge>
+								<IconChatAlt />
+							</IconButton>
+							<Box display={"flex"} gap={1}>
+								<IconButton
+									sx={{
+										border: (theme) =>
+											`1px solid ${theme.palette.iconButton.outlineLightColor}`,
+									}}
+								>
+									<Badge
+										badgeContent={1}
+										color={"primary"}
+										aria-label="comments"
+										sx={{
+											transform: "translate(30px, -20px)",
+											"& .MuiBadge-badge": {
+												color: "white",
+												backgroundColor: (theme) =>
+													theme.palette.badgeColors
+														.secondary,
+											},
+										}}
+									></Badge>
+									<IconThumbUp />
+								</IconButton>
+								<IconButton
+									sx={{
+										border: (theme) =>
+											`1px solid ${theme.palette.iconButton.outlineLightColor}`,
+									}}
+								>
+									<Badge
+										badgeContent={0}
+										showZero
+										aria-label="comments"
+										sx={{
+											transform: "translate(30px, -20px)",
+											"& .MuiBadge-badge": {
+												color: "white",
+												backgroundColor: (theme) =>
+													theme.palette.badgeColors
+														.errorLight,
+											},
+										}}
+									></Badge>
+									<IconThumbDown />
+								</IconButton>
 							</Box>
 						</Box>
 					</CardContent>
