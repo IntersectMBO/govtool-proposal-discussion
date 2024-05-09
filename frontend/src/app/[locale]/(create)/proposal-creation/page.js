@@ -1,16 +1,54 @@
 "use client";
 
-import { Grid, Button, Box, Typography, Card } from '@mui/material';
-import React, { useState } from 'react';
+import { Grid, Button,  Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
 import { IconCheveronLeft } from '@intersect.mbo/intersectmbo.org-icons-set';
 import { useTheme } from '@emotion/react';
 import { Step1, Step2, Step3 } from '@/components/ProposalCreationSteps';
+import { createProposal, createProposalContent} from "@/lib/api";
 
 const ProposalCreation = () => {
     const theme = useTheme();
     const [step, setStep] = useState(1);
 	const [proposalData, setProposalData] = useState({});
+    const [links, setLinks] = useState([]);
 
+	const handleSaveDraft = async () => {
+		try {
+			if (!proposalData.id) {
+				const data = await createProposal();
+	
+				if (data && data.id) {
+					setProposalData((prev) => ({
+						...prev,
+						id: data.id
+					}));
+				} 
+
+			}
+
+
+			const contentData = await createProposalContent(proposalData);
+
+			console.log(contentData)
+
+
+
+
+		} catch (error) {
+			console.error('Error creating proposal:', error);
+		}
+	};
+	
+	console.log(proposalData)
+		
+	useEffect(() => {
+		if (proposalData.id) {
+			console.log("Draft saved", proposalData.id);
+		}
+	}, [proposalData.id]);
+	
+	
     return (
 		<>
 			<Grid
@@ -67,6 +105,9 @@ const ProposalCreation = () => {
 							setStep={setStep}
 							proposalData={proposalData}
 							setProposalData={setProposalData}
+							handleSaveDraft={handleSaveDraft}
+							links={links}
+							setLinks={setLinks}
 						/>
 					)}
 

@@ -1,5 +1,5 @@
-import { Box, Card, CardContent, Typography, Button, TextField, MenuItem } from '@mui/material';
-import { IconPencil } from '@intersect.mbo/intersectmbo.org-icons-set';
+import { Box, Card, CardContent, Typography, Button } from '@mui/material';
+import { IconPencil } from "@intersect.mbo/intersectmbo.org-icons-set";
 import { useTheme } from '@emotion/react';
 
 const Step3 = ({

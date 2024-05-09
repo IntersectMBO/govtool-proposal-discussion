@@ -10,30 +10,31 @@ import {
 	IconButton,
 	TextField,
 	Typography,
-} from "@mui/material";
-
-import { getSingleProposal } from "@/lib/api";
-import { formatIsoDate } from "@/lib/utils";
-import { Link } from "@/navigation";
-import { useTheme } from "@emotion/react";
+} from '@mui/material';
+import { CommentCard } from '@/components';
+import { getSingleProposal } from '@/lib/api';
+import { formatIsoDate } from '@/lib/utils';
+import { Link } from '@/navigation';
+import { useTheme } from '@emotion/react';
 import {
 	IconChatAlt,
 	IconCheveronLeft,
 	IconDotsVertical,
 	IconLink,
 	IconSort,
-	IconThumbDown,
+  IconThumbDown,
 	IconThumbUp,
-} from "@intersect.mbo/intersectmbo.org-icons-set";
-import { useEffect, useState } from "react";
+} from '@intersect.mbo/intersectmbo.org-icons-set';
+import { useEffect, useState } from 'react';
+
 const ProposalPage = ({ params: { id } }) => {
 	const theme = useTheme();
 	const [proposal, setProposal] = useState(null);
 	const [mounted, setMounted] = useState(false);
 
-	const fetchProposal = async () => {
+	const fetchProposal = async (id) => {
 		try {
-			const response = await getSingleProposal();
+			const response = await getSingleProposal(id);
 			if (!response) return;
 			setProposal(response);
 		} catch (error) {
@@ -45,7 +46,7 @@ const ProposalPage = ({ params: { id } }) => {
 		if (!mounted) {
 			setMounted(true);
 		} else {
-			fetchProposal();
+			fetchProposal(id);
 		}
 	}, [id, mounted]);
 	return (
@@ -80,12 +81,12 @@ const ProposalPage = ({ params: { id } }) => {
 							display="flex"
 							alignItems="center"
 							justifyContent="space-between"
-							flexDirection={{ xs: "column", sm: "row" }}
+							flexDirection={{ xs: 'column', sm: 'row' }}
 						>
 							<Box
 								textAlign={{
-									xs: "center",
-									sm: "left",
+									xs: 'center',
+									sm: 'left',
 								}}
 							>
 								<Typography variant="body2">
@@ -114,7 +115,10 @@ const ProposalPage = ({ params: { id } }) => {
 						<Grid container>
 							<Grid item xs={11}>
 								<Typography variant="h4" component="h2">
-									{proposal?.attributes?.prop_name}
+									{
+										proposal?.attributes?.content
+											?.attributes?.prop_name
+									}
 								</Typography>
 							</Grid>
 
@@ -141,8 +145,8 @@ const ProposalPage = ({ params: { id } }) => {
 							</Typography>
 							<Typography variant="body2">
 								{
-									proposal?.attributes?.gov_action_type
-										?.gov_action_type_name
+									proposal?.attributes?.content?.attributes
+										?.gov_action_type?.gov_action_type_name
 								}
 							</Typography>
 						</Box>
@@ -155,7 +159,8 @@ const ProposalPage = ({ params: { id } }) => {
 						>
 							<Typography variant="caption">
 								{`Last Edit: ${formatIsoDate(
-									proposal?.attributes?.createdAt
+									proposal?.attributes?.content?.attributes
+										?.createdAt
 								)}`}
 							</Typography>
 							<Button
@@ -175,7 +180,10 @@ const ProposalPage = ({ params: { id } }) => {
 						<Box mt={4}>
 							<Typography variant="caption">Abstract</Typography>
 							<Typography variant="body2">
-								{proposal?.attributes?.prop_abstract}
+								{
+									proposal?.attributes?.content?.attributes
+										?.prop_abstract
+								}
 							</Typography>
 						</Box>
 						<Box mt={4}>
@@ -183,13 +191,19 @@ const ProposalPage = ({ params: { id } }) => {
 								Motivation
 							</Typography>
 							<Typography variant="body2">
-								{proposal?.attributes?.prop_motivation}
+								{
+									proposal?.attributes?.content?.attributes
+										?.prop_motivation
+								}
 							</Typography>
 						</Box>
 						<Box mt={4}>
 							<Typography variant="caption">Rationale</Typography>
 							<Typography variant="body2">
-								{proposal?.attributes?.prop_rationale}
+								{
+									proposal?.attributes?.content?.attributes
+										?.prop_rationale
+								}
 							</Typography>
 						</Box>
 
@@ -199,7 +213,7 @@ const ProposalPage = ({ params: { id } }) => {
 							</Typography>
 
 							<Box>
-								{proposal?.attributes?.proposal_links?.map(
+								{proposal?.attributes?.content?.attributes?.proposal_links?.map(
 									(item, index) => (
 										<Button
 											key={index}
@@ -234,9 +248,11 @@ const ProposalPage = ({ params: { id } }) => {
 						>
 							<IconButton>
 								<Badge
-									badgeContent={32}
-									color={"primary"}
-									aria-label="comments"
+									badgeContent={
+										proposal?.attributes
+											?.prop_comments_number || 0
+									}
+									aria-label="proposal comments"
 									showZero
 									sx={{
 										transform: "translate(30px, -20px)",
@@ -258,9 +274,12 @@ const ProposalPage = ({ params: { id } }) => {
 									}}
 								>
 									<Badge
-										badgeContent={1}
-										color={"primary"}
-										aria-label="comments"
+										badgeContent={
+											proposal?.attributes?.prop_likes ||
+											0
+										}
+										showZero
+										aria-label="proposal likes"
 										sx={{
 											transform: "translate(30px, -20px)",
 											"& .MuiBadge-badge": {
@@ -280,9 +299,12 @@ const ProposalPage = ({ params: { id } }) => {
 									}}
 								>
 									<Badge
-										badgeContent={0}
+										badgeContent={
+											proposal?.attributes
+												?.prop_dislikes || 0
+										}
 										showZero
-										aria-label="comments"
+										aria-label="proposal dislikes"
 										sx={{
 											transform: "translate(30px, -20px)",
 											"& .MuiBadge-badge": {
@@ -367,6 +389,10 @@ const ProposalPage = ({ params: { id } }) => {
 						</Box>
 					</CardContent>
 				</Card>
+			</Box>
+
+			<Box mt={4}>
+				<CommentCard />
 			</Box>
 		</Box>
 	);

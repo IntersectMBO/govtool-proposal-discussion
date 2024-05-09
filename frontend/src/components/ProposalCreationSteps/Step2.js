@@ -6,7 +6,10 @@ import { LinkManager } from '@/components/ProposalCreationSteps';
 const Step2 = ({
     setStep,
     proposalData,
-    setProposalData
+    setProposalData,
+    handleSaveDraft,
+    links,
+    setLinks
 }) => {
     const maxLength = 256;
     const [governanceActionTypes, setGovernanceActionTypes] = useState([]);
@@ -274,7 +277,10 @@ const Step2 = ({
                     </Box>
                     
 
-                    <LinkManager />
+                    <LinkManager 
+                        links={links}
+                        setLinks={setLinks}
+                    />
 
 
                 </Box>
@@ -303,13 +309,13 @@ const Step2 = ({
                         sx={{
                             display: 'flex',
                             justifyContent: 'space-between',
-                            gap: 2, // this adds space between any child elements
+                            gap: 2
                         }}
                     >
                         <Button
                             variant="text"
                             sx={{ borderRadius: '20px' }}
-                           
+                            onClick={handleSaveDraft}
                         >
                             Save Draft
                         </Button>

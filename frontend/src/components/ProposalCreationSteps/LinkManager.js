@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import { Button, TextField, IconButton, Box } from '@mui/material';
-import { IconTrash, IconPlus } from '@intersect.mbo/intersectmbo.org-icons-set';
+import { Button, TextField, Box } from '@mui/material';
+import { IconPlus } from "@intersect.mbo/intersectmbo.org-icons-set";
 import { useTheme } from '@emotion/react';
 
-const LinkManager = ({ maxLinks = 7 }) => {
+const LinkManager = ({ maxLinks = 7, links, setLinks }) => {
     const theme = useTheme();
-    const [links, setLinks] = useState([]);
 
     const handleLinkChange = (index, field, value) => {
         const newLinks = links.map((link, i) => {

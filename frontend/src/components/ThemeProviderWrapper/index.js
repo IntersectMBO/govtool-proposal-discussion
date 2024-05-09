@@ -20,8 +20,8 @@ let theme = createTheme({
 			},
 		},
 		badgeColors: {
-			primary: "0034AE",
-			error: "CC0000",
+			primary: "#0034AE",
+			error: "#CC0000",
 			errorLight: "#FF9999",
 			secondary: "#39B6D5",
 		},
