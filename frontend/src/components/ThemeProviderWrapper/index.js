@@ -6,6 +6,7 @@ import {
 	createTheme,
 	responsiveFontSizes,
 } from "@mui/material/styles";
+
 let theme = createTheme({
 	palette: {
 		primary: {
@@ -26,8 +27,13 @@ let theme = createTheme({
 		},
 		text: {
 			grey: "#506288",
+			blueGrey: "#506288",
 			darkPurple: "#242232",
 			black: "#212A3D",
+			orange: "#E76309"
+		},
+		border: {
+			gray: "#E5DFE3",
 		},
 	},
 	components: {
@@ -42,6 +48,7 @@ let theme = createTheme({
 });
 
 theme = responsiveFontSizes(theme);
+
 
 function ThemeProviderWrapper({ children }) {
 	return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
