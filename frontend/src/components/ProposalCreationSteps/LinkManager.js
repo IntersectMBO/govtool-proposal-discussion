@@ -1,57 +1,50 @@
 import { Button, TextField, Box } from '@mui/material';
 import { IconPlus } from "@intersect.mbo/intersectmbo.org-icons-set";
 import { useTheme } from '@emotion/react';
+import { IconX } from '@intersect.mbo/intersectmbo.org-icons-set'
+import IconButton from '@mui/material/IconButton';
 
 const LinkManager = ({ maxLinks = 7, links, setLinks }) => {
     const theme = useTheme();
 
-    const handleLinkChange = (index, field, value) => {
+    const handleLinkChange = (index, value) => {
         const newLinks = links.map((link, i) => {
             if (i === index) {
-                return { ...link, [field]: value };
+                return { ...link, prop_link: value };
             }
             return link;
         });
         setLinks(newLinks);
     };
 
-    const addLink = () => {
+    const handleAddLink = () => {
         if (links.length < maxLinks) {
-            setLinks([...links, { url: '', text: '' }]);
+            setLinks([...links, { prop_link: ''}]);
         }
     };
 
-    const removeLink = (index) => {
+    const handleRemoveLink = (index) => {
         setLinks(links.filter((_, i) => i !== index));
     };
 
     return (
         <Box >
             {links.map((link, index) => (
-                <Box 
-                    key={index} 
-                    sx={{ 
-                        display: 'flex', 
-                        flexDirection: 'column', 
-                        alignItems: 'center', 
-                        gap: 2,   
-                        p: 2,
-                        mt: 2,
-                        background: "#F3F4F8",
-                    }}
-                >
+                <Box key={index} sx={{ marginBottom: 2 }}> 
                     <TextField
-                        label={`Link #${index+1} URL`}
+                        
+                        label={`Link #${index + 1} URL`}
                         variant="outlined"
                         fullWidth
-                        value={link.url}
-                        onChange={(e) => handleLinkChange(index, 'url', e.target.value)}
+                        value={link.prop_link}
+                        onChange={(e) => handleLinkChange(index, e.target.value)}
                         placeholder="https://website.com"
-                        sx={{ 
+                        sx={{
                             background: "#fff",
                             "& .MuiOutlinedInput-root": {
                                 "& fieldset": {
-                                    borderColor: "#E7EAF2", // Set the default border color
+                                    borderColor: "#E7EAF2",
+                                    borderRadius: '30px'
                                 }
                             }
                         }}
@@ -59,25 +52,17 @@ const LinkManager = ({ maxLinks = 7, links, setLinks }) => {
                             shrink: true,
                         }}
                     />
-                    <TextField
-                        label={`Link #${index+1} Text`} 
-                        variant="outlined"
-                        fullWidth
-                        value={link.text}
-                        onChange={(e) => handleLinkChange(index, 'text', e.target.value)}
-                        placeholder="Text"
-                        sx={{ 
-                            background: "#fff",
-                            "& .MuiOutlinedInput-root": {
-                                "& fieldset": {
-                                    borderColor: "#E7EAF2", // Set the default border color
-                                }
-                            }
+                    <IconButton
+                        onClick={() => handleRemoveLink(index)} 
+                        sx={{
+                            position: 'absolute',
+                            right: 8, 
+                            top: 8, 
+                            color: 'gray'
                         }}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
+                    >
+                        <IconX />
+                    </IconButton>
                 </Box>
             ))}
             {links.length < maxLinks && (
@@ -88,7 +73,7 @@ const LinkManager = ({ maxLinks = 7, links, setLinks }) => {
                         mt: 2
                     }} 
                 >
-                    <Button variant="text" mt={2} startIcon={<IconPlus fill={theme.palette.primary.main} />} onClick={addLink} >
+                    <Button variant="text" mt={2} startIcon={<IconPlus fill={theme.palette.primary.main} />} onClick={handleAddLink} >
                         Add link
                     </Button>
                 </Box>

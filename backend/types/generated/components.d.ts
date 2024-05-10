@@ -4,17 +4,13 @@ export interface ProposalProposalLink extends Schema.Component {
   collectionName: 'components_proposal_proposal_links';
   info: {
     displayName: 'Proposal link';
+    description: '';
   };
   attributes: {
     prop_link: Attribute.Text &
       Attribute.SetMinMaxLength<{
         maxLength: 300;
       }>;
-    prop_link_text: Attribute.Text &
-      Attribute.SetMinMaxLength<{
-        maxLength: 300;
-      }>;
-    prop_link_order: Attribute.Integer;
   };
 }
 

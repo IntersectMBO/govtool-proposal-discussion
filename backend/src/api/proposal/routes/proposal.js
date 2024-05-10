@@ -13,7 +13,7 @@ module.exports = createCoreRouter("api::proposal.proposal", {
 			roles: ["authenticated", "public"],
 		},
 		create: {
-			roles: [],
+			roles: ["authenticated", "public"],
 		},
 		findOne: {
 			roles: ["authenticated", "public"],

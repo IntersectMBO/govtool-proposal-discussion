@@ -9,10 +9,12 @@ const Step2 = ({
     setProposalData,
     handleSaveDraft,
     links,
-    setLinks
+    setLinks,
+    governanceActionTypes,
+    setGovernanceActionTypes,
+    isSmallScreen
 }) => {
     const maxLength = 256;
-    const [governanceActionTypes, setGovernanceActionTypes] = useState([]);
     const [isContinueDisabled, setIsContinueDisabled] = useState(true);
 
     const fetchGovernanceActionTypes = async () => {
@@ -20,7 +22,7 @@ const Step2 = ({
 			const governanceActionTypeList = await getGovernanceActionTypes();
 
             const mappedData = governanceActionTypeList.data.map(item => ({
-                value: item.attributes.gov_action_type_name,
+                value: item.id,
                 label: item.attributes.gov_action_type_name
             }));
 
@@ -31,13 +33,13 @@ const Step2 = ({
 	};
 
     const handleIsContinueDisabled = () => {
-        if(proposalData?.governanceActionType 
-            && proposalData?.title 
-            && proposalData?.abstract 
-            && proposalData?.motivation 
-            && proposalData?.rationale 
-            && proposalData?.receivingAddress 
-            && proposalData?.amount) {  
+        if(proposalData?.gov_action_type_id 
+            && proposalData?.prop_name 
+            && proposalData?.prop_abstract 
+            && proposalData?.prop_motivation 
+            && proposalData?.prop_rationale 
+            && proposalData?.prop_receiving_address 
+            && proposalData?.prop_amount) {  
             setIsContinueDisabled(false);
         } else {    
             setIsContinueDisabled(true);
@@ -88,19 +90,17 @@ const Step2 = ({
                             Subtext to describe something if needed
                         </Typography>
                     </Box>
-   
-
 
                     <TextField
                         select
                         label="Governance Action Type"
                         fullWidth
                         required
-                        value={proposalData?.governanceActionType || ''}
+                        value={proposalData?.gov_action_type_id || ''}
                         onChange={(e) => {
                             setProposalData((prev) => ({
                                 ...prev,
-                                governanceActionType: e.target.value,
+                                gov_action_type_id: e.target.value,
                             }));
                         }}
                         >
@@ -116,11 +116,11 @@ const Step2 = ({
 						fullWidth
 						label="Title"
 						variant="outlined"
-						value={proposalData?.title || ''}
+						value={proposalData?.prop_name || ''}
 						onChange={(e) =>
 							setProposalData((prev) => ({
 								...prev,
-								title: e.target.value,
+								prop_name: e.target.value,
 							}))
 						}
 						required
@@ -133,11 +133,11 @@ const Step2 = ({
                         placeholder="Summary..."
                         multiline
                         rows={4}
-                        value={proposalData?.abstract || ''}
+                        value={proposalData?.prop_abstract || ''}
                         onChange={(e) =>
                             setProposalData((prev) => ({
                                 ...prev,
-                                abstract: e.target.value,
+                                prop_abstract: e.target.value,
                             }))
                         }
                         required
@@ -147,13 +147,13 @@ const Step2 = ({
                                     * General Summary of your proposal
                                 </Typography>
                                 <Typography variant="caption" sx={{ float: 'right' }}>
-                                    {`${proposalData?.abstract?.length || 0}/${maxLength}`}
+                                    {`${proposalData?.prop_abstract?.length || 0}/${maxLength}`}
                                 </Typography>
                             </>
                         }
                         InputProps={{
                             inputProps: {
-                                maxLength: maxLength  // This enforces the max length
+                                maxLength: maxLength
                             }
                         }}
                     />
@@ -165,11 +165,11 @@ const Step2 = ({
                         placeholder="Problem this will solve"
                         multiline
                         rows={4}
-                        value={proposalData?.motivation || ''}
+                        value={proposalData?.prop_motivation || ''}
                         onChange={(e) =>
                             setProposalData((prev) => ({
                                 ...prev,
-                                motivation: e.target.value,
+                                prop_motivation: e.target.value,
                             }))
                         }
                         required
@@ -179,7 +179,7 @@ const Step2 = ({
                                     * How will this solve a problem
                                 </Typography>
                                 <Typography variant="caption" sx={{ float: 'right' }}>
-                                    {`${proposalData?.motivation?.length || 0}/${maxLength}`}
+                                    {`${proposalData?.prop_motivation?.length || 0}/${maxLength}`}
                                 </Typography>
                             </>
                         }
@@ -197,11 +197,11 @@ const Step2 = ({
                         placeholder="Problem this will solve"
                         multiline
                         rows={4}
-                        value={proposalData?.rationale || ''}
+                        value={proposalData?.prop_rationale || ''}
                         onChange={(e) =>
                             setProposalData((prev) => ({
                                 ...prev,
-                                rationale: e.target.value,
+                                prop_rationale: e.target.value,
                             }))
                         }
                         required
@@ -211,7 +211,7 @@ const Step2 = ({
                                     * Put all the content of the Proposal here
                                 </Typography>
                                 <Typography variant="caption" sx={{ float: 'right' }}>
-                                    {`${proposalData?.rationale?.length || 0}/${maxLength}`}
+                                    {`${proposalData?.prop_rationale?.length || 0}/${maxLength}`}
                                 </Typography>
                             </>
                         }
@@ -227,11 +227,11 @@ const Step2 = ({
 						margin="normal"
 						label="Receiving address"
 						variant="outlined"
-						value={proposalData?.receivingAddress || ''}
+						value={proposalData?.prop_receiving_address || ''}
 						onChange={(e) =>
 							setProposalData((prev) => ({
 								...prev,
-								receivingAddress: e.target.value,
+								prop_receiving_address: e.target.value,
 							}))
 						}
 						required
@@ -244,11 +244,11 @@ const Step2 = ({
                         type='number'
 						variant="outlined"
                         placeholder='e.g. 2000'
-						value={proposalData?.amount || ''}
+						value={proposalData?.prop_amount || ''}
 						onChange={(e) =>
 							setProposalData((prev) => ({
 								...prev,
-								amount: e.target.value,
+								prop_amount: e.target.value,
 							}))
 						}
 						required
@@ -275,23 +275,19 @@ const Step2 = ({
                             Links to extra content or social media contacts (maiximum of 7 entries)
                         </Typography>
                     </Box>
-                    
 
                     <LinkManager 
                         links={links}
                         setLinks={setLinks}
                     />
-
-
                 </Box>
-      
-
 
                 <Box
                     sx={{
                         display: 'flex',
-                        justifyContent: 'space-between',
+                        justifyContent: isSmallScreen ? 'center' : 'space-between',
                         mt: 2,
+                        gap:2
                     }}
                 >
                     <Box>
@@ -300,10 +296,9 @@ const Step2 = ({
                             sx={{borderRadius: '20px'}}
                             onClick={() => setStep(1)}
                         >
-                            Cancel
+                            Back
                         </Button>
                     </Box>
-
 
                     <Box 
                         sx={{
@@ -315,6 +310,7 @@ const Step2 = ({
                         <Button
                             variant="text"
                             sx={{ borderRadius: '20px' }}
+                            disabled={isContinueDisabled}
                             onClick={handleSaveDraft}
                         >
                             Save Draft
@@ -329,7 +325,6 @@ const Step2 = ({
                         </Button>
                     </Box>
 
-                    
                 </Box>
             </CardContent>
         </Card>

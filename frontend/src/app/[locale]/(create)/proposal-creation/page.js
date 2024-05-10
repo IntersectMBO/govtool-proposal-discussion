@@ -5,50 +5,41 @@ import React, { useState, useEffect } from 'react';
 import { IconCheveronLeft } from '@intersect.mbo/intersectmbo.org-icons-set';
 import { useTheme } from '@emotion/react';
 import { Step1, Step2, Step3 } from '@/components/ProposalCreationSteps';
-import { createProposal, createProposalContent} from "@/lib/api";
+import { createProposal, createProposalAndProposalContent, updateProposalContent } from "@/lib/api";
+import { useMediaQuery } from '@mui/material';
 
 const ProposalCreation = () => {
     const theme = useTheme();
     const [step, setStep] = useState(1);
 	const [proposalData, setProposalData] = useState({});
     const [links, setLinks] = useState([]);
+	const [governanceActionTypes, setGovernanceActionTypes] = useState([]);
+	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
+
 
 	const handleSaveDraft = async () => {
-		try {
-			if (!proposalData.id) {
-				const data = await createProposal();
-	
-				if (data && data.id) {
+		try {	
+			if (!(proposalData?.id && proposalData?.proposal_content_id)) {
+				const data = await createProposalAndProposalContent(proposalData, links);
+
+				if (data && data?.attributes?.proposal_id) {
 					setProposalData((prev) => ({
 						...prev,
-						id: data.id
+						id: data?.attributes?.proposal_id,
+						proposal_content_id: data?.id
 					}));
-				} 
-
+	
+				} else {
+					throw new Error('Failed to obtain an ID from the created proposal');
+				}
+			} else {
+				await updateProposalContent(proposalData, links);
 			}
-
-
-			const contentData = await createProposalContent(proposalData);
-
-			console.log(contentData)
-
-
-
-
 		} catch (error) {
-			console.error('Error creating proposal:', error);
+			console.error('Error handling the proposal creation:', error);
 		}
 	};
-	
-	console.log(proposalData)
 		
-	useEffect(() => {
-		if (proposalData.id) {
-			console.log("Draft saved", proposalData.id);
-		}
-	}, [proposalData.id]);
-	
-	
     return (
 		<>
 			<Grid
@@ -108,6 +99,9 @@ const ProposalCreation = () => {
 							handleSaveDraft={handleSaveDraft}
 							links={links}
 							setLinks={setLinks}
+							governanceActionTypes={governanceActionTypes}
+							setGovernanceActionTypes={setGovernanceActionTypes}
+							isSmallScreen={isSmallScreen}
 						/>
 					)}
 
@@ -115,6 +109,9 @@ const ProposalCreation = () => {
 						<Step3
 							setStep={setStep}
 							proposalData={proposalData}
+							links={links}
+							governanceActionTypes={governanceActionTypes}
+							isSmallScreen={isSmallScreen}
 						/>
 					)}
 

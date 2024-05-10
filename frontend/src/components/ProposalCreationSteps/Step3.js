@@ -1,10 +1,15 @@
-import { Box, Card, CardContent, Typography, Button } from '@mui/material';
+import { Box, Card, CardContent, Typography, Button, ListItem, ListItemIcon, List , Link} from '@mui/material';
 import { IconPencil } from "@intersect.mbo/intersectmbo.org-icons-set";
 import { useTheme } from '@emotion/react';
+import {IconLink} from '@intersect.mbo/intersectmbo.org-icons-set'
+
 
 const Step3 = ({
     setStep,
-    proposalData
+    proposalData,
+    links,
+    governanceActionTypes,
+    isSmallScreen
 }) => {
     const theme = useTheme();
 
@@ -15,12 +20,11 @@ const Step3 = ({
                 boxShadow: 1, 
                 borderRadius: '20px',
                 mb: 2,
-                minWidth: '910px',
+                maxWidth: '910px',
             }} 
         >
             <CardContent 
                 sx={{
-   
                     pb: 2,
                     pl: {
                         xs: 2,
@@ -37,7 +41,6 @@ const Step3 = ({
                     flexDirection="column"
                     gap={2}
                 >
-
                     <Box
                        sx={{
                             display: 'flex',
@@ -45,6 +48,7 @@ const Step3 = ({
                             justifyContent: 'center', 
                             alignItems: 'center',
                             mt: 2,
+                            mb: 4
                         }}
                     >
                         <Typography variant="h4" gutterBottom>
@@ -57,100 +61,141 @@ const Step3 = ({
                     </Box>
 
                         <Typography variant="h5" gutterBottom>
-                            {proposalData.title}
+                            {proposalData?.prop_name}
                         </Typography>
 
                         <Box> 
-                            <Typography variant="h6" gutterBottom>
+                            <Typography 
+                                variant="body1" 
+                                color={(theme) => theme.palette.text.blueGrey}
+                                gutterBottom
+                            >
                                 Goverance Action Type
                             </Typography>
-                            <Typography variant="h6" gutterBottom>
-                                {proposalData.governanceActionType}
+                            <Typography variant="body1" gutterBottom>
+                                {governanceActionTypes.find(x => x.value === proposalData?.gov_action_type_id).label}
                             </Typography>
                         </Box>
                    
    
                         <Box> 
-                            <Typography variant="h6" gutterBottom>
+                            <Typography 
+                                variant="body1" 
+                                color={(theme) => theme.palette.text.blueGrey}
+                                gutterBottom
+                            >
                                 Abstrtact
                             </Typography>
-                            <Typography variant="h6" gutterBottom>
-                                {proposalData.abstract}
+                            <Typography variant="body1" gutterBottom>
+                                {proposalData?.prop_abstract}
                             </Typography>
                         </Box>
 
                         <Box> 
-                            <Typography variant="h6" gutterBottom>
+                            <Typography 
+                                variant="body1" 
+                                color={(theme) => theme.palette.text.blueGrey}
+                                gutterBottom
+                            >
                                 Motivation
                             </Typography>
-                            <Typography variant="h6" gutterBottom>
-                                {proposalData.motivation}
+                            <Typography variant="body1" gutterBottom>
+                                {proposalData?.prop_motivation}
                             </Typography>
                         </Box>
 
                         <Box> 
-                            <Typography variant="h6" gutterBottom>
+                            <Typography 
+                                variant="body1" 
+                                color={(theme) => theme.palette.text.blueGrey}
+                                gutterBottom
+                            >
                                 Rationale
                             </Typography>
-                            <Typography variant="h6" gutterBottom>
-                                {proposalData.rationale}
+                            <Typography variant="body1" gutterBottom>
+                                {proposalData?.prop_rationale}
                             </Typography>
                         </Box>
 
                         <Box> 
-                            <Typography variant="h6" gutterBottom>
+                            <Typography 
+                                variant="body1" 
+                                color={(theme) => theme.palette.text.blueGrey}
+                                gutterBottom
+                            >
                                 Supporting links
                             </Typography>
-                            
+                            <Box display="flex" flexDirection="column" gap={2}>
+                                {
+                                    links?.map((link, index) => (
+                                        <Box 
+                                            key={index} 
+                                            display="flex" 	
+                                            flexDirection="flex-start"
+                                            alignContent="center" 
+                                        >
+                                            <IconLink />
+                                            <Typography key={index} variant="body1" gutterBottom>
+                                                {link?.prop_link}
+                                            </Typography>
+                                        </Box>
+                                    ))
+                                }
+                            </Box>
                         </Box>
-                </Box>
-      
-
-
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        mt: 2,
-                    }}
-                >
-                    <Box>
-                        <Button
-                            variant="outlined"
-                            startIcon={<IconPencil fill={theme.palette.primary.main}/>}
-                            sx={{borderRadius: '20px'}}
-                            onClick={() => setStep(2)}
-                        >
-                            Back to editing
-                        </Button>
                     </Box>
-
-
-                    <Box 
+      
+                    <Box
                         sx={{
                             display: 'flex',
+                            flexDirection: isSmallScreen ? 'column' : 'row',
                             justifyContent: 'space-between',
-                            gap: 2, // this adds space between any child elements
+                            mt: 10,
                         }}
                     >
-                        <Button
-                            variant="text"
-                            sx={{ borderRadius: '20px' }}
-                
+                        <Box>
+                            <Button
+                                variant="outlined"
+                                startIcon={<IconPencil fill={theme.palette.primary.main}/>}
+                                sx={{
+                                    borderRadius: '20px',
+                                    mb: {
+                                        xs: 2,
+                                        md: 0,
+                                    }
+                                }}
+                                fullWidth={isSmallScreen}
+                                onClick={() => setStep(2)}
+                            >
+                                Back to editing
+                            </Button>
+                        </Box>
+                        <Box 
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                gap: 2
+                            }}
                         >
-                            Save Draft
-                        </Button>
-                        <Button
-                            variant="contained"
-                            sx={{ borderRadius: '20px' }}
-                        
-                        >
-                            Submit
-                        </Button>
+                            <Button
+                                variant="text"
+                                sx={{ 
+                                    borderRadius: '20px',
+                                }}
+                            >
+                                Save Draft
+                            </Button>
+                            <Button
+                                variant="contained"
+                                sx={{ 
+                                    borderRadius: '20px',
+                                }}
+                            >
+                                Submit
+                            </Button>
+                        </Box> 
                     </Box>
 
-                    
-                </Box>
             </CardContent>
         </Card>
     );
