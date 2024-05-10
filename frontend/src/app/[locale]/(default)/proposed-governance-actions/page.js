@@ -1,5 +1,5 @@
 "use client";
-import ProposalCard from "@/components/ProposalCard";
+import { ProposalCard } from "@/components";
 import { getProposals } from "@/lib/api";
 import { useTheme } from "@emotion/react";
 import {
