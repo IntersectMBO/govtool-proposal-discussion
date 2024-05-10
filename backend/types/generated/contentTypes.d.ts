@@ -970,6 +970,7 @@ export interface ApiProposalProposal extends Schema.CollectionType {
     prop_comments_number: Attribute.Integer & Attribute.DefaultTo<0>;
     prop_submited: Attribute.Boolean & Attribute.DefaultTo<false>;
     prop_status_id: Attribute.String;
+    user_id: Attribute.String & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

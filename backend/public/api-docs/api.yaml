@@ -485,7 +485,11 @@ components:
       properties:
         data:
           type: object
+          required:
+           - user_id
           properties:
+            user_id:
+              type: string
             prop_likes:
               type: integer
               default: 0
@@ -536,6 +540,8 @@ components:
     Proposal:
       type: object
       properties:
+        user_id:
+          type: string
         prop_likes:
           type: integer
         prop_dislikes:
