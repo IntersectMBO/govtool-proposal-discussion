@@ -1,16 +1,5 @@
 'use client';
 
-import {
-	Badge,
-	Box,
-	Button,
-	Card,
-	CardContent,
-	Grid,
-	IconButton,
-	TextField,
-	Typography,
-} from '@mui/material';
 import { CommentCard } from '@/components';
 import { getSingleProposal } from '@/lib/api';
 import { formatIsoDate } from '@/lib/utils';
@@ -21,16 +10,41 @@ import {
 	IconCheveronLeft,
 	IconDotsVertical,
 	IconLink,
+	IconPencilAlt,
 	IconSort,
-  IconThumbDown,
+	IconThumbDown,
 	IconThumbUp,
+	IconTrash,
 } from '@intersect.mbo/intersectmbo.org-icons-set';
+import {
+	Badge,
+	Box,
+	Button,
+	Card,
+	CardContent,
+	Grid,
+	IconButton,
+	Menu,
+	MenuItem,
+	Stack,
+	TextField,
+	Typography,
+} from '@mui/material';
 import { useEffect, useState } from 'react';
 
 const ProposalPage = ({ params: { id } }) => {
 	const theme = useTheme();
 	const [proposal, setProposal] = useState(null);
 	const [mounted, setMounted] = useState(false);
+
+	const [anchorEl, setAnchorEl] = useState(null);
+	const open = Boolean(anchorEl);
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 
 	const fetchProposal = async (id) => {
 		try {
@@ -129,13 +143,85 @@ const ProposalPage = ({ params: { id } }) => {
 								justifyContent="flex-end"
 							>
 								<IconButton
+									id="menu-button"
 									sx={{
 										width: 40,
 										height: 40,
 									}}
+									aria-controls={
+										open ? 'proposal-menu' : undefined
+									}
+									aria-haspopup="true"
+									aria-expanded={open ? 'true' : undefined}
+									onClick={handleClick}
 								>
 									<IconDotsVertical width="24" height="24" />
 								</IconButton>
+								<Menu
+									id="proposal-menu"
+									anchorEl={anchorEl}
+									open={open}
+									onClose={handleClose}
+									MenuListProps={{
+										'aria-labelledby': 'menu-button',
+									}}
+									slotProps={{
+										paper: {
+											elevation: 4,
+											sx: {
+												overflow: 'visible',
+												mt: 1,
+											},
+										},
+									}}
+									transformOrigin={{
+										horizontal: 'right',
+										vertical: 'top',
+									}}
+									anchorOrigin={{
+										horizontal: 'right',
+										vertical: 'bottom',
+									}}
+								>
+									<MenuItem onClick={handleClose}>
+										<Stack
+											direction={'row'}
+											spacing={2}
+											alignItems={'center'}
+										>
+											<IconPencilAlt
+												color={
+													theme.palette.primary.icons
+														.black
+												}
+												height={24}
+												width={24}
+											/>
+											<Typography variant="body1">
+												Edit Proposal
+											</Typography>
+										</Stack>
+									</MenuItem>
+									<MenuItem onClick={handleClose}>
+										<Stack
+											direction={'row'}
+											spacing={2}
+											alignItems={'center'}
+										>
+											<IconTrash
+												color={
+													theme.palette.primary.icons
+														.black
+												}
+												height={24}
+												width={24}
+											/>
+											<Typography variant="body1">
+												Delete Proposal
+											</Typography>
+										</Stack>
+									</MenuItem>
+								</Menu>
 							</Grid>
 						</Grid>
 
@@ -242,9 +328,9 @@ const ProposalPage = ({ params: { id } }) => {
 						</Box>
 						<Box
 							mt={4}
-							display={"flex"}
-							flexDirection={"row"}
-							justifyContent={"space-between"}
+							display={'flex'}
+							flexDirection={'row'}
+							justifyContent={'space-between'}
 						>
 							<IconButton>
 								<Badge
@@ -255,9 +341,9 @@ const ProposalPage = ({ params: { id } }) => {
 									aria-label="proposal comments"
 									showZero
 									sx={{
-										transform: "translate(30px, -20px)",
-										"& .MuiBadge-badge": {
-											color: "white",
+										transform: 'translate(30px, -20px)',
+										'& .MuiBadge-badge': {
+											color: 'white',
 											backgroundColor: (theme) =>
 												theme.palette.badgeColors
 													.primary,
@@ -266,7 +352,7 @@ const ProposalPage = ({ params: { id } }) => {
 								></Badge>
 								<IconChatAlt />
 							</IconButton>
-							<Box display={"flex"} gap={1}>
+							<Box display={'flex'} gap={1}>
 								<IconButton
 									sx={{
 										border: (theme) =>
@@ -281,9 +367,9 @@ const ProposalPage = ({ params: { id } }) => {
 										showZero
 										aria-label="proposal likes"
 										sx={{
-											transform: "translate(30px, -20px)",
-											"& .MuiBadge-badge": {
-												color: "white",
+											transform: 'translate(30px, -20px)',
+											'& .MuiBadge-badge': {
+												color: 'white',
 												backgroundColor: (theme) =>
 													theme.palette.badgeColors
 														.secondary,
@@ -306,9 +392,9 @@ const ProposalPage = ({ params: { id } }) => {
 										showZero
 										aria-label="proposal dislikes"
 										sx={{
-											transform: "translate(30px, -20px)",
-											"& .MuiBadge-badge": {
-												color: "white",
+											transform: 'translate(30px, -20px)',
+											'& .MuiBadge-badge': {
+												color: 'white',
 												backgroundColor: (theme) =>
 													theme.palette.badgeColors
 														.errorLight,
