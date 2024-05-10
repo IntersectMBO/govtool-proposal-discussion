@@ -105,8 +105,8 @@ const Step2 = ({
                         }}
                         >
                         {governanceActionTypes.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
+                            <MenuItem key={option?.value} value={option?.value}>
+                                {option?.label}
                             </MenuItem>
                         ))}
                     </TextField>
