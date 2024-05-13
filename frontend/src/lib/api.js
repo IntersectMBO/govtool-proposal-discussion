@@ -49,7 +49,8 @@ export const createProposalAndProposalContent = async (proposalContent, links) =
                 prop_poll_active: false,
                 prop_submitted: false,
                 prop_status_id: '1', // TODO: proposal status
-                prop_comments_number: 0
+                prop_comments_number: 0,
+				user_id: proposalContent?.user_id, // TODO: set user_id
             }
         });
 

@@ -4,13 +4,53 @@ import {
     CardContent,
     Typography,
     Button,
+    Modal
 } from '@mui/material';
+import { useState } from 'react';
+import {IconX } from '@intersect.mbo/intersectmbo.org-icons-set';
 import { useRouter } from '@/navigation';
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: {
+        xs: '90%',
+        sm: '50%',
+        md: '30%',
+    },
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    borderRadius: '20px',
+};
+
 const Step1 = ({
-    setStep
+    setStep,
+    isContinueDisabled,
+    setProposalData,
+    handleSaveDraft,
 }) => {
     const router = useRouter();
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => {
+		setOpen(true);
+    };
+
+    const handleClose= () => {
+		setOpen(false);
+    };
+
+    const handleCancelAndSaveDraft = () => {
+        handleSaveDraft();
+        router.push('/');
+    };
+
+	const handleCancel = () => {
+		setProposalData({});
+        router.push('/');
+    };
 
     return (
         <Card 
@@ -68,7 +108,7 @@ const Step1 = ({
                     <Button
                         variant="outlined"
                         sx={{borderRadius: '20px'}}
-                        onClick={() => router.push('/')}
+                        onClick={handleOpen}
                     >
                         Cancel
                     </Button>
@@ -80,6 +120,76 @@ const Step1 = ({
                         Continue
                     </Button>
                 </Box>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                >
+                    <Box sx={style}>
+                        <Box 
+                            pt={2}  
+                            pl={2}
+                            pr={2}
+                            pb={1}
+                            borderBottom={1} 
+                            borderColor={(theme) => theme.palette.border.lightGray}
+                        >
+                            <Box
+                                display="flex"
+                                flexDirection="row"
+                                justifyContent="space-between"
+                            >
+                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                    Dialog Title
+                                </Typography>
+                                <Button onClick={handleClose} >
+                                    <IconX width='24px' height='24px' />
+                                </Button>
+                            </Box>
+                            <Typography id="modal-modal-description" mt={2} color={(theme) => theme.palette.text.blueGrey} >
+                                A dialog is a type of modal window that appears in front of app content to provide critical information, or prompt for a decision to be made.
+                            </Typography>
+                        </Box>
+
+                        <Box 
+                            display="flex"
+                            flexDirection="column"
+                            padding={2}
+                            gap={2}
+                        >
+                            <Button 
+                                variant="contained"   
+                                fullWidth  
+                                sx={{
+                                    borderRadius: '20px'
+                                }}
+                                onClick={handleClose} 
+                            >
+                                I don't want to cancel
+                            </Button>
+                            <Button 
+                                variant="outlined"   
+                                fullWidth  
+                                sx={{
+                                    borderRadius: '20px'
+                                }}
+                                disabled={isContinueDisabled}
+                                onClick={handleCancelAndSaveDraft} 
+                            >
+                                Yes, cancel & save it as draft
+                            </Button>
+                            <Button 
+                                variant="text"   
+                                fullWidth  
+                                sx={{
+                                    borderRadius: '20px'
+                                }}
+                                onClick={handleCancel} 
+                            >
+                                Yes, cancel and don't save it
+                            </Button>
+                        </Box>
+                    </Box>
+                </Modal>
             </CardContent>
         </Card>
     );
