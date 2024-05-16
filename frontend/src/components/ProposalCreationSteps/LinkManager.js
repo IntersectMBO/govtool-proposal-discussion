@@ -30,7 +30,7 @@ const LinkManager = ({ maxLinks = 7, links, setLinks }) => {
     return (
         <Box >
             {links.map((link, index) => (
-                <Box key={index} sx={{ marginBottom: 2 }}> 
+                <Box key={index} sx={{ marginBottom: 2, position: 'relative' }}> 
                     <TextField
                         
                         label={`Link #${index + 1} URL`}

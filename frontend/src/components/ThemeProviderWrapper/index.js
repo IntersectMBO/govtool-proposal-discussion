@@ -34,6 +34,7 @@ let theme = createTheme({
 		},
 		border: {
 			gray: "#E5DFE3",
+			lightGray: "#CAC4D0",
 		},
 	},
 	components: {

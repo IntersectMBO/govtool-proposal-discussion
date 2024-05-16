@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { IconCheveronLeft } from '@intersect.mbo/intersectmbo.org-icons-set';
 import { useTheme } from '@emotion/react';
 import { Step1, Step2, Step3 } from '@/components/ProposalCreationSteps';
-import { createProposal, createProposalAndProposalContent, updateProposalContent } from "@/lib/api";
+import { createProposalAndProposalContent, updateProposalContent } from "@/lib/api";
 import { useMediaQuery } from '@mui/material';
 
 const ProposalCreation = () => {
@@ -14,8 +14,27 @@ const ProposalCreation = () => {
 	const [proposalData, setProposalData] = useState({});
     const [links, setLinks] = useState([]);
 	const [governanceActionTypes, setGovernanceActionTypes] = useState([]);
+	const [isContinueDisabled, setIsContinueDisabled] = useState(true);
+
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
+	const handleIsContinueDisabled = () => {
+        if(proposalData?.gov_action_type_id 
+            && proposalData?.prop_name 
+            && proposalData?.prop_abstract 
+            && proposalData?.prop_motivation 
+            && proposalData?.prop_rationale 
+            && proposalData?.prop_receiving_address 
+            && proposalData?.prop_amount) {  
+            setIsContinueDisabled(false);
+        } else {    
+            setIsContinueDisabled(true);
+        }
+    }
+
+    useEffect(() => {
+		handleIsContinueDisabled();
+	}, [proposalData]);
 
 	const handleSaveDraft = async () => {
 		try {	
@@ -88,6 +107,9 @@ const ProposalCreation = () => {
 					{step === 1 && (
 						<Step1
 							setStep={setStep}
+							isContinueDisabled={isContinueDisabled}
+							setProposalData={setProposalData}
+							handleSaveDraft={handleSaveDraft}
 						/>
 					)}
 
@@ -102,6 +124,7 @@ const ProposalCreation = () => {
 							governanceActionTypes={governanceActionTypes}
 							setGovernanceActionTypes={setGovernanceActionTypes}
 							isSmallScreen={isSmallScreen}
+							isContinueDisabled={isContinueDisabled}
 						/>
 					)}
 

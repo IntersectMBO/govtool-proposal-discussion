@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, Typography, Button, TextField, MenuItem } from '@mui/material';
 import { getGovernanceActionTypes } from "@/lib/api";
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { LinkManager } from '@/components/ProposalCreationSteps';
 
 const Step2 = ({
@@ -12,10 +12,10 @@ const Step2 = ({
     setLinks,
     governanceActionTypes,
     setGovernanceActionTypes,
-    isSmallScreen
+    isSmallScreen,
+    isContinueDisabled
 }) => {
     const maxLength = 256;
-    const [isContinueDisabled, setIsContinueDisabled] = useState(true);
 
     const fetchGovernanceActionTypes = async () => {
 		try {
@@ -32,27 +32,9 @@ const Step2 = ({
 		}
 	};
 
-    const handleIsContinueDisabled = () => {
-        if(proposalData?.gov_action_type_id 
-            && proposalData?.prop_name 
-            && proposalData?.prop_abstract 
-            && proposalData?.prop_motivation 
-            && proposalData?.prop_rationale 
-            && proposalData?.prop_receiving_address 
-            && proposalData?.prop_amount) {  
-            setIsContinueDisabled(false);
-        } else {    
-            setIsContinueDisabled(true);
-        }
-    }
-
 	useEffect(() => {
 		fetchGovernanceActionTypes();
 	}, []);
-
-    useEffect(() => {
-		handleIsContinueDisabled();
-	}, [proposalData]);
 
     return (
         <Card 
