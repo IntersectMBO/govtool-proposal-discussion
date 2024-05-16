@@ -36,6 +36,9 @@ let theme = createTheme({
 			gray: "#E5DFE3",
 			lightGray: "#CAC4D0",
 		},
+		button: {
+			primary: "#3052F5",
+		},
 	},
 	components: {
 		MuiButton: {
