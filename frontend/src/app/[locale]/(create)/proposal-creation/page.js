@@ -1,6 +1,6 @@
 "use client";
 
-import { Grid, Button,  Typography } from '@mui/material';
+import { Grid, Button,  Typography, Link } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { IconCheveronLeft } from '@intersect.mbo/intersectmbo.org-icons-set';
 import { useTheme } from '@emotion/react';
@@ -86,6 +86,8 @@ const ProposalCreation = () => {
 								fill={theme.palette.primary.main}
 							/>
 						}
+						component={Link}
+						href="/proposed-governance-actions"
 					>
 						Show all
 				</Button>

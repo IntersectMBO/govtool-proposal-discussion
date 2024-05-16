@@ -50,12 +50,12 @@ export const createProposalAndProposalContent = async (proposalContent, links) =
                 prop_submitted: false,
                 prop_status_id: '1', // TODO: proposal status
                 prop_comments_number: 0,
-				user_id: proposalContent?.user_id, // TODO: set user_id
+				user_id: '1', // TODO: set user_id
             }
         });
 
-        if (response && response.data && response.data.data.id) {
-            const responseContent = await createProposalContent(response.data.data.id, proposalContent, links);
+        if (response && response?.data && response?.data?.data?.id) {
+            const responseContent = await createProposalContent(response?.data?.data?.id, proposalContent, links);
             return responseContent;
         } else {
             throw new Error('Invalid response structure or missing ID');
@@ -81,7 +81,7 @@ export const createProposalContent = async (proposalId, proposalContent, links) 
 					prop_name: proposalContent?.prop_name,
 					prop_receiving_address: proposalContent?.prop_receiving_address,
 					prop_amount: proposalContent?.prop_amount,
-					prop_rev_active: false,
+					prop_rev_active: true,
 					proposal_links: links
 				}
 			}
