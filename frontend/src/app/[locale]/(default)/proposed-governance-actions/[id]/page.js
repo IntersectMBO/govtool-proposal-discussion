@@ -1,7 +1,8 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { CommentCard } from '@/components';
-import { getSingleProposal } from '@/lib/api';
+import { getSingleProposal, getComments, createComment } from '@/lib/api';
 import { formatIsoDate } from '@/lib/utils';
 import { Link } from '@/navigation';
 import { useTheme } from '@emotion/react';
@@ -30,12 +31,14 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useAppContext } from '@/context/context';
 
 const ProposalPage = ({ params: { id } }) => {
 	const theme = useTheme();
 	const [proposal, setProposal] = useState(null);
 	const [mounted, setMounted] = useState(false);
+	const [commentsList, setCommentsList] = useState([]);
+	const [newCommentText, setNewCommentText] = useState('');
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
@@ -56,11 +59,41 @@ const ProposalPage = ({ params: { id } }) => {
 		}
 	};
 
+	const fetchComments = async () => {
+		try {
+			let query = `filters[$and][0][proposal_id]=${id}&filters[$and][1][comment_parent_id][$null]=true&sort[createdAt]=desc`;
+			const { comments, pgCount, total } = await getComments(query);
+			if (!comments) return;
+
+			setCommentsList(comments);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const handleCreateComment = async () => {
+		try {
+			const newComment = await createComment({
+				user_id: '1',
+				proposal_id: id,
+				comment_text: newCommentText,
+			});
+
+			if (!newComment) return;
+			setNewCommentText('');
+			fetchProposal(id);
+			fetchComments();
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	useEffect(() => {
 		if (!mounted) {
 			setMounted(true);
 		} else {
 			fetchProposal(id);
+			fetchComments();
 		}
 	}, [id, mounted]);
 	return (
@@ -468,18 +501,28 @@ const ProposalPage = ({ params: { id } }) => {
 							variant="outlined"
 							multiline={true}
 							helperText="Supporting text"
+							value={newCommentText || ''}
+							onChange={(e) => setNewCommentText(e.target.value)}
 						/>
 
 						<Box mt={2} display="flex" justifyContent="flex-end">
-							<Button variant="contained">Comment</Button>
+							<Button
+								variant="contained"
+								onClick={handleCreateComment}
+								disabled={!newCommentText}
+							>
+								Comment
+							</Button>
 						</Box>
 					</CardContent>
 				</Card>
 			</Box>
 
-			<Box mt={4}>
-				<CommentCard />
-			</Box>
+			{commentsList?.map((comment, index) => (
+				<Box mt={4} key={index}>
+					<CommentCard comment={comment} />
+				</Box>
+			))}
 		</Box>
 	);
 };
