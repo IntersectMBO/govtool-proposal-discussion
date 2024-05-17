@@ -11,6 +11,7 @@ export interface ProposalProposalLink extends Schema.Component {
       Attribute.SetMinMaxLength<{
         maxLength: 300;
       }>;
+    prop_text: Attribute.String;
   };
 }
 

@@ -1,70 +1,83 @@
-"use client";
+'use client';
 
-import { Grid, Button,  Typography, Link } from '@mui/material';
+import { Grid, Button, Typography, Link } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { IconCheveronLeft } from '@intersect.mbo/intersectmbo.org-icons-set';
 import { useTheme } from '@emotion/react';
 import { Step1, Step2, Step3 } from '@/components/ProposalCreationSteps';
-import { createProposalAndProposalContent, updateProposalContent } from "@/lib/api";
+import { createProposal } from '@/lib/api';
 import { useMediaQuery } from '@mui/material';
+import { useRouter } from '@/navigation';
 
 const ProposalCreation = () => {
-    const theme = useTheme();
-    const [step, setStep] = useState(1);
-	const [proposalData, setProposalData] = useState({});
-    const [links, setLinks] = useState([]);
+	const router = useRouter();
+	const theme = useTheme();
+	const [step, setStep] = useState(1);
+	const [proposalData, setProposalData] = useState({
+		proposal_links: [],
+	});
+
 	const [governanceActionTypes, setGovernanceActionTypes] = useState([]);
 	const [isContinueDisabled, setIsContinueDisabled] = useState(true);
 
-	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
+	const isSmallScreen = useMediaQuery((theme) =>
+		theme.breakpoints.down('sm')
+	);
 
 	const handleIsContinueDisabled = () => {
-        if(proposalData?.gov_action_type_id 
-            && proposalData?.prop_name 
-            && proposalData?.prop_abstract 
-            && proposalData?.prop_motivation 
-            && proposalData?.prop_rationale 
-            && proposalData?.prop_receiving_address 
-            && proposalData?.prop_amount) {  
-            setIsContinueDisabled(false);
-        } else {    
-            setIsContinueDisabled(true);
-        }
-    }
+		if (
+			proposalData?.gov_action_type_id &&
+			proposalData?.prop_name &&
+			proposalData?.prop_abstract &&
+			proposalData?.prop_motivation &&
+			proposalData?.prop_rationale &&
+			proposalData?.prop_receiving_address &&
+			proposalData?.prop_amount
+		) {
+			setIsContinueDisabled(false);
+		} else {
+			setIsContinueDisabled(true);
+		}
+	};
 
-    useEffect(() => {
+	useEffect(() => {
 		handleIsContinueDisabled();
 	}, [proposalData]);
 
-	const handleSaveDraft = async () => {
-		try {	
-			if (!(proposalData?.id && proposalData?.proposal_content_id)) {
-				const data = await createProposalAndProposalContent(proposalData, links);
+	const handleSaveDraft = async (addPoll = false, shouldNavigate = false) => {
+		try {
+			if (
+				!(
+					proposalData?.proposal_id &&
+					proposalData?.proposal_content_id
+				)
+			) {
+				const { data } = await createProposal(proposalData, addPoll);
 
-				if (data && data?.attributes?.proposal_id) {
-					setProposalData((prev) => ({
-						...prev,
-						id: data?.attributes?.proposal_id,
-						proposal_content_id: data?.id
-					}));
-	
-				} else {
-					throw new Error('Failed to obtain an ID from the created proposal');
+				if (
+					shouldNavigate &&
+					data &&
+					data?.attributes &&
+					data?.attributes?.proposal_id
+				) {
+					router.push(
+						`/proposed-governance-actions/${data?.attributes?.proposal_id}`
+					);
 				}
-			} else {
-				await updateProposalContent(proposalData, links);
+
+				return data?.attributes?.proposal_id;
 			}
 		} catch (error) {
 			console.error('Error handling the proposal creation:', error);
 		}
 	};
-		
-    return (
+
+	return (
 		<>
 			<Grid
 				item
 				sx={{
-					paddingLeft: "20px",
+					paddingLeft: '20px',
 					borderBottom: `1px solid ${theme.palette.border.gray}`,
 				}}
 			>
@@ -72,24 +85,20 @@ const ProposalCreation = () => {
 					Proposed a Governance Action
 				</Typography>
 			</Grid>
-			<Grid 
-				item
-				mt={2}
-				mb={2}
-			>
+			<Grid item mt={2} mb={2}>
 				<Button
-						size="small"
-						startIcon={
-							<IconCheveronLeft
-								width="18"
-								height="18"
-								fill={theme.palette.primary.main}
-							/>
-						}
-						component={Link}
-						href="/proposed-governance-actions"
-					>
-						Show all
+					size="small"
+					startIcon={
+						<IconCheveronLeft
+							width="18"
+							height="18"
+							fill={theme.palette.primary.main}
+						/>
+					}
+					component={Link}
+					href="/proposed-governance-actions"
+				>
+					Show all
 				</Button>
 			</Grid>
 			<Grid
@@ -99,13 +108,7 @@ const ProposalCreation = () => {
 				justifyContent="center"
 				alignContent="center"
 			>
-				<Grid
-					xs={11}
-					md={5}
-					item
-					zIndex={1}
-					maxWidth="940px"
-				>
+				<Grid xs={11} md={5} item zIndex={1} maxWidth="940px">
 					{step === 1 && (
 						<Step1
 							setStep={setStep}
@@ -121,8 +124,6 @@ const ProposalCreation = () => {
 							proposalData={proposalData}
 							setProposalData={setProposalData}
 							handleSaveDraft={handleSaveDraft}
-							links={links}
-							setLinks={setLinks}
 							governanceActionTypes={governanceActionTypes}
 							setGovernanceActionTypes={setGovernanceActionTypes}
 							isSmallScreen={isSmallScreen}
@@ -134,17 +135,15 @@ const ProposalCreation = () => {
 						<Step3
 							setStep={setStep}
 							proposalData={proposalData}
-							links={links}
 							governanceActionTypes={governanceActionTypes}
 							isSmallScreen={isSmallScreen}
+							handleSaveDraft={handleSaveDraft}
 						/>
 					)}
-
 				</Grid>
 			</Grid>
 		</>
-    );
+	);
 };
 
 export default ProposalCreation;
-
