@@ -1,41 +1,41 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { CommentCard } from '@/components';
 import Poll from '@/components/Poll';
 import { createComment, getComments, getSingleProposal } from '@/lib/api';
 import { formatIsoDate } from '@/lib/utils';
 import { Link } from '@/navigation';
 import { useTheme } from '@emotion/react';
-import
-	{
-		IconChatAlt,
-		IconCheveronLeft,
-		IconDotsVertical,
-		IconLink,
-		IconPencilAlt,
-		IconSort,
-		IconThumbDown,
-		IconThumbUp,
-		IconTrash,
-	} from '@intersect.mbo/intersectmbo.org-icons-set';
-import
-	{
-		Badge,
-		Box,
-		Button,
-		Card,
-		CardContent,
-		Grid,
-		IconButton,
-		Menu,
-		MenuItem,
-		Stack,
-		TextField,
-		Typography,
-	} from '@mui/material';
-import { useEffect, useState } from 'react';
+import {
+	IconChatAlt,
+	IconCheveronLeft,
+	IconDotsVertical,
+	IconLink,
+	IconPencilAlt,
+	IconSort,
+	IconThumbDown,
+	IconThumbUp,
+	IconTrash,
+} from '@intersect.mbo/intersectmbo.org-icons-set';
+import {
+	Badge,
+	Box,
+	Button,
+	Card,
+	CardContent,
+	Grid,
+	IconButton,
+	Menu,
+	MenuItem,
+	Stack,
+	TextField,
+	Typography,
+} from '@mui/material';
+import { useAppContext } from '@/context/context';
 
 const ProposalPage = ({ params: { id } }) => {
+	const { user } = useAppContext();
 	const theme = useTheme();
 	const [proposal, setProposal] = useState(null);
 	const [mounted, setMounted] = useState(false);
@@ -76,7 +76,7 @@ const ProposalPage = ({ params: { id } }) => {
 	const handleCreateComment = async () => {
 		try {
 			const newComment = await createComment({
-				user_id: '1',
+				user_id: user?.user?.id.toString(),
 				proposal_id: id,
 				comment_text: newCommentText,
 			});
@@ -492,11 +492,22 @@ const ProposalPage = ({ params: { id } }) => {
 							onChange={(e) => setNewCommentText(e.target.value)}
 						/>
 
-						<Box mt={2} display="flex" justifyContent="flex-end">
+						<Box
+							mt={2}
+							display="flex"
+							justifyContent={user ? 'flex-end' : 'space-between'}
+						>
+							{!user && (
+								<Typography variant="body2">
+									Connect wallet to submit a comment or create
+									proposal
+								</Typography>
+							)}
+
 							<Button
 								variant="contained"
 								onClick={handleCreateComment}
-								disabled={!newCommentText}
+								disabled={!newCommentText || !user}
 							>
 								Comment
 							</Button>

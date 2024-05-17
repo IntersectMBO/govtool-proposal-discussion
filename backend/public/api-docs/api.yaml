@@ -176,6 +176,8 @@ components:
             comment_text:
               type: string
               maximum: 256
+            comment_has_replays:
+              type: boolean
     CommentListResponseDataItem:
       type: object
       properties:
@@ -217,6 +219,8 @@ components:
           type: string
         comment_text:
           type: string
+        comment_has_replays:
+              type: boolean
         createdAt:
           type: string
           format: date-time
