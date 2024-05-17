@@ -11,6 +11,7 @@ let theme = createTheme({
 	palette: {
 		primary: {
 			main: '#0034AE',
+			lightGray: '#F3F4F8',
 			icons: {
 				black: '#212A3D',
 				error: '#CC0000',
@@ -55,7 +56,6 @@ let theme = createTheme({
 });
 
 theme = responsiveFontSizes(theme);
-
 
 function ThemeProviderWrapper({ children }) {
 	return <ThemeProvider theme={theme}>{children}</ThemeProvider>;

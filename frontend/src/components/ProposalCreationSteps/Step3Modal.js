@@ -1,7 +1,7 @@
 import { Box, Modal, Typography, Button } from '@mui/material';
 import { useRouter } from '@/navigation';
 import { useState } from 'react';
-import { IconX } from '@intersect.mbo/intersectmbo.org-icons-set';
+import { IconX, IconClock } from '@intersect.mbo/intersectmbo.org-icons-set';
 
 const style = {
 	position: 'absolute',
@@ -18,19 +18,28 @@ const style = {
 	borderRadius: '20px',
 };
 
-const ChildModal = ({
-	isContinueDisabled,
-	handleSaveDraft,
-	setProposalData,
-	handleClose,
-}) => {
+const AddPollModal = ({ handleSaveDraft }) => {
 	const router = useRouter();
+
 	const [openChildModal, setOpenChildModal] = useState(false);
+	const [isSaving, setIsSaving] = useState(false);
+	const [proposalId, setProposalId] = useState(null);
+
 	const handleOpenChildModal = () => {
 		setOpenChildModal(true);
 	};
 	const handleCloseChildModal = () => {
 		setOpenChildModal(false);
+	};
+
+	const saveDraft = async () => {
+		setIsSaving(true);
+		handleOpenChildModal();
+
+		const newProposalId = await handleSaveDraft(true, false);
+		setProposalId(newProposalId);
+
+		setIsSaving(false);
 	};
 
 	return (
@@ -42,9 +51,9 @@ const ChildModal = ({
 					sx={{
 						borderRadius: '20px',
 					}}
-					onClick={handleClose}
+					onClick={saveDraft}
 				>
-					I don't want to cancel
+					Add poll
 				</Button>
 				<Button
 					variant="outlined"
@@ -52,26 +61,11 @@ const ChildModal = ({
 					sx={{
 						borderRadius: '20px',
 					}}
-					disabled={isContinueDisabled}
 					onClick={() => {
-						handleSaveDraft();
-						handleOpenChildModal();
+						handleSaveDraft(false, true);
 					}}
 				>
-					Yes, cancel & save it as draft
-				</Button>
-				<Button
-					variant="text"
-					fullWidth
-					sx={{
-						borderRadius: '20px',
-					}}
-					onClick={() => {
-						setProposalData({});
-						handleOpenChildModal();
-					}}
-				>
-					Yes, cancel and don't save it
+					Submit without Poll
 				</Button>
 			</Box>
 			<Modal open={openChildModal} onClose={handleCloseChildModal}>
@@ -84,7 +78,7 @@ const ChildModal = ({
 				>
 					<Box
 						display="flex"
-						flexDirection="row"
+						flexDirection="column"
 						justifyContent="space-between"
 					>
 						<Typography
@@ -92,7 +86,14 @@ const ChildModal = ({
 							variant="h6"
 							component="h2"
 						>
-							Proposal successfully canceled
+							Proposal submitted!
+						</Typography>
+						<Typography
+							id="modal-modal-description"
+							mt={2}
+							color={(theme) => theme.palette.text.blueGrey}
+						>
+							Now you can check your proposal
 						</Typography>
 					</Box>
 					<Button
@@ -101,11 +102,20 @@ const ChildModal = ({
 						sx={{
 							borderRadius: '20px',
 						}}
-						onClick={() =>
-							router.push('/proposed-governance-actions')
-						}
+						disabled={isSaving}
+						onClick={() => {
+							if (proposalId) {
+								router.push(
+									`/proposed-governance-actions/${proposalId}`
+								);
+							} else {
+								console.error(
+									'No proposal ID available for navigation'
+								);
+							}
+						}}
 					>
-						Close and go to Proposal List
+						{isSaving ? <IconClock /> : null} Go to my proposal
 					</Button>
 				</Box>
 			</Modal>
@@ -113,13 +123,7 @@ const ChildModal = ({
 	);
 };
 
-const Step1Modal = ({
-	open,
-	handleClose,
-	isContinueDisabled,
-	setProposalData,
-	handleSaveDraft,
-}) => {
+const Step3Modal = ({ open, handleClose, handleSaveDraft }) => {
 	return (
 		<Modal open={open} onClose={handleClose}>
 			<Box sx={style}>
@@ -141,7 +145,7 @@ const Step1Modal = ({
 							variant="h6"
 							component="h2"
 						>
-							Dialog Title
+							We recommend to add poll first
 						</Typography>
 						<Button onClick={handleClose}>
 							<IconX width="24px" height="24px" />
@@ -152,20 +156,15 @@ const Step1Modal = ({
 						mt={2}
 						color={(theme) => theme.palette.text.blueGrey}
 					>
-						A dialog is a type of modal window that appears in front
-						of app content to provide critical information, or
-						prompt for a decision to be made.
+						Is this proposal ready to be submitted on chain?
+						Community can help the proposer making the proposal
+						better.
 					</Typography>
 				</Box>
-				<ChildModal
-					isContinueDisabled={isContinueDisabled}
-					setProposalData={setProposalData}
-					handleSaveDraft={handleSaveDraft}
-					handleClose={handleClose}
-				/>
+				<AddPollModal handleSaveDraft={handleSaveDraft} />
 			</Box>
 		</Modal>
 	);
 };
 
-export default Step1Modal;
+export default Step3Modal;

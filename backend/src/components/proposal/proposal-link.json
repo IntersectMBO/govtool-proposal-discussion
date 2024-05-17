@@ -9,6 +9,9 @@
     "prop_link": {
       "type": "text",
       "maxLength": 300
+    },
+    "prop_text": {
+      "type": "string"
     }
   }
 }
