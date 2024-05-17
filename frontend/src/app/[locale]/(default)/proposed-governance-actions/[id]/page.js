@@ -2,7 +2,15 @@
 
 import { CommentCard } from '@/components';
 import Poll from '@/components/Poll';
-import { createComment, getComments, getSingleProposal } from '@/lib/api';
+import { useAppContext } from '@/context/context';
+import {
+	createComment,
+	createProposalLikeOrDislike,
+	getComments,
+	getSingleProposal,
+	getUserProposalVote,
+	updateProposalLikesOrDislikes,
+} from '@/lib/api';
 import { formatIsoDate } from '@/lib/utils';
 import { Link } from '@/navigation';
 import { useTheme } from '@emotion/react';
@@ -36,11 +44,13 @@ import
 import { useEffect, useState } from 'react';
 
 const ProposalPage = ({ params: { id } }) => {
+	const { user } = useAppContext();
 	const theme = useTheme();
 	const [proposal, setProposal] = useState(null);
 	const [mounted, setMounted] = useState(false);
 	const [commentsList, setCommentsList] = useState([]);
 	const [newCommentText, setNewCommentText] = useState('');
+	const [userProposalVote, setUserProposalVote] = useState(null);
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
@@ -56,6 +66,15 @@ const ProposalPage = ({ params: { id } }) => {
 			const response = await getSingleProposal(id);
 			if (!response) return;
 			setProposal(response);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const fetchProposalVote = async (id) => {
+		try {
+			const response = await getUserProposalVote({ proposalID: id });
+			setUserProposalVote(response);
 		} catch (error) {
 			console.error(error);
 		}
@@ -90,14 +109,42 @@ const ProposalPage = ({ params: { id } }) => {
 		}
 	};
 
+	const updateLikesOrDislikes = async ({ like = true }) => {
+		try {
+			let data = userProposalVote
+				? {
+						vote_result: !userProposalVote?.attributes?.vote_result,
+				  }
+				: {
+						proposal_id: id,
+						vote_result: like,
+				  };
+
+			const response = userProposalVote
+				? await updateProposalLikesOrDislikes({
+						proposalVoteID: userProposalVote?.id,
+						updateData: data,
+				  })
+				: await createProposalLikeOrDislike({ createData: data });
+
+			if (!response) return;
+
+			setUserProposalVote(response);
+			fetchProposal(id);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	useEffect(() => {
 		if (!mounted) {
 			setMounted(true);
 		} else {
 			fetchProposal(id);
 			fetchComments();
+			if (user) fetchProposalVote(id);
 		}
-	}, [id, mounted]);
+	}, [id, mounted, user]);
 	return (
 		<Box>
 			<Box mt={3}>
@@ -388,11 +435,31 @@ const ProposalPage = ({ params: { id } }) => {
 								<IconChatAlt />
 							</IconButton>
 							<Box display={'flex'} gap={1}>
+								{/* LIKE BUTTON */}
 								<IconButton
 									sx={{
 										border: (theme) =>
 											`1px solid ${theme.palette.iconButton.outlineLightColor}`,
 									}}
+									disabled={
+										user
+											? userProposalVote
+												? userProposalVote?.attributes
+														?.vote_result === true
+													? true
+													: false
+												: false
+											: true
+									}
+									onClick={() =>
+										user &&
+										userProposalVote?.attributes
+											?.vote_result === true
+											? null
+											: updateLikesOrDislikes({
+													like: true,
+											  })
+									}
 								>
 									<Badge
 										badgeContent={
@@ -411,13 +478,50 @@ const ProposalPage = ({ params: { id } }) => {
 											},
 										}}
 									></Badge>
-									<IconThumbUp />
+									<IconThumbUp
+										fill={
+											user
+												? userProposalVote
+													? userProposalVote
+															?.attributes
+															?.vote_result ===
+													  true
+														? theme?.palette
+																?.primary?.main
+														: theme?.palette
+																?.primary?.icons
+																?.black
+													: theme?.palette?.primary
+															?.icons?.black
+												: theme?.palette?.primary?.icons
+														?.black
+										}
+									/>
 								</IconButton>
+								{/* DISLIKE BUTTON */}
 								<IconButton
 									sx={{
 										border: (theme) =>
 											`1px solid ${theme.palette.iconButton.outlineLightColor}`,
 									}}
+									disabled={
+										user
+											? userProposalVote
+												? userProposalVote?.attributes
+														?.vote_result === false
+													? true
+													: false
+												: false
+											: true
+									}
+									onClick={() =>
+										userProposalVote?.attributes
+											?.vote_result === false
+											? null
+											: updateLikesOrDislikes({
+													like: false,
+											  })
+									}
 								>
 									<Badge
 										badgeContent={
@@ -436,7 +540,25 @@ const ProposalPage = ({ params: { id } }) => {
 											},
 										}}
 									></Badge>
-									<IconThumbDown />
+									<IconThumbDown
+										fill={
+											user
+												? userProposalVote
+													? userProposalVote
+															?.attributes
+															?.vote_result ===
+													  false
+														? theme?.palette
+																?.primary?.main
+														: theme?.palette
+																?.primary?.icons
+																?.black
+													: theme?.palette?.primary
+															?.icons?.black
+												: theme?.palette?.primary?.icons
+														?.black
+										}
+									/>
 								</IconButton>
 							</Box>
 						</Box>

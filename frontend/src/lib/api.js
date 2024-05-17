@@ -179,3 +179,46 @@ export const createComment = async (commentData) => {
 		console.error(error);
 	}
 };
+
+export const createProposalLikeOrDislike = async ({ createData }) => {
+	try {
+		const { data } = await axiosInstance.post(`api/proposal-votes`, {
+			data: {
+				...createData,
+			},
+		});
+		return data?.data;
+	} catch (error) {
+		throw error;
+	}
+};
+export const updateProposalLikesOrDislikes = async ({
+	proposalVoteID,
+	updateData,
+}) => {
+	try {
+		const { data } = await axiosInstance.put(
+			`api/proposal-votes/${proposalVoteID}`,
+			{
+				data: {
+					...updateData,
+				},
+			}
+		);
+		return data?.data;
+	} catch (error) {
+		throw error;
+	}
+};
+
+export const getUserProposalVote = async ({ proposalID }) => {
+	try {
+		const { data } = await axiosInstance.get(
+			`/api/proposal-votes?filters[proposal_id][$eq]=${proposalID}`
+		);
+
+		return data.data;
+	} catch (error) {
+		return error;
+	}
+};
