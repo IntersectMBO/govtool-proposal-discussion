@@ -1,37 +1,39 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { CommentCard } from '@/components';
-import { getSingleProposal, getComments, createComment } from '@/lib/api';
+import Poll from '@/components/Poll';
+import { createComment, getComments, getSingleProposal } from '@/lib/api';
 import { formatIsoDate } from '@/lib/utils';
 import { Link } from '@/navigation';
 import { useTheme } from '@emotion/react';
-import {
-	IconChatAlt,
-	IconCheveronLeft,
-	IconDotsVertical,
-	IconLink,
-	IconPencilAlt,
-	IconSort,
-	IconThumbDown,
-	IconThumbUp,
-	IconTrash,
-} from '@intersect.mbo/intersectmbo.org-icons-set';
-import {
-	Badge,
-	Box,
-	Button,
-	Card,
-	CardContent,
-	Grid,
-	IconButton,
-	Menu,
-	MenuItem,
-	Stack,
-	TextField,
-	Typography,
-} from '@mui/material';
-import { useAppContext } from '@/context/context';
+import
+	{
+		IconChatAlt,
+		IconCheveronLeft,
+		IconDotsVertical,
+		IconLink,
+		IconPencilAlt,
+		IconSort,
+		IconThumbDown,
+		IconThumbUp,
+		IconTrash,
+	} from '@intersect.mbo/intersectmbo.org-icons-set';
+import
+	{
+		Badge,
+		Box,
+		Button,
+		Card,
+		CardContent,
+		Grid,
+		IconButton,
+		Menu,
+		MenuItem,
+		Stack,
+		TextField,
+		Typography,
+	} from '@mui/material';
+import { useEffect, useState } from 'react';
 
 const ProposalPage = ({ params: { id } }) => {
 	const theme = useTheme();
@@ -467,25 +469,10 @@ const ProposalPage = ({ params: { id } }) => {
 			</Box>
 
 			<Box mt={4}>
-				<Card>
-					<CardContent>
-						<Typography variant="body1">
-							Do you want to check if your proposalContent is
-							ready to be submitted as a Governance Action?
-						</Typography>
-
-						<Typography variant="body2">
-							Poll will be pinned to top of your comments list.
-							You can close poll any time you like. Every next
-							poll will close previous one. Previous polls will be
-							displayed as a comment in the comments feed.
-						</Typography>
-
-						<Box mt={2} display="flex" justifyContent="flex-end">
-							<Button variant="contained">Add Poll</Button>
-						</Box>
-					</CardContent>
-				</Card>
+				<Poll
+					proposalID={id}
+					proposalUserId={proposal?.attributes?.user_id}
+				/>
 			</Box>
 
 			<Box mt={4}>

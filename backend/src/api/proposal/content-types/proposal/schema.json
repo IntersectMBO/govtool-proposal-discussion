@@ -20,10 +20,6 @@
       "type": "integer",
       "default": 0
     },
-    "prop_poll_active": {
-      "type": "boolean",
-      "default": false
-    },
     "prop_comments_number": {
       "type": "integer",
       "default": 0

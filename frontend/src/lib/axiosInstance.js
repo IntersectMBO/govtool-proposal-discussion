@@ -1,5 +1,6 @@
 // Import the Axios library, which is used for making HTTP requests.
 import axios from "axios";
+import { getDataFromSession } from './helpers';
 
 // Define the base URL for the Axios instance. This uses an environment variable for flexibility,
 // defaulting to "http://localhost:1337" if the environment variable is not set.
@@ -11,6 +12,15 @@ const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
 // for all the requests, making it unnecessary to repeatedly specify the baseURL in every request.
 const axiosInstance = axios.create({
 	baseURL,
+});
+
+axiosInstance.interceptors.request.use((config) => {
+	const token =
+		typeof window !== 'undefined' && getDataFromSession('pdfUserJwt');
+	if (token) {
+		config.headers['Authorization'] = `Bearer ${token}`;
+	}
+	return config;
 });
 
 // Export the customized Axios instance for use throughout the application.

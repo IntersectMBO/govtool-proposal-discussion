@@ -967,7 +967,6 @@ export interface ApiProposalProposal extends Schema.CollectionType {
   attributes: {
     prop_likes: Attribute.Integer & Attribute.DefaultTo<0>;
     prop_dislikes: Attribute.Integer & Attribute.DefaultTo<0>;
-    prop_poll_active: Attribute.Boolean & Attribute.DefaultTo<false>;
     prop_comments_number: Attribute.Integer & Attribute.DefaultTo<0>;
     prop_submited: Attribute.Boolean & Attribute.DefaultTo<false>;
     prop_status_id: Attribute.String;
