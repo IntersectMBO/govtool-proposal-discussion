@@ -1,7 +1,7 @@
-import { Button, TextField, Box } from '@mui/material';
-import { IconPlus, IconX } from '@intersect.mbo/intersectmbo.org-icons-set';
-import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@emotion/react';
+import { IconPlus, IconX } from '@intersect.mbo/intersectmbo.org-icons-set';
+import { Box, Button, TextField } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 
 const LinkManager = ({ maxLinks = 7, proposalData, setProposalData }) => {
 	const theme = useTheme();
@@ -86,11 +86,11 @@ const LinkManager = ({ maxLinks = 7, proposalData, setProposalData }) => {
 							label={`Link #${index + 1} Text`}
 							variant="outlined"
 							fullWidth
-							value={link.prop_text || ''}
+							value={link.prop_link_text || ''}
 							onChange={(e) =>
 								handleLinkChange(
 									index,
-									'prop_text',
+									'prop_link_text',
 									e.target.value
 								)
 							}

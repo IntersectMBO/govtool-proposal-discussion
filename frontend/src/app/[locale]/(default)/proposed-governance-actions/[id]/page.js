@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { CommentCard } from '@/components';
 import Poll from '@/components/Poll';
 import { useAppContext } from '@/context/context';
@@ -40,7 +39,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import { useAppContext } from '@/context/context';
+import { useEffect, useState } from 'react';
 
 const ProposalPage = ({ params: { id } }) => {
 	const { user } = useAppContext();

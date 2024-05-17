@@ -1,15 +1,17 @@
+import { Step3Modal } from '@/components/ProposalCreationSteps';
+import { useTheme } from '@emotion/react';
+import {
+	IconLink,
+	IconPencil,
+} from '@intersect.mbo/intersectmbo.org-icons-set';
 import {
 	Box,
+	Button,
 	Card,
 	CardContent,
-	Typography,
-	Button,
 	Link,
+	Typography,
 } from '@mui/material';
-import { IconPencil } from '@intersect.mbo/intersectmbo.org-icons-set';
-import { useTheme } from '@emotion/react';
-import { IconLink } from '@intersect.mbo/intersectmbo.org-icons-set';
-import { Step3Modal } from '@/components/ProposalCreationSteps';
 import { useState } from 'react';
 
 const Step3 = ({
@@ -168,7 +170,7 @@ const Step3 = ({
 											variant="body1"
 											component="span"
 										>
-											{link?.prop_text}
+											{link?.prop_link_text}
 										</Typography>
 									</Box>
 								)
