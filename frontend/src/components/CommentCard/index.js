@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import { Box, Card, CardContent, Typography, Link } from '@mui/material';
-import {
-	IconPlusCircle,
-	IconMinusCircle,
-} from '@intersect.mbo/intersectmbo.org-icons-set';
-import { useTheme } from '@emotion/react';
 import { getComments } from '@/lib/api';
+import { formatPollDateDisplay } from '@/lib/utils';
+import { useTheme } from '@emotion/react';
+import {
+	IconMinusCircle,
+	IconPlusCircle,
+} from '@intersect.mbo/intersectmbo.org-icons-set';
+import { Box, Card, CardContent, Link, Typography } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
 const CommentCard = ({ comment }) => {
 	const theme = useTheme();
 	const maxLength = 128;
@@ -144,7 +145,7 @@ const CommentCard = ({ comment }) => {
 				>
 					<Typography variant="h6">@Authourusername</Typography>
 					<Typography variant="overline">
-						10/01/2024 - 10:48AM UTC
+						{formatPollDateDisplay(comment?.attributes?.createdAt)}
 					</Typography>
 					<Typography
 						variant="body2"
