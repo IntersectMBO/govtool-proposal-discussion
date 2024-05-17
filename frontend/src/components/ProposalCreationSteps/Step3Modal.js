@@ -1,7 +1,7 @@
-import { Box, Modal, Typography, Button } from '@mui/material';
 import { useRouter } from '@/navigation';
+import { IconClock, IconX } from '@intersect.mbo/intersectmbo.org-icons-set';
+import { Box, Button, Modal, Typography } from '@mui/material';
 import { useState } from 'react';
-import { IconX, IconClock } from '@intersect.mbo/intersectmbo.org-icons-set';
 
 const style = {
 	position: 'absolute',
@@ -91,7 +91,7 @@ const AddPollModal = ({ handleSaveDraft }) => {
 						<Typography
 							id="modal-modal-description"
 							mt={2}
-							color={(theme) => theme.palette.text.blueGrey}
+							color={(theme) => theme.palette.text.grey}
 						>
 							Now you can check your proposal
 						</Typography>
@@ -154,7 +154,7 @@ const Step3Modal = ({ open, handleClose, handleSaveDraft }) => {
 					<Typography
 						id="modal-modal-description"
 						mt={2}
-						color={(theme) => theme.palette.text.blueGrey}
+						color={(theme) => theme.palette.text.grey}
 					>
 						Is this proposal ready to be submitted on chain?
 						Community can help the proposer making the proposal

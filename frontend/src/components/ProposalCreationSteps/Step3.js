@@ -82,7 +82,7 @@ const Step3 = ({
 					<Box>
 						<Typography
 							variant="body1"
-							color={theme.palette.text.blueGrey}
+							color={theme.palette.text.grey}
 							gutterBottom
 						>
 							Goverance Action Type
@@ -101,7 +101,7 @@ const Step3 = ({
 					<Box>
 						<Typography
 							variant="body1"
-							color={theme.palette.text.blueGrey}
+							color={theme.palette.text.grey}
 							gutterBottom
 						>
 							Abstrtact
@@ -114,7 +114,7 @@ const Step3 = ({
 					<Box>
 						<Typography
 							variant="body1"
-							color={theme.palette.text.blueGrey}
+							color={theme.palette.text.grey}
 							gutterBottom
 						>
 							Motivation
@@ -127,7 +127,7 @@ const Step3 = ({
 					<Box>
 						<Typography
 							variant="body1"
-							color={theme.palette.text.blueGrey}
+							color={theme.palette.text.grey}
 							gutterBottom
 						>
 							Rationale
@@ -140,7 +140,7 @@ const Step3 = ({
 					<Box>
 						<Typography
 							variant="body1"
-							color={theme.palette.text.blueGrey}
+							color={theme.palette.text.grey}
 							gutterBottom
 						>
 							Supporting links
