@@ -2,8 +2,8 @@
 
 import { useAppContext } from '@/context/context';
 import { connectWallet } from "@/lib/helpers";
-import { Box, Button, Typography } from "@mui/material";
 import { useRouter } from '@/navigation';
+import { Box, Button, Typography } from '@mui/material';
 
 const Header = () => {
 	const router = useRouter();

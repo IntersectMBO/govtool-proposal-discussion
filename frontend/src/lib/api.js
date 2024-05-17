@@ -116,3 +116,29 @@ export const updateProposalContent = async (proposalContent, links) => {
         console.error(error)
     }
 }
+
+export const getPoll = async ({ proposalID }) => {
+	try {
+		const { data } = await axiosInstance.get(
+			`/api/polls?filters[proposal_id][$eq]=${proposalID}&pagination[page]=1&pagination[pageSize]=1&sort[createdAt]=desc`
+		);
+
+		if (data?.data && data?.data?.length > 0) {
+			return data.data[0];
+		} else {
+			return null;
+		}
+	} catch (error) {
+		throw error;
+	}
+};
+
+export const createPoll = async ({ pollData }) => {
+	try {
+		const { data } = await axiosInstance.post(`/api/polls`, pollData);
+
+		return data?.data;
+	} catch (error) {
+		throw error;
+	}
+};

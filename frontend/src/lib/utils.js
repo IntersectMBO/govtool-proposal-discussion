@@ -4,16 +4,16 @@
 // Additionally, this file may contain functions for testing purposes, providing a toolkit for verifying the correctness and efficiency of larger functions.
 // By centralizing these utilities, we promote a modular and maintainable codebase, facilitating ease of development and testing.
 
+import { format } from 'date-fns';
+
 export const formatIsoDate = (isoDate) => {
-	if (!isoDate) return "";
-	const date = new Date(isoDate);
-	let dateString = new Intl.DateTimeFormat("en-US", {
-		day: "numeric",
-		month: "long",
-		year: "numeric",
-	})
-		?.format(date)
-		?.replace(",", "");
-	let parts = dateString.split(" ");
-	return parts[1] + " " + parts[0] + " " + parts[2];
+	if (!isoDate) return '';
+
+	return format(new Date(isoDate), 'd MMMM yyyy');
+};
+
+export const formatPollDateDisplay = (dateString) => {
+	if (!dateString) return '';
+
+	return `${format(new Date(dateString), 'dd/MM/yyyy - p')} UTC`;
 };

@@ -14,8 +14,28 @@ export const connectWallet = async (walletName) => {
 			identifier: rawWalletAddress,
 		});
 
+		saveDataInSession('pdfUserJwt', user?.jwt);
+
 		return user;
 	} catch (error) {
 		throw new Error('Error connecting the wallet.');
 	}
+};
+
+export const saveDataInSession = (key, value) => {
+	const data = { value, timestamp: new Date().getTime() };
+	sessionStorage.setItem(key, JSON.stringify(data));
+};
+
+export const getDataFromSession = (key) => {
+	const data = JSON.parse(sessionStorage.getItem(key));
+	if (data) {
+		return data.value;
+	} else {
+		return null;
+	}
+};
+
+export const clearSession = () => {
+	sessionStorage.removeItem('pdfUserJwt');
 };

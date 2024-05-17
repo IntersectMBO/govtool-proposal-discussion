@@ -1,6 +1,7 @@
 'use client';
 
 import { CommentCard } from '@/components';
+import Poll from '@/components/Poll';
 import { getSingleProposal } from '@/lib/api';
 import { formatIsoDate } from '@/lib/utils';
 import { Link } from '@/navigation';
@@ -434,25 +435,10 @@ const ProposalPage = ({ params: { id } }) => {
 			</Box>
 
 			<Box mt={4}>
-				<Card>
-					<CardContent>
-						<Typography variant="body1">
-							Do you want to check if your proposalContent is
-							ready to be submitted as a Governance Action?
-						</Typography>
-
-						<Typography variant="body2">
-							Poll will be pinned to top of your comments list.
-							You can close poll any time you like. Every next
-							poll will close previous one. Previous polls will be
-							displayed as a comment in the comments feed.
-						</Typography>
-
-						<Box mt={2} display="flex" justifyContent="flex-end">
-							<Button variant="contained">Add Poll</Button>
-						</Box>
-					</CardContent>
-				</Card>
+				<Poll
+					proposalID={id}
+					proposalUserId={proposal?.attributes?.user_id}
+				/>
 			</Box>
 
 			<Box mt={4}>
