@@ -1,7 +1,7 @@
-import { Box, Modal, Typography, Button } from '@mui/material';
 import { useRouter } from '@/navigation';
-import { useState } from 'react';
 import { IconX } from '@intersect.mbo/intersectmbo.org-icons-set';
+import { Box, Button, Modal, Typography } from '@mui/material';
+import { useState } from 'react';
 
 const style = {
 	position: 'absolute',
@@ -150,7 +150,7 @@ const Step1Modal = ({
 					<Typography
 						id="modal-modal-description"
 						mt={2}
-						color={(theme) => theme.palette.text.blueGrey}
+						color={(theme) => theme.palette.text.grey}
 					>
 						A dialog is a type of modal window that appears in front
 						of app content to provide critical information, or

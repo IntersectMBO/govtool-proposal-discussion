@@ -31,7 +31,6 @@ let theme = createTheme({
 		},
 		text: {
 			grey: '#506288',
-			blueGrey: '#506288',
 			darkPurple: '#242232',
 			black: '#212A3D',
 			orange: '#E76309',

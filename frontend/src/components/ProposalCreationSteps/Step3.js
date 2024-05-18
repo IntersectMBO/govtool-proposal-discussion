@@ -1,15 +1,17 @@
+import { Step3Modal } from '@/components/ProposalCreationSteps';
+import { useTheme } from '@emotion/react';
+import {
+	IconLink,
+	IconPencil,
+} from '@intersect.mbo/intersectmbo.org-icons-set';
 import {
 	Box,
+	Button,
 	Card,
 	CardContent,
-	Typography,
-	Button,
 	Link,
+	Typography,
 } from '@mui/material';
-import { IconPencil } from '@intersect.mbo/intersectmbo.org-icons-set';
-import { useTheme } from '@emotion/react';
-import { IconLink } from '@intersect.mbo/intersectmbo.org-icons-set';
-import { Step3Modal } from '@/components/ProposalCreationSteps';
 import { useState } from 'react';
 
 const Step3 = ({
@@ -80,7 +82,7 @@ const Step3 = ({
 					<Box>
 						<Typography
 							variant="body1"
-							color={theme.palette.text.blueGrey}
+							color={theme.palette.text.grey}
 							gutterBottom
 						>
 							Goverance Action Type
@@ -99,7 +101,7 @@ const Step3 = ({
 					<Box>
 						<Typography
 							variant="body1"
-							color={theme.palette.text.blueGrey}
+							color={theme.palette.text.grey}
 							gutterBottom
 						>
 							Abstrtact
@@ -112,7 +114,7 @@ const Step3 = ({
 					<Box>
 						<Typography
 							variant="body1"
-							color={theme.palette.text.blueGrey}
+							color={theme.palette.text.grey}
 							gutterBottom
 						>
 							Motivation
@@ -125,7 +127,7 @@ const Step3 = ({
 					<Box>
 						<Typography
 							variant="body1"
-							color={theme.palette.text.blueGrey}
+							color={theme.palette.text.grey}
 							gutterBottom
 						>
 							Rationale
@@ -138,7 +140,7 @@ const Step3 = ({
 					<Box>
 						<Typography
 							variant="body1"
-							color={theme.palette.text.blueGrey}
+							color={theme.palette.text.grey}
 							gutterBottom
 						>
 							Supporting links
@@ -168,7 +170,7 @@ const Step3 = ({
 											variant="body1"
 											component="span"
 										>
-											{link?.prop_text}
+											{link?.prop_link_text}
 										</Typography>
 									</Box>
 								)

@@ -1,6 +1,6 @@
-import { Box, Card, CardContent, Typography, Button } from '@mui/material';
-import { useState } from 'react';
 import { Step1Modal } from '@/components/ProposalCreationSteps';
+import { Box, Button, Card, CardContent, Typography } from '@mui/material';
+import { useState } from 'react';
 
 const Step1 = ({
 	setStep,
@@ -52,7 +52,7 @@ const Step1 = ({
 				<Box
 					gap={2}
 					textAlign="justify"
-					color={(theme) => theme.palette.text.blueGrey}
+					color={(theme) => theme.palette.text.grey}
 				>
 					<ul>
 						<li>
