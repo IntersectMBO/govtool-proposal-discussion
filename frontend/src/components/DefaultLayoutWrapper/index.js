@@ -46,8 +46,12 @@ const DefaultLayoutWrapper = ({ children }) => {
 				flexGrow={1}
 				sx={{
 					p: 0,
-					backgroundColor: (theme) =>
-						theme.palette.background.default,
+
+					backgroundImage: `url('/svg/background-1.svg'), url('/svg/background-2.svg')`,
+					backgroundRepeat: 'no-repeat, no-repeat',
+					backgroundPosition: 'top left, bottom right',
+					backgroundSize: 'auto, auto',
+
 					height: {
 						xs: `calc(100dvh - ${mobileNavHeight}px)`,
 						md: '100dvh',
@@ -61,7 +65,9 @@ const DefaultLayoutWrapper = ({ children }) => {
 				}}
 			>
 				<Header />
+
 				{children}
+
 				<Footer sx={{ mt: 'auto', pt: 4 }} />
 			</Box>
 		</Box>
