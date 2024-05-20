@@ -1,7 +1,9 @@
 'use client';
-import { Footer, Header, MobileNavbar, Sidebar } from "@/components";
-import { Box } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { Footer, Header, MobileNavbar, Sidebar } from '@/components';
+import { Box } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const DefaultLayoutWrapper = ({ children }) => {
 	const mobileNavRef = useRef();
@@ -19,9 +21,9 @@ const DefaultLayoutWrapper = ({ children }) => {
 			setWindowWidth(window?.innerWidth);
 		};
 
-		window?.addEventListener("resize", handleResize);
+		window?.addEventListener('resize', handleResize);
 
-		return () => window?.removeEventListener("resize", handleResize);
+		return () => window?.removeEventListener('resize', handleResize);
 	}, []);
 
 	useEffect(() => {
@@ -39,8 +41,8 @@ const DefaultLayoutWrapper = ({ children }) => {
 
 			<Box
 				component="main"
-				display={"flex"}
-				flexDirection={"column"}
+				display={'flex'}
+				flexDirection={'column'}
 				flexGrow={1}
 				sx={{
 					p: 0,
@@ -48,19 +50,19 @@ const DefaultLayoutWrapper = ({ children }) => {
 						theme.palette.background.default,
 					height: {
 						xs: `calc(100dvh - ${mobileNavHeight}px)`,
-						md: "100dvh",
+						md: '100dvh',
 					},
 					padding: {
 						xs: `20px`,
 						md: `20px 20px 20px ${drawerWidth + 40}px`,
 					},
 
-					overflow: "auto",
+					overflow: 'auto',
 				}}
 			>
 				<Header />
 				{children}
-				<Footer sx={{ mt: "auto", pt: 4 }} />
+				<Footer sx={{ mt: 'auto', pt: 4 }} />
 			</Box>
 		</Box>
 	);
