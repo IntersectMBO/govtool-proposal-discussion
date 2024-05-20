@@ -178,5 +178,79 @@ module.exports = createCoreController(
         ctx.body = { error: error, message: error.message };
       }
     },
+    async delete(ctx) {
+      const { id } = ctx.params;
+
+      try {
+        // Delete proposal
+        let deletedProposal = await strapi.entityService.delete(
+          'api::proposal.proposal',
+          id
+        );
+
+        if (!deletedProposal) {
+          throw new Error('Proposal not found or delete failed');
+        }
+
+        // Delete proposal content
+        await strapi.db
+          .query('api::proposal-content.proposal-content')
+          .deleteMany({
+            where: {
+              proposal_id: id,
+            },
+          });
+
+        // Handling proposal submitions
+        await strapi.db
+          .query('api::proposal-submition.proposal-submition')
+          .deleteMany({
+            where: {
+              proposal_id: id,
+            },
+          });
+
+        // Delete proposal votes
+        await strapi.db.query('api::proposal-vote.proposal-vote').deleteMany({
+          where: {
+            proposal_id: id,
+          },
+        });
+
+        // Delete comments
+        await strapi.db.query('api::comment.comment').deleteMany({
+          where: {
+            proposal_id: id,
+          },
+        });
+
+        // Handling polls and poll votes
+        const polls = await strapi.db.query('api::poll.poll').findMany({
+          where: {
+            proposal_id: id,
+          },
+        });
+
+        for (const poll of polls) {
+          await strapi.db.query('api::poll-vote.poll-vote').deleteMany({
+            where: {
+              poll_id: poll.id,
+            },
+          });
+        }
+
+        await strapi.db.query('api::poll.poll').deleteMany({
+          where: {
+            proposal_id: id,
+          },
+        });
+
+        return this.transformResponse(deletedProposal);
+      } catch (error) {
+        return ctx.badRequest('Failed to delete proposal and related data', {
+          error: error.message,
+        });
+      }
+    },
   })
 );

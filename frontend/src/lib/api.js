@@ -61,6 +61,18 @@ export const createProposal = async (data, addPoll) => {
 	}
 };
 
+export const deleteProposal = async (proposalId) => {
+	try {
+		const response = await axiosInstance.delete(
+			`/api/proposals/${proposalId}`
+		);
+
+		return response?.data;
+	} catch (e) {
+		console.error(e);
+	}
+};
+
 export const getPoll = async ({ proposalID }) => {
 	try {
 		const { data } = await axiosInstance.get(
