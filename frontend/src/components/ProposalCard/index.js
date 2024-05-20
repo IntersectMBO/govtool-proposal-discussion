@@ -5,7 +5,7 @@ import {
 	IconInformationCircle,
 	IconPencilAlt,
 	IconShare,
-} from "@intersect.mbo/intersectmbo.org-icons-set";
+} from '@intersect.mbo/intersectmbo.org-icons-set';
 import {
 	Badge,
 	Box,
@@ -15,11 +15,11 @@ import {
 	CardHeader,
 	IconButton,
 	Typography,
-} from "@mui/material";
+} from '@mui/material';
 
-import { formatIsoDate } from "@/lib/utils";
-import { Link } from "@/navigation";
-import { useTheme } from "@emotion/react";
+import { formatIsoDate } from '@/lib/utils';
+import { Link } from '@/navigation';
+import { useTheme } from '@emotion/react';
 
 const ProposalCard = ({ proposal }) => {
 	const theme = useTheme();
@@ -27,7 +27,11 @@ const ProposalCard = ({ proposal }) => {
 	return (
 		<Card
 			raised
-			sx={{ display: "flex", flexDirection: "column", width: "100%" }}
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				width: '100%',
+			}}
 		>
 			<CardHeader
 				action={
@@ -40,12 +44,12 @@ const ProposalCard = ({ proposal }) => {
 						variant="h6"
 						component="h3"
 						sx={{
-							display: "-webkit-box",
-							WebkitBoxOrient: "vertical",
+							display: '-webkit-box',
+							WebkitBoxOrient: 'vertical',
 							WebkitLineClamp: 2,
 							lineClamp: 2,
-							overflow: "hidden",
-							textOverflow: "ellipsis",
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
 						}}
 					>
 						{proposal?.attributes?.content?.attributes?.prop_name}
@@ -54,12 +58,12 @@ const ProposalCard = ({ proposal }) => {
 			/>
 			<CardContent
 				sx={{
-					display: "flex",
-					flexDirection: "column",
+					display: 'flex',
+					flexDirection: 'column',
 					flexGrow: 1,
 				}}
 			>
-				<Box display={"flex"} flexDirection={"column"} gap={2} mb={3}>
+				<Box display={'flex'} flexDirection={'column'} gap={2} mb={3}>
 					<Box>
 						<Typography
 							variant="caption"
@@ -73,12 +77,12 @@ const ProposalCard = ({ proposal }) => {
 							component="p"
 							color="text.darkPurple"
 							sx={{
-								display: "-webkit-box",
-								WebkitBoxOrient: "vertical",
+								display: '-webkit-box',
+								WebkitBoxOrient: 'vertical',
 								WebkitLineClamp: 3,
 								lineClamp: 3,
-								overflow: "hidden",
-								textOverflow: "ellipsis",
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
 							}}
 						>
 							{
@@ -108,17 +112,17 @@ const ProposalCard = ({ proposal }) => {
 					</Box>
 				</Box>
 				<Box
-					display={"flex"}
-					flexDirection={"column"}
-					mt={"auto"}
+					display={'flex'}
+					flexDirection={'column'}
+					mt={'auto'}
 					gap={3}
 					pt={3}
 				>
 					<Box
-						display={"flex"}
-						flexDirection={"row"}
-						justifyContent={"center"}
-						alignItems={"center"}
+						display={'flex'}
+						flexDirection={'row'}
+						justifyContent={'center'}
+						alignItems={'center'}
 						gap={1}
 					>
 						<IconInformationCircle
@@ -135,11 +139,11 @@ const ProposalCard = ({ proposal }) => {
 						</Typography>
 					</Box>
 					<Box
-						display={"flex"}
-						flexDirection={"row"}
-						justifyContent={"space-between"}
+						display={'flex'}
+						flexDirection={'row'}
+						justifyContent={'space-between'}
 					>
-						<Box display={"flex"} gap={1}>
+						<Box display={'flex'} gap={1}>
 							<IconButton>
 								<Badge
 									badgeContent={
@@ -149,9 +153,9 @@ const ProposalCard = ({ proposal }) => {
 									aria-label="comments"
 									showZero
 									sx={{
-										transform: "translate(30px, -20px)",
-										"& .MuiBadge-badge": {
-											color: "white",
+										transform: 'translate(30px, -20px)',
+										'& .MuiBadge-badge': {
+											color: 'white',
 											backgroundColor: (theme) =>
 												theme.palette.badgeColors.error,
 										},

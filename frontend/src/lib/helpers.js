@@ -7,6 +7,7 @@ import { loginUser } from '@/lib/api';
 
 export const connectWallet = async (walletName) => {
 	try {
+		clearSession();
 		const walletApi = await window.cardano[walletName].enable();
 		const rawWalletAddress = await walletApi.getChangeAddress();
 
