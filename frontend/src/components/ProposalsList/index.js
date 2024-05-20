@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useRef } from 'react';
-import { Box, Typography, Button, IconButton } from '@mui/material';
+import React, { useRef, useState } from 'react';
+import { Box, Typography, Button, IconButton, Grid } from '@mui/material';
 import {
 	IconCheveronLeft,
 	IconCheveronRight,
@@ -12,6 +12,8 @@ import { settings } from '@/lib/carouselSettings';
 
 const ProposalsList = ({ proposals }) => {
 	const sliderRef = useRef(null);
+
+	const [showAll, setShowAll] = useState(false);
 	return (
 		<Box overflow={'hidden'}>
 			<Box
@@ -28,33 +30,56 @@ const ProposalsList = ({ proposals }) => {
 					>
 						Info
 					</Typography>
-					<Button variant="outlined">Show all</Button>
+					<Button
+						variant="outlined"
+						onClick={() => setShowAll((prev) => !prev)}
+					>
+						Show all
+					</Button>
 				</Box>
 
-				<Box display={'flex'} alignItems={'center'}>
-					<IconButton onClick={() => sliderRef.current.slickPrev()}>
-						<IconCheveronLeft width={24} height={24} />
-					</IconButton>
-					<IconButton onClick={() => sliderRef.current.slickNext()}>
-						<IconCheveronRight width={24} height={24} />
-					</IconButton>
+				{!showAll && (
+					<Box display={'flex'} alignItems={'center'}>
+						<IconButton
+							onClick={() => sliderRef.current.slickPrev()}
+						>
+							<IconCheveronLeft width={24} height={24} />
+						</IconButton>
+						<IconButton
+							onClick={() => sliderRef.current.slickNext()}
+						>
+							<IconCheveronRight width={24} height={24} />
+						</IconButton>
+					</Box>
+				)}
+			</Box>
+
+			{showAll ? (
+				<Box>
+					<Grid container spacing={2} paddingY={4} paddingX={2}>
+						{proposals?.map((proposal, index) => (
+							<Grid item key={index} xs={12} sm={6} md={4}>
+								<ProposalCard proposal={proposal} />
+							</Grid>
+						))}
+					</Grid>
 				</Box>
-			</Box>
+			) : (
+				<Box>
+					<Slider ref={sliderRef} {...settings}>
+						{proposals?.map((proposal, index) => (
+							<Box paddingLeft={2} paddingY={4} key={index}>
+								<ProposalCard proposal={proposal} />
+							</Box>
+						))}
 
-			<Box>
-				<Slider ref={sliderRef} {...settings}>
-					{proposals?.map((proposal, index) => (
-						<Box paddingX={2} paddingY={4} key={index}>
-							<ProposalCard proposal={proposal} />
-						</Box>
-					))}
-
-					<Box></Box>
-					<Box></Box>
-					<Box></Box>
-					<Box></Box>
-				</Slider>
-			</Box>
+						<Box></Box>
+						<Box></Box>
+						<Box></Box>
+						<Box></Box>
+					</Slider>
+				</Box>
+			)}
 		</Box>
 	);
 };
