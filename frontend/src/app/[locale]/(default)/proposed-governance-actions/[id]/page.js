@@ -10,6 +10,7 @@ import {
 	getSingleProposal,
 	getUserProposalVote,
 	updateProposalLikesOrDislikes,
+	deleteProposal,
 } from '@/lib/api';
 import { formatIsoDate } from '@/lib/utils';
 import { Link } from '@/navigation';
@@ -24,6 +25,7 @@ import {
 	IconThumbDown,
 	IconThumbUp,
 	IconTrash,
+	IconX,
 } from '@intersect.mbo/intersectmbo.org-icons-set';
 import {
 	Badge,
@@ -38,17 +40,22 @@ import {
 	Stack,
 	TextField,
 	Typography,
+	//
+	Modal,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useRouter } from '@/navigation';
 
 const ProposalPage = ({ params: { id } }) => {
 	const { user } = useAppContext();
 	const theme = useTheme();
+	const router = useRouter();
 	const [proposal, setProposal] = useState(null);
 	const [mounted, setMounted] = useState(false);
 	const [commentsList, setCommentsList] = useState([]);
 	const [newCommentText, setNewCommentText] = useState('');
 	const [userProposalVote, setUserProposalVote] = useState(null);
+	const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
@@ -57,6 +64,26 @@ const ProposalPage = ({ params: { id } }) => {
 	};
 	const handleClose = () => {
 		setAnchorEl(null);
+	};
+
+	const handleOpenDeleteModal = () => {
+		setOpenDeleteModal(true);
+	};
+
+	const handleCloseDeleteModal = () => {
+		setOpenDeleteModal(false);
+	};
+
+	const handleDeleteProposal = async () => {
+		try {
+			const repsonse = await deleteProposal(proposal?.id);
+			if (!repsonse) return;
+
+			handleCloseDeleteModal();
+			router.push('/proposed-governance-actions');
+		} catch (error) {
+			console.error('Failed to delete proposal:', error);
+		}
 	};
 
 	const fetchProposal = async (id) => {
@@ -282,7 +309,7 @@ const ProposalPage = ({ params: { id } }) => {
 											</Typography>
 										</Stack>
 									</MenuItem>
-									<MenuItem onClick={handleClose}>
+									<MenuItem onClick={handleOpenDeleteModal}>
 										<Stack
 											direction={'row'}
 											spacing={2}
@@ -641,6 +668,87 @@ const ProposalPage = ({ params: { id } }) => {
 					<CommentCard comment={comment} />
 				</Box>
 			))}
+
+			<Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+				<Box
+					sx={{
+						position: 'absolute',
+						top: '50%',
+						left: '50%',
+						transform: 'translate(-50%, -50%)',
+						width: {
+							xs: '90%',
+							sm: '50%',
+							md: '30%',
+						},
+						bgcolor: 'background.paper',
+						boxShadow: 24,
+						borderRadius: '20px',
+					}}
+				>
+					<Box
+						pt={2}
+						pl={2}
+						pr={2}
+						pb={1}
+						borderBottom={1}
+						borderColor={(theme) => theme.palette.border.lightGray}
+					>
+						<Box
+							display="flex"
+							flexDirection="row"
+							justifyContent="space-between"
+						>
+							<Typography
+								id="modal-modal-title"
+								variant="h6"
+								component="h2"
+							>
+								Do you want to delete your proposal?
+							</Typography>
+							<Button onClick={handleCloseDeleteModal}>
+								<IconX width="24px" height="24px" />
+							</Button>
+						</Box>
+						<Typography
+							id="modal-modal-description"
+							mt={2}
+							color={(theme) => theme.palette.text.grey}
+						>
+							A dialog is a type of modal window that appears in
+							front of app content to provide critical
+							information, or prompt for a decision to be made.
+						</Typography>
+					</Box>
+					<Box
+						display="flex"
+						flexDirection="column"
+						padding={2}
+						gap={2}
+					>
+						<Button
+							variant="contained"
+							fullWidth
+							sx={{
+								borderRadius: '20px',
+							}}
+							onClick={handleCloseDeleteModal}
+						>
+							I don't want to delete
+						</Button>
+						<Button
+							variant="outlined"
+							fullWidth
+							sx={{
+								borderRadius: '20px',
+							}}
+							onClick={handleDeleteProposal}
+						>
+							Yes, delete my proposal completely
+						</Button>
+					</Box>
+				</Box>
+			</Modal>
 		</Box>
 	);
 };
