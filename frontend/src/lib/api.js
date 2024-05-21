@@ -13,7 +13,7 @@ export const loginUser = async (loginData) => {
 export const getProposals = async () => {
 	try {
 		const { data } = await axiosInstance.get(
-			`/api/proposals?pagination[page]=1&pagination[pageSize]=3&sort[createdAt]=desc`
+			`/api/proposals?pagination[page]=1&pagination[pageSize]=25&sort[createdAt]=desc`
 		);
 
 		return data?.data;
