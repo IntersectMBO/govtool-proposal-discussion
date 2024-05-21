@@ -53,6 +53,8 @@ const Step2 = ({
 				boxShadow: 1,
 				borderRadius: '20px',
 				mb: 2,
+				ml: 2,
+				mr: 2,
 			}}
 		>
 			<CardContent>
@@ -279,11 +281,20 @@ const Step2 = ({
 							OPTIONAL
 						</Typography>
 
-						<Typography variant="h4" gutterBottom>
+						<Typography
+							variant="h4"
+							textAlign="center"
+							gutterBottom
+						>
 							References and Supporting Information
 						</Typography>
 
-						<Typography variant="subtitle" gutterBottom>
+						<Typography
+							variant="subtitle"
+							textAlign="center"
+							color={(theme) => theme.palette.text.grey}
+							gutterBottom
+						>
 							Links to extra content or social media contacts
 							(maiximum of 7 entries)
 						</Typography>

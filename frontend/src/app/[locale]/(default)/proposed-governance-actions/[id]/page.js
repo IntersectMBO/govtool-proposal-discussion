@@ -45,7 +45,7 @@ import {
 import { useEffect, useState } from 'react';
 
 const ProposalPage = ({ params: { id } }) => {
-	const { user } = useAppContext();
+	const { user, setLoading } = useAppContext();
 	const theme = useTheme();
 	const router = useRouter();
 	const [proposal, setProposal] = useState(null);
@@ -73,6 +73,7 @@ const ProposalPage = ({ params: { id } }) => {
 	};
 
 	const handleDeleteProposal = async () => {
+		setLoading(true);
 		try {
 			const response = await deleteProposal(proposal?.id);
 			if (!response) return;
@@ -81,29 +82,38 @@ const ProposalPage = ({ params: { id } }) => {
 			router.push('/proposed-governance-actions');
 		} catch (error) {
 			console.error('Failed to delete proposal:', error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const fetchProposal = async (id) => {
+		setLoading(true);
 		try {
 			const response = await getSingleProposal(id);
 			if (!response) return;
 			setProposal(response);
 		} catch (error) {
 			console.error(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const fetchProposalVote = async (id) => {
+		setLoading(true);
 		try {
 			const response = await getUserProposalVote({ proposalID: id });
 			setUserProposalVote(response);
 		} catch (error) {
 			console.error(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const fetchComments = async () => {
+		setLoading(true);
 		try {
 			let query = `filters[$and][0][proposal_id]=${id}&filters[$and][1][comment_parent_id][$null]=true&sort[createdAt]=desc`;
 			const { comments, pgCount, total } = await getComments(query);
@@ -112,10 +122,13 @@ const ProposalPage = ({ params: { id } }) => {
 			setCommentsList(comments);
 		} catch (error) {
 			console.error(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const handleCreateComment = async () => {
+		setLoading(true);
 		try {
 			const newComment = await createComment({
 				user_id: user?.user?.id.toString(),
@@ -129,10 +142,13 @@ const ProposalPage = ({ params: { id } }) => {
 			fetchComments();
 		} catch (error) {
 			console.error(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const updateLikesOrDislikes = async ({ like = true }) => {
+		setLoading(true);
 		try {
 			let data = userProposalVote
 				? {
@@ -156,6 +172,8 @@ const ProposalPage = ({ params: { id } }) => {
 			fetchProposal(id);
 		} catch (error) {
 			console.error(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 

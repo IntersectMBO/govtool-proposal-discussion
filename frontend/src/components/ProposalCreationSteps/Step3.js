@@ -39,22 +39,11 @@ const Step3 = ({
 				boxShadow: 1,
 				borderRadius: '20px',
 				mb: 2,
-				maxWidth: '910px',
+				ml: 2,
+				mr: 2,
 			}}
 		>
-			<CardContent
-				sx={{
-					pb: 2,
-					pl: {
-						xs: 2,
-						md: 20,
-					},
-					pr: {
-						xs: 2,
-						md: 20,
-					},
-				}}
-			>
+			<CardContent>
 				<Box display="flex" flexDirection="column" gap={2}>
 					<Box
 						sx={{
@@ -145,7 +134,12 @@ const Step3 = ({
 						>
 							Supporting links
 						</Typography>
-						<Box display="flex" flexDirection="row" gap={2}>
+						<Box
+							display="flex"
+							flexDirection={isSmallScreen ? 'column' : 'row'}
+							flexWrap="wrap"
+							gap={2}
+						>
 							{proposalData?.proposal_links?.map(
 								(link, index) => (
 									<Box
@@ -213,26 +207,43 @@ const Step3 = ({
 							gap: 2,
 						}}
 					>
-						<Button
-							variant="text"
+						<Box
 							sx={{
-								borderRadius: '20px',
-							}}
-							onClick={() => {
-								handleSaveDraft(false, true);
+								whiteSpace: 'nowrap',
+								textTransform: 'none',
+								width: '100%',
 							}}
 						>
-							Save Draft
-						</Button>
-						<Button
-							variant="contained"
+							<Button
+								variant="text"
+								sx={{
+									borderRadius: '20px',
+								}}
+								fullWidth
+								onClick={() => {
+									handleSaveDraft(false, true);
+								}}
+							>
+								Save Draft
+							</Button>
+						</Box>
+						<Box
 							sx={{
 								borderRadius: '20px',
+								width: '100%',
 							}}
-							onClick={handleOpen}
 						>
-							Submit
-						</Button>
+							<Button
+								variant="contained"
+								sx={{
+									borderRadius: '20px',
+								}}
+								fullWidth
+								onClick={handleOpen}
+							>
+								Submit
+							</Button>
+						</Box>
 					</Box>
 				</Box>
 				<Step3Modal
