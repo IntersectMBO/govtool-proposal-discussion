@@ -13,7 +13,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2024-05-10T13:02:42.854Z"
+    "x-generation-date": "2024-05-21T14:46:45.986Z"
   },
   "x-strapi-config": {
     "plugins": [],
@@ -103,6 +103,9 @@
               },
               "comment_text": {
                 "type": "string"
+              },
+              "comment_has_replays": {
+                "type": "boolean"
               }
             }
           }
@@ -168,6 +171,9 @@
           },
           "comment_text": {
             "type": "string"
+          },
+          "comment_has_replays": {
+            "type": "boolean"
           },
           "createdAt": {
             "type": "string",
@@ -1298,12 +1304,17 @@
         ],
         "properties": {
           "data": {
+            "required": [
+              "user_id",
+              "poll_id",
+              "vote_result"
+            ],
             "type": "object",
             "properties": {
-              "poll_id": {
+              "user_id": {
                 "type": "string"
               },
-              "user_id": {
+              "poll_id": {
                 "type": "string"
               },
               "vote_result": {
@@ -1361,11 +1372,16 @@
       },
       "PollVote": {
         "type": "object",
+        "required": [
+          "user_id",
+          "poll_id",
+          "vote_result"
+        ],
         "properties": {
-          "poll_id": {
+          "user_id": {
             "type": "string"
           },
-          "user_id": {
+          "poll_id": {
             "type": "string"
           },
           "vote_result": {
@@ -1707,9 +1723,6 @@
               "prop_dislikes": {
                 "type": "integer"
               },
-              "prop_poll_active": {
-                "type": "boolean"
-              },
               "prop_comments_number": {
                 "type": "integer"
               },
@@ -1783,9 +1796,6 @@
           },
           "prop_dislikes": {
             "type": "integer"
-          },
-          "prop_poll_active": {
-            "type": "boolean"
           },
           "prop_comments_number": {
             "type": "integer"
@@ -2582,6 +2592,9 @@
             "type": "number"
           },
           "prop_link": {
+            "type": "string"
+          },
+          "prop_link_text": {
             "type": "string"
           }
         }

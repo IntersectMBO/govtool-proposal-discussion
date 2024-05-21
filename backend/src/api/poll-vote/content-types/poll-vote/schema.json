@@ -4,22 +4,24 @@
   "info": {
     "singularName": "poll-vote",
     "pluralName": "poll-votes",
-    "displayName": "Poll vote",
-    "description": ""
+    "displayName": "Poll vote"
   },
   "options": {
     "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
-    "poll_id": {
-      "type": "string"
-    },
     "user_id": {
-      "type": "string"
+      "type": "string",
+      "required": true
+    },
+    "poll_id": {
+      "type": "string",
+      "required": true
     },
     "vote_result": {
-      "type": "boolean"
+      "type": "boolean",
+      "required": true
     }
   }
 }

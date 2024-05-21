@@ -1,5 +1,10 @@
 import { useAppContext } from '@/context/context';
-import { createPoll, getPoll } from '@/lib/api';
+import {
+	createPoll,
+	createPollVote,
+	getPoll,
+	getUserPollVote,
+} from '@/lib/api';
 import { formatPollDateDisplay } from '@/lib/utils';
 import {
 	Box,
@@ -15,6 +20,7 @@ import { useEffect, useState } from 'react';
 const Poll = ({ proposalID, proposalUserId }) => {
 	const { user } = useAppContext();
 	const [poll, setPoll] = useState(null);
+	const [userPollVote, setUserPollVote] = useState(null);
 	const [mounted, setMounted] = useState(false);
 
 	const fetchPoll = async (id) => {
@@ -22,6 +28,15 @@ const Poll = ({ proposalID, proposalUserId }) => {
 			const response = await getPoll({ proposalID: id });
 			if (!response) return;
 			setPoll(response);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+	const fetchUserPollVote = async (id) => {
+		try {
+			const response = await getUserPollVote({ pollID: id });
+			if (!response) return;
+			setUserPollVote(response);
 		} catch (error) {
 			console.error(error);
 		}
@@ -65,6 +80,38 @@ const Poll = ({ proposalID, proposalUserId }) => {
 		);
 	};
 
+	const handlePollVote = async ({ vote }) => {
+		try {
+			const response =
+				// userProposalVote
+				// ? await updateProposalLikesOrDislikes({
+				// 		proposalVoteID: userProposalVote?.id,
+				// 		updateData: data,
+				//   })
+				// :
+				await createPollVote({
+					createData: { poll_id: `${poll?.id}`, vote_result: vote },
+				});
+
+			if (!response) return;
+
+			setUserPollVote(response);
+			fetchPoll(proposalID);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	useEffect(() => {
+		if (user) {
+			if (poll) {
+				if (!userPollVote) {
+					fetchUserPollVote(poll?.id);
+				}
+			}
+		}
+	}, [user, poll]);
+
 	useEffect(() => {
 		if (!mounted) {
 			setMounted(true);
@@ -75,131 +122,186 @@ const Poll = ({ proposalID, proposalUserId }) => {
 
 	if (poll) {
 		return (
-			<Card>
-				<CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
-					<Typography variant="body2">@Authorusername</Typography>
-					<Typography
-						variant="caption"
-						sx={{
-							color: (theme) => theme.palette.text.grey,
-						}}
-						mt={2}
+			<>
+				{user && !userPollVote ? (
+					<Card sx={{ mb: 3 }}>
+						<CardContent
+							sx={{ display: 'flex', flexDirection: 'column' }}
+						>
+							<Typography variant="body2">
+								@Authorusername
+							</Typography>
+							<Typography
+								variant="caption"
+								sx={{
+									color: (theme) => theme.palette.text.grey,
+								}}
+								mt={2}
+							>
+								{formatPollDateDisplay(
+									poll?.attributes?.poll_start_dt
+								)}
+							</Typography>
+							<Typography variant="body1" fontWeight={600} my={2}>
+								Is this proposal ready to be submitted on chain?
+							</Typography>
+
+							<Button
+								variant="outlined"
+								sx={{ mb: 1 }}
+								onClick={() => handlePollVote({ vote: true })}
+							>
+								Yes
+							</Button>
+							<Button
+								variant="outlined"
+								onClick={() => handlePollVote({ vote: false })}
+							>
+								No
+							</Button>
+						</CardContent>
+					</Card>
+				) : null}
+				<Card>
+					<CardContent
+						sx={{ display: 'flex', flexDirection: 'column' }}
 					>
-						{formatPollDateDisplay(poll?.attributes?.poll_start_dt)}
-					</Typography>
-					<Typography variant="body1" fontWeight={600} mt={2}>
-						Poll Results
-					</Typography>
-					<Typography variant="body2" mt={1}>
-						Is this proposal ready to be submitted on chain?
-					</Typography>
-					<Divider
-						variant="fullWidth"
-						sx={{
-							my: 2,
-							color: (theme) => theme.palette.divider.primary,
-						}}
-					/>
-					<Typography
-						variant="caption"
-						sx={{
-							color: (theme) => theme.palette.text.black,
-						}}
-					>
-						Total votes:{' '}
-						{+poll?.attributes?.poll_yes +
-							+poll?.attributes?.poll_no}
-					</Typography>
-					<Box
-						display={'flex'}
-						width={'100%'}
-						justifyContent={'flex-start'}
-						alignItems={'center'}
-						mt={1}
-						gap={1}
-					>
+						<Typography variant="body2">@Authorusername</Typography>
+						<Typography
+							variant="caption"
+							sx={{
+								color: (theme) => theme.palette.text.grey,
+							}}
+							mt={2}
+						>
+							{formatPollDateDisplay(
+								poll?.attributes?.poll_start_dt
+							)}
+						</Typography>
+						<Typography variant="body1" fontWeight={600} mt={2}>
+							Poll Results
+						</Typography>
+						<Typography variant="body2" mt={1}>
+							Is this proposal ready to be submitted on chain?
+						</Typography>
+						<Divider
+							variant="fullWidth"
+							sx={{
+								my: 2,
+								color: (theme) => theme.palette.divider.primary,
+							}}
+						/>
 						<Typography
 							variant="caption"
 							sx={{
 								color: (theme) => theme.palette.text.black,
-								textWrap: 'nowrap',
-								minWidth: '80px',
 							}}
 						>
-							{`Yes: (${
-								totalVotesGreaterThanZero(poll)
-									? calculatePercentage(poll, true)
-									: 0
-							}%)`}
+							Total votes:{' '}
+							{+poll?.attributes?.poll_yes +
+								+poll?.attributes?.poll_no}
 						</Typography>
-						{user?.user?.id !== +proposalUserId && (
-							<LinearProgress
-								variant="determinate"
-								color="primary"
-								value={
+						<Box
+							display={'flex'}
+							width={'100%'}
+							justifyContent={'flex-start'}
+							alignItems={'center'}
+							mt={1}
+							gap={1}
+						>
+							<Typography
+								variant="caption"
+								sx={{
+									color: (theme) => theme.palette.text.black,
+									textWrap: 'nowrap',
+									minWidth: '80px',
+								}}
+								fontWeight={
+									userPollVote?.attributes?.vote_result ===
+										true && 600
+								}
+							>
+								{`Yes: (${
 									totalVotesGreaterThanZero(poll)
 										? calculatePercentage(poll, true)
 										: 0
-								}
-								sx={{
-									width: '100%',
-								}}
-							/>
-						)}
-					</Box>
-					<Box
-						display={'flex'}
-						width={'100%'}
-						justifyContent={'flex-start'}
-						alignItems={'center'}
-						mt={1}
-						gap={1}
-					>
-						<Typography
-							variant="caption"
-							sx={{
-								color: (theme) => theme.palette.text.black,
-								textWrap: 'nowrap',
-								minWidth: '80px',
-							}}
+								}%)`}
+							</Typography>
+							{user?.user?.id !== +proposalUserId && (
+								<LinearProgress
+									variant="determinate"
+									color="primary"
+									value={
+										totalVotesGreaterThanZero(poll)
+											? calculatePercentage(poll, true)
+											: 0
+									}
+									sx={{
+										width: '100%',
+									}}
+								/>
+							)}
+						</Box>
+						<Box
+							display={'flex'}
+							width={'100%'}
+							justifyContent={'flex-start'}
+							alignItems={'center'}
+							mt={1}
+							gap={1}
 						>
-							{`No: (${
-								totalVotesGreaterThanZero(poll)
-									? calculatePercentage(poll, false)
-									: 0
-							}%)`}
-						</Typography>
-						{user?.user?.id !== +proposalUserId && (
-							<LinearProgress
-								variant="determinate"
-								color="primary"
-								value={
+							<Typography
+								variant="caption"
+								sx={{
+									color: (theme) => theme.palette.text.black,
+									textWrap: 'nowrap',
+									minWidth: '80px',
+								}}
+								fontWeight={
+									userPollVote?.attributes?.vote_result ===
+										false && 600
+								}
+							>
+								{`No: (${
 									totalVotesGreaterThanZero(poll)
 										? calculatePercentage(poll, false)
 										: 0
-								}
-								sx={{
-									width: '100%',
-								}}
-							/>
-						)}
-					</Box>
-					{user?.user?.id === +proposalUserId &&
-						poll?.attributes?.is_poll_active && (
-							<Box
-								mt={2}
-								display={'flex'}
-								justifyContent={'flex-end'}
-							>
-								<Button variant="outlined">Close Poll</Button>
-							</Box>
-						)}
-				</CardContent>
-			</Card>
+								}%)`}
+							</Typography>
+							{user?.user?.id !== +proposalUserId && (
+								<LinearProgress
+									variant="determinate"
+									color="primary"
+									value={
+										totalVotesGreaterThanZero(poll)
+											? calculatePercentage(poll, false)
+											: 0
+									}
+									sx={{
+										width: '100%',
+									}}
+								/>
+							)}
+						</Box>
+						{user?.user?.id === +proposalUserId &&
+							poll?.attributes?.is_poll_active && (
+								<Box
+									mt={2}
+									display={'flex'}
+									justifyContent={'flex-end'}
+								>
+									<Button variant="outlined">
+										Close Poll
+									</Button>
+								</Box>
+							)}
+					</CardContent>
+				</Card>
+			</>
 		);
 	}
 
-	return (
+	return user && user?.user?.id === +proposalUserId ? (
 		<Card>
 			<CardContent>
 				<Typography variant="body1" fontWeight={600}>
@@ -221,7 +323,7 @@ const Poll = ({ proposalID, proposalUserId }) => {
 				</Box>
 			</CardContent>
 		</Card>
-	);
+	) : null;
 };
 
 export default Poll;
