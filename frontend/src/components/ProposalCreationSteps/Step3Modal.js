@@ -1,6 +1,6 @@
 import { useRouter } from '@/navigation';
 import { IconClock, IconX } from '@intersect.mbo/intersectmbo.org-icons-set';
-import { Box, Button, Modal, Typography } from '@mui/material';
+import { Box, Button, IconButton, Modal, Typography } from '@mui/material';
 import { useState } from 'react';
 
 const style = {
@@ -139,6 +139,7 @@ const Step3Modal = ({ open, handleClose, handleSaveDraft }) => {
 						display="flex"
 						flexDirection="row"
 						justifyContent="space-between"
+						alignItems={'center'}
 					>
 						<Typography
 							id="modal-modal-title"
@@ -147,9 +148,9 @@ const Step3Modal = ({ open, handleClose, handleSaveDraft }) => {
 						>
 							We recommend to add poll first
 						</Typography>
-						<Button onClick={handleClose}>
+						<IconButton onClick={handleClose}>
 							<IconX width="24px" height="24px" />
-						</Button>
+						</IconButton>
 					</Box>
 					<Typography
 						id="modal-modal-description"
