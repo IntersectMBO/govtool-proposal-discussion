@@ -1,14 +1,14 @@
-"use client";
-import GovTool from "@/assets/svgs/govTool";
-import Logo from "@/assets/svgs/logo";
-import { navItems } from "@/constants";
-import { useAppContext } from "@/context/context";
-import { connectWallet } from "@/lib/helpers";
-import { usePathname, useRouter } from "@/navigation";
+'use client';
+import GovTool from '@/assets/svgs/govTool';
+import Logo from '@/assets/svgs/logo';
+import { navItems } from '@/constants';
+import { useAppContext } from '@/context/context';
+import { connectWallet } from '@/lib/helpers';
+import { usePathname, useRouter } from '@/navigation';
 import {
 	IconMenu,
 	IconPlusCircle,
-} from "@intersect.mbo/intersectmbo.org-icons-set";
+} from '@intersect.mbo/intersectmbo.org-icons-set';
 import {
 	AppBar,
 	Box,
@@ -22,8 +22,8 @@ import {
 	Toolbar,
 	Typography,
 	useMediaQuery,
-} from "@mui/material";
-import { forwardRef, useState } from "react";
+} from '@mui/material';
+import { forwardRef, useState } from 'react';
 
 const MobileNavbar = forwardRef((props, ref) => {
 	const { setUser, user } = useAppContext();
@@ -33,7 +33,7 @@ const MobileNavbar = forwardRef((props, ref) => {
 	const [mobileOpen, setMobileOpen] = useState(false);
 
 	const isTablet = useMediaQuery((theme) =>
-		theme.breakpoints.between("sm", "md")
+		theme.breakpoints.between('sm', 'md')
 	);
 
 	const removeLangPath = (pathname) => {
@@ -47,46 +47,46 @@ const MobileNavbar = forwardRef((props, ref) => {
 	};
 
 	const handleWalletConnect = async () => {
-		setUser(await connectWallet("nufi"));
+		setUser(await connectWallet('nufi'));
 	};
 
 	const drawer = (
 		<Box
 			onClick={handleDrawerToggle}
-			sx={{ textAlign: "center", height: "100%" }}
+			sx={{ textAlign: 'center', height: '100%' }}
 		>
-			<Box sx={{ padding: "20px" }}>
+			<Box sx={{ padding: '20px' }}>
 				<Logo />
 				<GovTool />
 			</Box>
 			<Box
 				sx={{
-					display: "flex",
-					flexDirection: "column",
-					alignItems: "start",
-					justifyContent: "space-between",
-					height: "calc(100% - 150px)",
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'start',
+					justifyContent: 'space-between',
+					height: 'calc(100% - 150px)',
 				}}
 			>
-				<List sx={{ padding: "12px", width: "100%" }}>
+				<List sx={{ padding: '12px', width: '100%' }}>
 					{navItems.map((item) => (
 						<ListItem
 							sx={{
-								"&:hover": {
-									backgroundColor: "#3052F51F",
-									cursor: "pointer",
-									borderRadius: "100px",
+								'&:hover': {
+									backgroundColor: '#3052F51F',
+									cursor: 'pointer',
+									borderRadius: '100px',
 								},
-								height: "56px",
-								display: "flex",
-								alignItems: "center",
-								borderRadius: "100px",
+								height: '56px',
+								display: 'flex',
+								alignItems: 'center',
+								borderRadius: '100px',
 								backgroundColor:
 									removeLangPath(pathname) === item.path
 										? // ? "#3052F51F"
-										  "transparent"
-										: "transparent",
-								marginBottom: "8px",
+										  'transparent'
+										: 'transparent',
+								marginBottom: '8px',
 							}}
 							key={item.name}
 							onClick={() => router.push(item.path)} // Navigate to the path when clicked
@@ -116,20 +116,20 @@ const MobileNavbar = forwardRef((props, ref) => {
 		<AppBar
 			position="static"
 			sx={{
-				display: { xs: "flex", md: "none" },
-				background: "transparent",
+				display: { xs: 'flex', md: 'none' },
+				background: 'transparent',
 			}}
 			ref={ref}
 		>
 			<Toolbar
 				disableGutters
 				sx={{
-					justifyContent: "space-between",
+					justifyContent: 'space-between',
 					px: 2,
 					py: 1,
 				}}
 			>
-				<Box display={"flex"} justifyContent={"center"}>
+				<Box display={'flex'} justifyContent={'center'}>
 					<Logo />
 					{isTablet && <GovTool />}
 				</Box>
@@ -140,22 +140,22 @@ const MobileNavbar = forwardRef((props, ref) => {
 							variant="contained"
 							color="primary"
 							sx={{
-								borderRadius: "30px",
+								borderRadius: '30px',
 								marginRight: 2,
 							}}
 							startIcon={<IconPlusCircle fill="white" />}
-							onClick={() => router.push("/proposal-creation")}
+							onClick={() => router.push('/proposal-creation')}
 						>
 							{isTablet
-								? "Propose a Governance Action"
-								: "Propose a GA"}
+								? 'Propose a Governance Action'
+								: 'Propose a GA'}
 						</Button>
 					) : (
 						<Button
 							variant="contained"
 							color="primary"
 							sx={{
-								borderRadius: "30px",
+								borderRadius: '30px',
 								marginRight: 2,
 							}}
 							startIcon={<IconPlusCircle fill="white" />}

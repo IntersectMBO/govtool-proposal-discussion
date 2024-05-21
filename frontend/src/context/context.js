@@ -13,6 +13,7 @@ const AppContext = createContext();
 // Define a provider component. This component will wrap the part of your app where you want the context to be accessible.
 export function AppContextProvider({ children }) {
 	const [user, setUser] = useState();
+	const [loading, setLoading] = useState(false); // State to manage loading status.
 
 	// Render the provider component of your context, passing in the values or functions as the value prop.
 	// Any child components will be able to access these values via the useAppContext hook.
@@ -21,6 +22,8 @@ export function AppContextProvider({ children }) {
 			value={{
 				user,
 				setUser,
+				loading,
+				setLoading, // Provide loading state and its setter to the context.
 			}}
 		>
 			{children}
