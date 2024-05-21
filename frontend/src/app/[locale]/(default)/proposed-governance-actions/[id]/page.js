@@ -40,7 +40,6 @@ import {
 	Stack,
 	TextField,
 	Typography,
-	//
 	Modal,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -76,8 +75,8 @@ const ProposalPage = ({ params: { id } }) => {
 
 	const handleDeleteProposal = async () => {
 		try {
-			const repsonse = await deleteProposal(proposal?.id);
-			if (!repsonse) return;
+			const response = await deleteProposal(proposal?.id);
+			if (!response) return;
 
 			handleCloseDeleteModal();
 			router.push('/proposed-governance-actions');

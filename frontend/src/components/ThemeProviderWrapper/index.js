@@ -6,6 +6,7 @@ import {
 	createTheme,
 	responsiveFontSizes,
 } from '@mui/material/styles';
+import { Loader } from '@/components';
 
 let theme = createTheme({
 	palette: {
@@ -57,7 +58,12 @@ let theme = createTheme({
 theme = responsiveFontSizes(theme);
 
 function ThemeProviderWrapper({ children }) {
-	return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+	return (
+		<ThemeProvider theme={theme}>
+			<Loader />
+			{children}
+		</ThemeProvider>
+	);
 }
 
 export default ThemeProviderWrapper;
