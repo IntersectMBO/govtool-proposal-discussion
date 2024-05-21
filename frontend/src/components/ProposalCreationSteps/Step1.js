@@ -44,7 +44,7 @@ const Step1 = ({
 				}}
 			>
 				<Box mb={2} mt={2}>
-					<Typography variant="h4" align="center">
+					<Typography variant="h4" align="center" textAlign="center">
 						Step to submit a Governance action
 					</Typography>
 				</Box>

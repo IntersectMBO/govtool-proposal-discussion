@@ -10,13 +10,14 @@ export const loginUser = async (loginData) => {
 		console.error(error);
 	}
 };
-export const getProposals = async () => {
+export const getProposals = async (query = '') => {
 	try {
-		const { data } = await axiosInstance.get(
-			`/api/proposals?pagination[page]=1&pagination[pageSize]=25&sort[createdAt]=desc`
-		);
+		const { data } = await axiosInstance.get(`/api/proposals?${query}`);
 
-		return data?.data;
+		const proposals = data?.data;
+		const pgCount = data?.meta?.pagination?.pageCount;
+		const total = data?.meta?.pagination?.total;
+		return { proposals, pgCount, total };
 	} catch (error) {
 		return error;
 	}
