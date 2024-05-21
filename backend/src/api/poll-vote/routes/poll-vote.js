@@ -1,30 +1,31 @@
 //@ts-nocheck
-"use strict";
+'use strict';
 
 /**
  * poll-vote router
  */
 
-const { createCoreRouter } = require("@strapi/strapi").factories;
+const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter("api::poll-vote.poll-vote", {
-  config: {
-    find: {
-      roles: ["authenticated"],
-    },
-    create: {
-      roles: ["authenticated"],
-    },
-    findOne: {
-      roles: [],
-    },
-    update: {
-      roles: [],
-      middlewares: ["global::is-owner"],
-    },
-    delete: {
-      roles: ["authenticated"],
-      middlewares: ["global::is-owner"],
-    },
-  },
+module.exports = createCoreRouter('api::poll-vote.poll-vote', {
+	config: {
+		find: {
+			roles: ['authenticated'],
+			middlewares: ['global::is-owner'],
+		},
+		create: {
+			roles: ['authenticated'],
+		},
+		findOne: {
+			roles: [],
+		},
+		update: {
+			roles: [],
+			middlewares: ['global::is-owner'],
+		},
+		delete: {
+			roles: ['authenticated'],
+			middlewares: ['global::is-owner'],
+		},
+	},
 });

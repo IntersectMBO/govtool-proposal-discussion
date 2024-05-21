@@ -927,15 +927,14 @@ export interface ApiPollVotePollVote extends Schema.CollectionType {
     singularName: 'poll-vote';
     pluralName: 'poll-votes';
     displayName: 'Poll vote';
-    description: '';
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
-    poll_id: Attribute.String;
-    user_id: Attribute.String;
-    vote_result: Attribute.Boolean;
+    user_id: Attribute.String & Attribute.Required;
+    poll_id: Attribute.String & Attribute.Required;
+    vote_result: Attribute.Boolean & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

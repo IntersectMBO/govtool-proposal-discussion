@@ -12,14 +12,12 @@ module.exports = createCoreController(
 	({ strapi }) => ({
 		async create(ctx) {
 			const { data } = ctx?.request?.body;
-			const {
-				user_id: userID,
-				vote_result: voteResult,
-				poll_id: pollId,
-			} = data;
+			const { vote_result: voteResult, poll_id: pollId } = data;
 
-			if (!userID) {
-				return ctx.badRequest(null, "User ID is required");
+			const user = ctx?.state?.user;
+
+			if (!user) {
+				return ctx.badRequest(null, 'User is required');
 			}
 
 			if (voteResult !== true && voteResult !== false) {
@@ -49,8 +47,8 @@ module.exports = createCoreController(
 				// Create the Poll Vote
 				try {
 					pollVote = await strapi.entityService.create(
-						"api::poll-vote.poll-vote",
-						{ data }
+						'api::poll-vote.poll-vote',
+						{ data: { ...data, user_id: `${user.id}` } }
 					);
 					if (!pollVote) {
 						return ctx.badRequest(null, "Poll vote not created");
@@ -121,10 +119,12 @@ module.exports = createCoreController(
 		async update(ctx) {
 			const { id } = ctx.params;
 			const { data } = ctx?.request?.body;
-			const { user_id: userId, vote_result: voteResult } = data;
+			const { vote_result: voteResult } = data;
 
-			if (!userId) {
-				return ctx.badRequest(null, "User ID is required");
+			const user = ctx?.state?.user;
+
+			if (!user) {
+				return ctx.badRequest(null, 'User is required');
 			}
 
 			if (voteResult !== true && voteResult !== false) {

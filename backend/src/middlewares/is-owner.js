@@ -26,9 +26,9 @@ module.exports = (config, { strapi }) => {
 
     if (!entryId) {
       ctx.query = {
-        ...ctx.query,
-        filters: { ...ctx.query.filters, user: userId },
-      };
+			...ctx.query,
+			filters: { ...ctx.query.filters, user_id: `${userId}` },
+		};
     }
 
     await next();
