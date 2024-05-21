@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
-import { Box, Typography, Button, IconButton, Grid } from '@mui/material';
+import ProposalCard from '@/components/ProposalCard';
+import { settings } from '@/lib/carouselSettings';
 import {
 	IconCheveronLeft,
 	IconCheveronRight,
 } from '@intersect.mbo/intersectmbo.org-icons-set';
-import ProposalCard from '@/components/ProposalCard';
+import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
+import { useRef, useState } from 'react';
 import Slider from 'react-slick';
-import { settings } from '@/lib/carouselSettings';
 
 const ProposalsList = ({ proposals }) => {
 	const sliderRef = useRef(null);
@@ -68,7 +68,12 @@ const ProposalsList = ({ proposals }) => {
 				<Box>
 					<Slider ref={sliderRef} {...settings}>
 						{proposals?.map((proposal, index) => (
-							<Box paddingLeft={2} paddingY={4} key={index}>
+							<Box
+								paddingLeft={index === 0 ? 0 : 2}
+								paddingY={4}
+								key={index}
+								height={'100%'}
+							>
 								<ProposalCard proposal={proposal} />
 							</Box>
 						))}

@@ -1,9 +1,8 @@
 'use client';
 import { Footer, Header, MobileNavbar, Sidebar } from '@/components';
+import '@/styles/defaultWrapperIndex.scss';
 import { Box } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 const DefaultLayoutWrapper = ({ children }) => {
 	const mobileNavRef = useRef();

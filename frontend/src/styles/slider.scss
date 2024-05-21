@@ -1,0 +1,12 @@
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
+.slick-track {
+	display: flex !important;
+		.slick-slide {
+			height: inherit !important;
+			& > div {
+				height: 100%;
+			}
+		}
+}
