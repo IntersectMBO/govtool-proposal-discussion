@@ -7,3 +7,5 @@ export { default as ProposalCard } from './ProposalCard';
 export { default as Sidebar } from './Sidebar';
 export { default as ThemeProviderWrapper } from './ThemeProviderWrapper';
 export { default as ProposalsList } from './ProposalsList';
+export { default as Loader } from './Loader';
+export { default as ProposalCreationLayoutWrapper } from './ProposalCreationLayoutWrapper';

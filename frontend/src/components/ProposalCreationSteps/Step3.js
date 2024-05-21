@@ -89,11 +89,11 @@ const Step3 = ({
 						</Typography>
 						<Typography variant="body1" gutterBottom>
 							{
-								governanceActionTypes.find(
+								governanceActionTypes?.find(
 									(x) =>
-										x.value ===
+										x?.value ===
 										proposalData?.gov_action_type_id
-								).label
+								)?.label
 							}
 						</Typography>
 					</Box>

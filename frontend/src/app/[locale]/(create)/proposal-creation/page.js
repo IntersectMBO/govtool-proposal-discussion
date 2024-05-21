@@ -8,10 +8,11 @@ import { Step1, Step2, Step3 } from '@/components/ProposalCreationSteps';
 import { createProposal } from '@/lib/api';
 import { useMediaQuery } from '@mui/material';
 import { useRouter } from '@/navigation';
-
+import { useAppContext } from '@/context/context';
 const ProposalCreation = () => {
 	const router = useRouter();
 	const theme = useTheme();
+	const { setLoading } = useAppContext();
 	const [step, setStep] = useState(1);
 	const [proposalData, setProposalData] = useState({
 		proposal_links: [],
@@ -45,6 +46,7 @@ const ProposalCreation = () => {
 	}, [proposalData]);
 
 	const handleSaveDraft = async (addPoll = false, shouldNavigate = false) => {
+		setLoading(true);
 		try {
 			if (
 				!(
@@ -69,6 +71,8 @@ const ProposalCreation = () => {
 			}
 		} catch (error) {
 			console.error('Error handling the proposal creation:', error);
+		} finally {
+			setLoading(false);
 		}
 	};
 

@@ -10,7 +10,7 @@ import {
 import { getGovernanceActionTypes } from '@/lib/api';
 import { useEffect } from 'react';
 import { LinkManager } from '@/components/ProposalCreationSteps';
-
+import { useAppContext } from '@/context/context';
 const Step2 = ({
 	setStep,
 	proposalData,
@@ -22,8 +22,10 @@ const Step2 = ({
 	isContinueDisabled,
 }) => {
 	const maxLength = 256;
+	const { setLoading } = useAppContext();
 
 	const fetchGovernanceActionTypes = async () => {
+		setLoading(true);
 		try {
 			const governanceActionTypeList = await getGovernanceActionTypes();
 
@@ -35,6 +37,8 @@ const Step2 = ({
 			setGovernanceActionTypes(mappedData);
 		} catch (error) {
 			console.error(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 

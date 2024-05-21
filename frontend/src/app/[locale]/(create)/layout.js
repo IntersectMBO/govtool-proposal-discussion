@@ -3,7 +3,10 @@ import { AppContextProvider } from '@/context/context';
 import { NextIntlClientProvider } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { ThemeProviderWrapper } from '@/components';
+import {
+	ProposalCreationLayoutWrapper,
+	ThemeProviderWrapper,
+} from '@/components';
 
 export function generateStaticParams() {
 	// Generate static params for each locale, used in static generation methods.
@@ -44,7 +47,11 @@ async function RootLayout({ children, params: { locale } }) {
 					{/* Wrap children in global state context */}
 
 					<AppContextProvider>
-						<ThemeProviderWrapper>{children}</ThemeProviderWrapper>
+						<ThemeProviderWrapper>
+							<ProposalCreationLayoutWrapper>
+								{children}
+							</ProposalCreationLayoutWrapper>
+						</ThemeProviderWrapper>
 					</AppContextProvider>
 				</NextIntlClientProvider>
 			</body>
