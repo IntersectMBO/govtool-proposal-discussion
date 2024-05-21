@@ -34,7 +34,7 @@ const ProposalsList = ({ proposals }) => {
 						variant="outlined"
 						onClick={() => setShowAll((prev) => !prev)}
 					>
-						Show all
+						{showAll ? 'Show less' : 'Show all'}
 					</Button>
 				</Box>
 
@@ -43,12 +43,12 @@ const ProposalsList = ({ proposals }) => {
 						<IconButton
 							onClick={() => sliderRef.current.slickPrev()}
 						>
-							<IconCheveronLeft width={24} height={24} />
+							<IconCheveronLeft width={20} height={20} />
 						</IconButton>
 						<IconButton
 							onClick={() => sliderRef.current.slickNext()}
 						>
-							<IconCheveronRight width={24} height={24} />
+							<IconCheveronRight width={20} height={20} />
 						</IconButton>
 					</Box>
 				)}
@@ -58,7 +58,16 @@ const ProposalsList = ({ proposals }) => {
 				<Box>
 					<Grid container spacing={2} paddingY={4} paddingX={2}>
 						{proposals?.map((proposal, index) => (
-							<Grid item key={index} xs={12} sm={6} md={4}>
+							<Grid
+								item
+								key={index}
+								xs={12}
+								sm={6}
+								md={4}
+								sx={{
+									paddingLeft: index === 0 && '0 !important',
+								}}
+							>
 								<ProposalCard proposal={proposal} />
 							</Grid>
 						))}
@@ -73,6 +82,7 @@ const ProposalsList = ({ proposals }) => {
 								paddingY={4}
 								key={index}
 								height={'100%'}
+								width={'100%'}
 							>
 								<ProposalCard proposal={proposal} />
 							</Box>
