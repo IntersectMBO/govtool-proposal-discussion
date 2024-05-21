@@ -1,62 +1,67 @@
 // @ts-nocheck
-'use strict';
+"use strict";
 
 /**
  * proposal controller
  */
 
-const { createCoreController } = require('@strapi/strapi').factories;
+const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController(
-  'api::proposal.proposal',
+  "api::proposal.proposal",
   ({ strapi }) => ({
     async find(ctx) {
       const sanitizedQueryParams = await this.sanitizeQuery(ctx);
 
-      const { results, pagination } = await strapi
-        .service('api::proposal.proposal')
-        .find(sanitizedQueryParams);
-
-      for (const proposal of results) {
-        const proposalContent = await strapi
-          .controller('api::proposal-content.proposal-content')
-          .find({
-            query: {
-              filters: {
-                proposal_id: proposal.id,
-                prop_rev_active: true,
-              },
-            },
-          });
-
-        if (proposalContent?.data?.length > 0) {
-          proposal.content = proposalContent?.data?.[0];
-        } else {
-          proposal.content = null;
-        }
+      if (!sanitizedQueryParams.filters) {
+        sanitizedQueryParams.filters = {};
       }
 
-      return this.transformResponse(results, { pagination });
+      if (!sanitizedQueryParams.filters["$and"]) {
+        sanitizedQueryParams.filters["$and"] = [];
+      }
+
+      sanitizedQueryParams.filters["$and"].push({ prop_rev_active: true });
+
+      let proposalsList = [];
+
+      const { results, pagination } = await strapi
+        .service("api::proposal-content.proposal-content")
+        .find(sanitizedQueryParams);
+
+      for (const proposalContent of results) {
+        const proposal = await strapi.entityService.findOne(
+          "api::proposal.proposal",
+          proposalContent?.proposal_id
+        );
+
+        const transformedProposalContent =
+          this.transformResponse(proposalContent);
+        proposal.content = transformedProposalContent?.data;
+        proposalsList.push(proposal);
+      }
+
+      return this.transformResponse(proposalsList, { pagination });
     },
     async findOne(ctx) {
       const { id } = ctx?.params;
 
       if (!id) {
-        return ctx.badRequest(null, 'Proposal ID is required');
+        return ctx.badRequest(null, "Proposal ID is required");
       }
       // const sanitizedQueryParams = await this.sanitizeQuery(ctx);
 
       const proposal = await strapi.entityService.findOne(
-        'api::proposal.proposal',
+        "api::proposal.proposal",
         id
       );
 
       if (!proposal) {
-        return ctx.badRequest(null, 'Proposal not found');
+        return ctx.badRequest(null, "Proposal not found");
       }
 
       const proposalContent = await strapi
-        .controller('api::proposal-content.proposal-content')
+        .controller("api::proposal-content.proposal-content")
         .find({
           query: {
             filters: {
@@ -79,7 +84,7 @@ module.exports = createCoreController(
       const { user_id: userID, add_poll: addPoll } = data;
 
       if (!userID) {
-        return ctx.badRequest(null, 'User ID is required');
+        return ctx.badRequest(null, "User ID is required");
       }
 
       let proposal;
@@ -89,24 +94,24 @@ module.exports = createCoreController(
       // Delete the Prposal
       const deleteProposal = async () => {
         let deletedProposal = await strapi.entityService.delete(
-          'api::proposal.proposal',
+          "api::proposal.proposal",
           proposal?.id
         );
 
         if (!deletedProposal) {
-          return ctx.badRequest(null, 'Proposal not deleted');
+          return ctx.badRequest(null, "Proposal not deleted");
         }
       };
 
       // Delete the Proposal Content
       const deleteProposalContent = async () => {
         let deletedProposal = await strapi.entityService.delete(
-          'api::proposal-content.proposal-content',
+          "api::proposal-content.proposal-content",
           proposal_content?.id
         );
 
         if (!deletedProposal) {
-          return ctx.badRequest(null, 'Proposal content not deleted');
+          return ctx.badRequest(null, "Proposal content not deleted");
         }
       };
 
@@ -114,21 +119,21 @@ module.exports = createCoreController(
         // Create the Proposal
         try {
           proposal = await strapi.entityService.create(
-            'api::proposal.proposal',
+            "api::proposal.proposal",
             { data }
           );
 
           if (!proposal) {
-            return ctx.badRequest(null, 'Proposal not created');
+            return ctx.badRequest(null, "Proposal not created");
           }
         } catch (error) {
-          return ctx.badRequest(null, 'Proposal not created');
+          return ctx.badRequest(null, "Proposal not created");
         }
 
         // Create Proposal content
         try {
           proposal_content = await strapi.entityService.create(
-            'api::proposal-content.proposal-content',
+            "api::proposal-content.proposal-content",
             {
               data: {
                 ...data,
@@ -141,13 +146,13 @@ module.exports = createCoreController(
           // Delete the Proposal because the Proposal content was not created
           await deleteProposal();
 
-          return ctx.badRequest(null, 'Proposal content not created');
+          return ctx.badRequest(null, "Proposal content not created");
         }
 
         if (addPoll) {
           // Create the Poll
           try {
-            poll = await strapi.entityService.create('api::poll.poll', {
+            poll = await strapi.entityService.create("api::poll.poll", {
               data: {
                 proposal_id: proposal?.id.toString(),
                 is_poll_active: true,
@@ -159,7 +164,7 @@ module.exports = createCoreController(
             await deleteProposalContent();
             await deleteProposal();
 
-            return ctx.badRequest(null, 'Poll not created');
+            return ctx.badRequest(null, "Poll not created");
           }
         }
 
@@ -184,17 +189,17 @@ module.exports = createCoreController(
       try {
         // Delete proposal
         let deletedProposal = await strapi.entityService.delete(
-          'api::proposal.proposal',
+          "api::proposal.proposal",
           id
         );
 
         if (!deletedProposal) {
-          throw new Error('Proposal not found or delete failed');
+          throw new Error("Proposal not found or delete failed");
         }
 
         // Delete proposal content
         await strapi.db
-          .query('api::proposal-content.proposal-content')
+          .query("api::proposal-content.proposal-content")
           .deleteMany({
             where: {
               proposal_id: id,
@@ -203,7 +208,7 @@ module.exports = createCoreController(
 
         // Handling proposal submitions
         await strapi.db
-          .query('api::proposal-submition.proposal-submition')
+          .query("api::proposal-submition.proposal-submition")
           .deleteMany({
             where: {
               proposal_id: id,
@@ -211,35 +216,35 @@ module.exports = createCoreController(
           });
 
         // Delete proposal votes
-        await strapi.db.query('api::proposal-vote.proposal-vote').deleteMany({
+        await strapi.db.query("api::proposal-vote.proposal-vote").deleteMany({
           where: {
             proposal_id: id,
           },
         });
 
         // Delete comments
-        await strapi.db.query('api::comment.comment').deleteMany({
+        await strapi.db.query("api::comment.comment").deleteMany({
           where: {
             proposal_id: id,
           },
         });
 
         // Handling polls and poll votes
-        const polls = await strapi.db.query('api::poll.poll').findMany({
+        const polls = await strapi.db.query("api::poll.poll").findMany({
           where: {
             proposal_id: id,
           },
         });
 
         for (const poll of polls) {
-          await strapi.db.query('api::poll-vote.poll-vote').deleteMany({
+          await strapi.db.query("api::poll-vote.poll-vote").deleteMany({
             where: {
               poll_id: poll.id,
             },
           });
         }
 
-        await strapi.db.query('api::poll.poll').deleteMany({
+        await strapi.db.query("api::poll.poll").deleteMany({
           where: {
             proposal_id: id,
           },
@@ -247,7 +252,7 @@ module.exports = createCoreController(
 
         return this.transformResponse(deletedProposal);
       } catch (error) {
-        return ctx.badRequest('Failed to delete proposal and related data', {
+        return ctx.badRequest("Failed to delete proposal and related data", {
           error: error.message,
         });
       }
