@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use strict";
 
 /**
@@ -6,4 +7,24 @@
 
 const { createCoreRouter } = require("@strapi/strapi").factories;
 
-module.exports = createCoreRouter("api::poll-vote.poll-vote");
+module.exports = createCoreRouter("api::poll-vote.poll-vote", {
+  config: {
+    find: {
+      roles: ["authenticated"],
+    },
+    create: {
+      roles: ["authenticated"],
+    },
+    findOne: {
+      roles: [],
+    },
+    update: {
+      roles: [],
+      middlewares: ["global::is-owner"],
+    },
+    delete: {
+      roles: ["authenticated"],
+      middlewares: ["global::is-owner"],
+    },
+  },
+});
