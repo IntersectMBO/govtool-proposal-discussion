@@ -6,14 +6,14 @@ import { useAppContext } from '@/context/context';
 import {
 	createComment,
 	createProposalLikeOrDislike,
+	deleteProposal,
 	getComments,
 	getSingleProposal,
 	getUserProposalVote,
 	updateProposalLikesOrDislikes,
-	deleteProposal,
 } from '@/lib/api';
 import { formatIsoDate } from '@/lib/utils';
-import { Link } from '@/navigation';
+import { Link, useRouter } from '@/navigation';
 import { useTheme } from '@emotion/react';
 import {
 	IconChatAlt,
@@ -37,13 +37,12 @@ import {
 	IconButton,
 	Menu,
 	MenuItem,
+	Modal,
 	Stack,
 	TextField,
 	Typography,
-	Modal,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useRouter } from '@/navigation';
 
 const ProposalPage = ({ params: { id } }) => {
 	const { user } = useAppContext();
@@ -697,6 +696,7 @@ const ProposalPage = ({ params: { id } }) => {
 							display="flex"
 							flexDirection="row"
 							justifyContent="space-between"
+							alignItems={'center'}
 						>
 							<Typography
 								id="modal-modal-title"
@@ -705,9 +705,9 @@ const ProposalPage = ({ params: { id } }) => {
 							>
 								Do you want to delete your proposal?
 							</Typography>
-							<Button onClick={handleCloseDeleteModal}>
+							<IconButton onClick={handleCloseDeleteModal}>
 								<IconX width="24px" height="24px" />
-							</Button>
+							</IconButton>
 						</Box>
 						<Typography
 							id="modal-modal-description"
