@@ -72,6 +72,7 @@ const ProposedGovernanceActions = () => {
 								sx={{
 									'.MuiOutlinedInput-root': {
 										borderRadius: 100,
+										backgroundColor: 'white',
 										input: {
 											'&::placeholder': {
 												color: (theme) =>
