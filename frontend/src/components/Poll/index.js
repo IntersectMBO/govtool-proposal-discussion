@@ -4,24 +4,30 @@ import {
 	createPollVote,
 	getPoll,
 	getUserPollVote,
+	updatePollVote,
 } from '@/lib/api';
 import { formatPollDateDisplay } from '@/lib/utils';
+import { IconX } from '@intersect.mbo/intersectmbo.org-icons-set';
 import {
 	Box,
 	Button,
 	Card,
 	CardContent,
 	Divider,
+	IconButton,
 	LinearProgress,
+	Modal,
 	Typography,
+	alpha,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 const Poll = ({ proposalID, proposalUserId }) => {
-	const { user } = useAppContext();
+	const { user, setLoading } = useAppContext();
 	const [poll, setPoll] = useState(null);
 	const [userPollVote, setUserPollVote] = useState(null);
 	const [mounted, setMounted] = useState(false);
+	const [showChangeVoteModal, setShowChangeVoteModal] = useState(false);
 
 	const fetchPoll = async (id) => {
 		try {
@@ -102,6 +108,31 @@ const Poll = ({ proposalID, proposalUserId }) => {
 		}
 	};
 
+	const toggleChangeVoteModal = () => {
+		setShowChangeVoteModal((prev) => !prev);
+	};
+
+	const handlePollVoteChange = async () => {
+		setLoading(true);
+		try {
+			const response = await updatePollVote({
+				pollVoteID: userPollVote?.id,
+				updateData: {
+					vote_result: !userPollVote?.attributes?.vote_result,
+				},
+			});
+
+			if (!response) return;
+			setUserPollVote(response);
+			fetchPoll(proposalID);
+			toggleChangeVoteModal();
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	useEffect(() => {
 		if (user) {
 			if (poll) {
@@ -123,8 +154,13 @@ const Poll = ({ proposalID, proposalUserId }) => {
 	if (poll) {
 		return (
 			<>
-				{user && !userPollVote ? (
-					<Card sx={{ mb: 3 }}>
+				{user && !userPollVote && user?.user?.id !== +proposalUserId ? (
+					<Card
+						sx={{
+							mb: 3,
+							backgroundColor: alpha('#FFFFFF', 0.3),
+						}}
+					>
 						<CardContent
 							sx={{ display: 'flex', flexDirection: 'column' }}
 						>
@@ -299,8 +335,117 @@ const Poll = ({ proposalID, proposalUserId }) => {
 									</Button>
 								</Box>
 							)}
+						{user &&
+							userPollVote &&
+							user?.user?.id !== +proposalUserId &&
+							poll?.attributes?.is_poll_active && (
+								<Box
+									mt={2}
+									display={'flex'}
+									justifyContent={'flex-end'}
+								>
+									<Button
+										variant="outlined"
+										onClick={toggleChangeVoteModal}
+									>
+										Change Vote
+									</Button>
+								</Box>
+							)}
 					</CardContent>
 				</Card>
+				<Modal
+					open={showChangeVoteModal}
+					onClose={toggleChangeVoteModal}
+				>
+					<Box
+						sx={{
+							position: 'absolute',
+							top: '50%',
+							left: '50%',
+							transform: 'translate(-50%, -50%)',
+							width: {
+								xs: '90%',
+								sm: '50%',
+								md: '30%',
+							},
+							bgcolor: 'background.paper',
+							boxShadow: 24,
+							borderRadius: '20px',
+						}}
+					>
+						<Box
+							pt={2}
+							pl={2}
+							pr={2}
+							pb={1}
+							borderBottom={1}
+							borderColor={(theme) =>
+								theme.palette.border.lightGray
+							}
+						>
+							<Box
+								display="flex"
+								flexDirection="row"
+								justifyContent="space-between"
+								alignItems={'center'}
+							>
+								<Typography
+									id="modal-modal-title"
+									variant="h6"
+									component="h2"
+								>
+									Do you really want to change your Poll Vote?
+								</Typography>
+								<IconButton onClick={toggleChangeVoteModal}>
+									<IconX width="24px" height="24px" />
+								</IconButton>
+							</Box>
+							<Typography
+								id="modal-modal-description"
+								mt={2}
+								color={(theme) => theme.palette.text.grey}
+							>
+								{`Currently your Poll Vote is ${
+									userPollVote?.attributes?.vote_result
+										? 'Yes'
+										: 'No'
+								}. After changing your vote, it will be ${
+									userPollVote?.attributes?.vote_result
+										? 'No'
+										: 'Yes'
+								}.`}
+							</Typography>
+						</Box>
+						<Box
+							display="flex"
+							flexDirection="column"
+							padding={2}
+							gap={2}
+						>
+							<Button
+								variant="contained"
+								fullWidth
+								sx={{
+									borderRadius: '20px',
+								}}
+								onClick={toggleChangeVoteModal}
+							>
+								I don't want to change
+							</Button>
+							<Button
+								variant="outlined"
+								fullWidth
+								sx={{
+									borderRadius: '20px',
+								}}
+								onClick={handlePollVoteChange}
+							>
+								Yes, change my Poll Vote
+							</Button>
+						</Box>
+					</Box>
+				</Modal>
 			</>
 		);
 	}

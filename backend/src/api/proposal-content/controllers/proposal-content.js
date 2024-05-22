@@ -42,10 +42,12 @@ module.exports = createCoreController(
 			);
 
 			for (const proposal of results) {
-				proposal.gov_action_type = govActionTypes.find(
-					(govActionType) =>
-						+govActionType.id === +proposal.gov_action_type_id
-				);
+				proposal.gov_action_type = this.transformResponse(
+					govActionTypes.find(
+						(govActionType) =>
+							+govActionType.id === +proposal.gov_action_type_id
+					)
+				)?.data;
 			}
 
 			return ctx?.query
