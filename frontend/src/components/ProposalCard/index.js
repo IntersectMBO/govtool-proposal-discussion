@@ -15,6 +15,7 @@ import {
 	CardHeader,
 	IconButton,
 	Typography,
+	alpha,
 } from '@mui/material';
 
 import { formatIsoDate } from '@/lib/utils';
@@ -32,6 +33,8 @@ const ProposalCard = ({ proposal }) => {
 				flexDirection: 'column',
 				width: '100%',
 				height: '100%',
+				backgroundColor: alpha('#FFFFFF', 0.3),
+				minHeight: '400px',
 			}}
 		>
 			<CardHeader
@@ -122,9 +125,15 @@ const ProposalCard = ({ proposal }) => {
 					<Box
 						display={'flex'}
 						flexDirection={'row'}
-						justifyContent={'center'}
 						alignItems={'center'}
 						gap={1}
+						py={1}
+						px={1}
+						sx={{
+							backgroundColor: (theme) =>
+								theme.palette.divider.primary,
+							borderRadius: '14px',
+						}}
 					>
 						<IconInformationCircle
 							color={theme.palette.primary.icons.black}

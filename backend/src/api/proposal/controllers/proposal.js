@@ -11,23 +11,41 @@ module.exports = createCoreController(
   "api::proposal.proposal",
   ({ strapi }) => ({
     async find(ctx) {
-      const sanitizedQueryParams = await this.sanitizeQuery(ctx);
 
-      if (!sanitizedQueryParams.filters) {
-        sanitizedQueryParams.filters = {};
-      }
+		const sanitizedQueryParams = await this.sanitizeQuery(ctx);
 
-      if (!sanitizedQueryParams.filters["$and"]) {
-        sanitizedQueryParams.filters["$and"] = [];
-      }
+		if (!sanitizedQueryParams.filters) {
+			sanitizedQueryParams.filters = {};
+		}
 
-      sanitizedQueryParams.filters["$and"].push({ prop_rev_active: true });
+		if (!sanitizedQueryParams.filters['$and']) {
+			sanitizedQueryParams.filters['$and'] = [];
+		}
 
-      let proposalsList = [];
+		let hasGovActionTypeIDFilter = ctx?.query?.filters['$and']?.find(
+			(elem) => elem?.hasOwnProperty('gov_action_type_id')
+		);
 
-      const { results, pagination } = await strapi
-        .service("api::proposal-content.proposal-content")
-        .find(sanitizedQueryParams);
+		if (hasGovActionTypeIDFilter) {
+			let hasGovActionTypeIDFilterInSanitize =
+				sanitizedQueryParams?.filters['$and']?.some((elem) =>
+					elem?.hasOwnProperty('gov_action_type_id')
+				);
+			if (!hasGovActionTypeIDFilterInSanitize) {
+				sanitizedQueryParams.filters['$and'].push({
+					gov_action_type_id:
+						hasGovActionTypeIDFilter?.gov_action_type_id,
+				});
+			}
+		}
+
+		sanitizedQueryParams.filters['$and'].push({ prop_rev_active: true });
+
+		let proposalsList = [];
+
+		const { results, pagination } = await strapi
+			.controller('api::proposal-content.proposal-content')
+			.find(sanitizedQueryParams);
 
       for (const proposalContent of results) {
         const proposal = await strapi.entityService.findOne(
