@@ -3,46 +3,52 @@
 import { CommentCard } from '@/components';
 import Poll from '@/components/Poll';
 import { useAppContext } from '@/context/context';
-import {
-	createComment,
-	createProposalLikeOrDislike,
-	deleteProposal,
-	getComments,
-	getSingleProposal,
-	getUserProposalVote,
-	updateProposalLikesOrDislikes,
-} from '@/lib/api';
+import
+	{
+		createComment,
+		createProposalLikeOrDislike,
+		deleteProposal,
+		getComments,
+		getSingleProposal,
+		getUserProposalVote,
+		updateProposalLikesOrDislikes,
+	} from '@/lib/api';
 import { formatIsoDate } from '@/lib/utils';
 import { Link, useRouter } from '@/navigation';
 import { useTheme } from '@emotion/react';
-import {
-	IconChatAlt,
-	IconCheveronLeft,
-	IconDotsVertical,
-	IconLink,
-	IconPencilAlt,
-	IconReply,
-	IconSort,
-	IconThumbDown,
-	IconThumbUp,
-	IconTrash,
-	IconX,
-} from '@intersect.mbo/intersectmbo.org-icons-set';
-import {
-	Badge,
-	Box,
-	Button,
-	Card,
-	CardContent,
-	Grid,
-	IconButton,
-	Menu,
-	MenuItem,
-	Modal,
-	Stack,
-	TextField,
-	Typography,
-} from '@mui/material';
+import
+	{
+		IconChatAlt,
+		IconCheveronLeft,
+		IconDotsVertical,
+		IconInformationCircle,
+		IconLink,
+		IconPencilAlt,
+		IconReply,
+		IconSort,
+		IconThumbDown,
+		IconThumbUp,
+		IconTrash,
+		IconX,
+	} from '@intersect.mbo/intersectmbo.org-icons-set';
+import
+	{
+		Badge,
+		Box,
+		Button,
+		Card,
+		CardContent,
+		CardHeader,
+		Grid,
+		IconButton,
+		Menu,
+		MenuItem,
+		Modal,
+		Stack,
+		TextField,
+		Typography,
+		alpha,
+	} from '@mui/material';
 import { useEffect, useState } from 'react';
 
 const ProposalPage = ({ params: { id } }) => {
@@ -206,15 +212,42 @@ const ProposalPage = ({ params: { id } }) => {
 			</Box>
 
 			<Box mt={4}>
-				<Card variant="outlined">
-					<Box textAlign="center">
-						<Typography variant="caption">
-							{`Proposed on: ${formatIsoDate(
-								proposal?.attributes?.createdAt
-							)}`}
-						</Typography>
-					</Box>
-
+				<Card
+					variant="outlined"
+					sx={{
+						backgroundColor: alpha('#FFFFFF', 0.3),
+					}}
+				>
+					<CardHeader
+						sx={{
+							pt: 1,
+							pb: 1,
+							backgroundColor: alpha('#F2F4F8', 0.7),
+						}}
+						title={
+							<>
+								<Box
+									display={'flex'}
+									justifyContent={'center'}
+									alignItems={'center'}
+									flexDirection={'row'}
+								>
+									<Typography variant="caption" component="p">
+										{`Proposed on: ${formatIsoDate(
+											proposal?.attributes?.createdAt
+										)}`}
+									</Typography>
+									<IconInformationCircle
+										width={16}
+										height={16}
+										fill={
+											theme?.palette?.primary?.icons?.grey
+										}
+									/>
+								</Box>
+							</>
+						}
+					></CardHeader>
 					{user?.user?.id?.toString() ===
 						proposal?.attributes?.user_id?.toString() && (
 						<CardContent>
@@ -370,7 +403,8 @@ const ProposalPage = ({ params: { id } }) => {
 							<Typography variant="body2">
 								{
 									proposal?.attributes?.content?.attributes
-										?.gov_action_type?.gov_action_type_name
+										?.gov_action_type?.attributes
+										?.gov_action_type_name
 								}
 							</Typography>
 						</Box>
