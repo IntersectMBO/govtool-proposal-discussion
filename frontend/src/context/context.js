@@ -1,8 +1,9 @@
 // The "use client" directive indicates that this module is intended to run in the client environment,
 // which is particularly relevant for Next.js applications that support server-side rendering (SSR).
 'use client';
-import { clearSession } from '@/lib/helpers';
+import { getDataFromSession } from '@/lib/helpers';
 import { useEffect, useState } from 'react';
+import { getLoggedInUserInfo } from '@/lib/api';
 
 // Import createContext and useContext hooks from React to create and consume the context.
 import { createContext, useContext } from 'react';
@@ -14,6 +15,28 @@ const AppContext = createContext();
 export function AppContextProvider({ children }) {
 	const [user, setUser] = useState();
 	const [loading, setLoading] = useState(false); // State to manage loading status.
+
+	const handleRefresh = async () => {
+		try {
+			setLoading(true);
+			if (getDataFromSession('pdfUserJwt')) {
+				const user = await getLoggedInUserInfo();
+				if (user) {
+					setUser({ user: user });
+				}
+			}
+		} catch (error) {
+			setLoading(false);
+			console.error(error);
+			throw new Error('Authentication failed');
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		handleRefresh();
+	}, []);
 
 	// Render the provider component of your context, passing in the values or functions as the value prop.
 	// Any child components will be able to access these values via the useAppContext hook.

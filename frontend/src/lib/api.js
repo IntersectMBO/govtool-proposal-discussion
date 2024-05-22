@@ -48,10 +48,23 @@ export const createProposal = async (data, addPoll) => {
 		const response = await axiosInstance.post(`/api/proposals`, {
 			data: {
 				...data,
-				prop_status_id: '1', // TODO: proposal status
-				user_id: '1', // TODO: set user_id,
-				prop_rev_active: true, // For first draft to be seen on frontend, temporary!!!
 				add_poll: addPoll,
+			},
+		});
+
+		return response?.data;
+	} catch (error) {
+		console.error('Error in createProposal:', error);
+		throw error;
+	}
+};
+
+export const createProposalContent = async (data, publish) => {
+	try {
+		const response = await axiosInstance.post(`/api/proposal-contents`, {
+			data: {
+				...data,
+				publish: publish,
 			},
 		});
 
@@ -194,5 +207,14 @@ export const createPollVote = async ({ createData }) => {
 		return data?.data;
 	} catch (error) {
 		throw error;
+	}
+};
+
+export const getLoggedInUserInfo = async () => {
+	try {
+		const { data } = await axiosInstance.get(`api/users/me`);
+		return data;
+	} catch (error) {
+		console.error(error);
 	}
 };
