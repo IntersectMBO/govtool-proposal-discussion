@@ -3,49 +3,52 @@
 import { CommentCard } from '@/components';
 import Poll from '@/components/Poll';
 import { useAppContext } from '@/context/context';
-import {
-	createComment,
-	createProposalLikeOrDislike,
-	deleteProposal,
-	getComments,
-	getSingleProposal,
-	getUserProposalVote,
-	updateProposalLikesOrDislikes,
-} from '@/lib/api';
+import
+	{
+		createComment,
+		createProposalLikeOrDislike,
+		deleteProposal,
+		getComments,
+		getSingleProposal,
+		getUserProposalVote,
+		updateProposalLikesOrDislikes,
+	} from '@/lib/api';
 import { formatIsoDate } from '@/lib/utils';
 import { Link, useRouter } from '@/navigation';
 import { useTheme } from '@emotion/react';
-import {
-	IconChatAlt,
-	IconCheveronLeft,
-	IconDotsVertical,
-	IconInformationCircle,
-	IconLink,
-	IconPencilAlt,
-	IconReply,
-	IconSort,
-	IconThumbDown,
-	IconThumbUp,
-	IconTrash,
-	IconX,
-} from '@intersect.mbo/intersectmbo.org-icons-set';
-import {
-	Badge,
-	Box,
-	Button,
-	Card,
-	CardContent,
-	CardHeader,
-	Grid,
-	IconButton,
-	Menu,
-	MenuItem,
-	Modal,
-	Stack,
-	TextField,
-	Typography,
-	alpha,
-} from '@mui/material';
+import
+	{
+		IconChatAlt,
+		IconCheveronLeft,
+		IconDotsVertical,
+		IconInformationCircle,
+		IconLink,
+		IconPencilAlt,
+		IconReply,
+		IconSort,
+		IconThumbDown,
+		IconThumbUp,
+		IconTrash,
+		IconX,
+	} from '@intersect.mbo/intersectmbo.org-icons-set';
+import
+	{
+		Badge,
+		Box,
+		Button,
+		Card,
+		CardContent,
+		CardHeader,
+		Grid,
+		IconButton,
+		Menu,
+		MenuItem,
+		Modal,
+		Stack,
+		TextField,
+		Typography,
+		alpha,
+	} from '@mui/material';
 import { useEffect, useState } from 'react';
 
 const ProposalPage = ({ params: { id } }) => {
@@ -216,10 +219,6 @@ const ProposalPage = ({ params: { id } }) => {
 					}}
 				>
 					<CardHeader
-						// textAlign="center"
-						// display={'flex'}
-						// justifyContent={'center'}
-						// alignItems={'center'}
 						sx={{
 							pt: 1,
 							pb: 1,
@@ -249,36 +248,39 @@ const ProposalPage = ({ params: { id } }) => {
 							</>
 						}
 					></CardHeader>
-					<CardContent>
-						<Box
-							display="flex"
-							alignItems="center"
-							justifyContent="space-between"
-							flexDirection={{ xs: 'column', sm: 'row' }}
-						>
+					{user?.user?.id?.toString() ===
+						proposal?.attributes?.user_id?.toString() && (
+						<CardContent>
 							<Box
-								textAlign={{
-									xs: 'center',
-									sm: 'left',
-								}}
+								display="flex"
+								alignItems="center"
+								justifyContent="space-between"
+								flexDirection={{ xs: 'column', sm: 'row' }}
 							>
-								<Typography variant="body2">
-									Your Action:
-								</Typography>
-								<Typography variant="caption">
-									If your are ready, submit this
-									proposalContent as a governance action to
-									get voted on
-								</Typography>
-							</Box>
+								<Box
+									textAlign={{
+										xs: 'center',
+										sm: 'left',
+									}}
+								>
+									<Typography variant="body2">
+										Your Action:
+									</Typography>
+									<Typography variant="caption">
+										If your are ready, submit this
+										proposalContent as a governance action
+										to get voted on
+									</Typography>
+								</Box>
 
-							<Box>
-								<Button variant="outlined">
-									Submit as Governance Action
-								</Button>
+								<Box>
+									<Button variant="outlined">
+										Submit as Governance Action
+									</Button>
+								</Box>
 							</Box>
-						</Box>
-					</CardContent>
+						</CardContent>
+					)}
 				</Card>
 			</Box>
 
@@ -295,93 +297,103 @@ const ProposalPage = ({ params: { id } }) => {
 								</Typography>
 							</Grid>
 
-							<Grid
-								item
-								xs={1}
-								display="flex"
-								justifyContent="flex-end"
-							>
-								<IconButton
-									id="menu-button"
-									sx={{
-										width: 40,
-										height: 40,
-									}}
-									aria-controls={
-										open ? 'proposal-menu' : undefined
-									}
-									aria-haspopup="true"
-									aria-expanded={open ? 'true' : undefined}
-									onClick={handleClick}
+							{user?.user?.id?.toString() ===
+								proposal?.attributes?.user_id?.toString() && (
+								<Grid
+									item
+									xs={1}
+									display="flex"
+									justifyContent="flex-end"
 								>
-									<IconDotsVertical width="24" height="24" />
-								</IconButton>
-								<Menu
-									id="proposal-menu"
-									anchorEl={anchorEl}
-									open={open}
-									onClose={handleClose}
-									MenuListProps={{
-										'aria-labelledby': 'menu-button',
-									}}
-									slotProps={{
-										paper: {
-											elevation: 4,
-											sx: {
-												overflow: 'visible',
-												mt: 1,
+									<IconButton
+										id="menu-button"
+										sx={{
+											width: 40,
+											height: 40,
+										}}
+										aria-controls={
+											open ? 'proposal-menu' : undefined
+										}
+										aria-haspopup="true"
+										aria-expanded={
+											open ? 'true' : undefined
+										}
+										onClick={handleClick}
+									>
+										<IconDotsVertical
+											width="24"
+											height="24"
+										/>
+									</IconButton>
+									<Menu
+										id="proposal-menu"
+										anchorEl={anchorEl}
+										open={open}
+										onClose={handleClose}
+										MenuListProps={{
+											'aria-labelledby': 'menu-button',
+										}}
+										slotProps={{
+											paper: {
+												elevation: 4,
+												sx: {
+													overflow: 'visible',
+													mt: 1,
+												},
 											},
-										},
-									}}
-									transformOrigin={{
-										horizontal: 'right',
-										vertical: 'top',
-									}}
-									anchorOrigin={{
-										horizontal: 'right',
-										vertical: 'bottom',
-									}}
-								>
-									<MenuItem onClick={handleClose}>
-										<Stack
-											direction={'row'}
-											spacing={2}
-											alignItems={'center'}
+										}}
+										transformOrigin={{
+											horizontal: 'right',
+											vertical: 'top',
+										}}
+										anchorOrigin={{
+											horizontal: 'right',
+											vertical: 'bottom',
+										}}
+									>
+										<MenuItem onClick={handleClose}>
+											<Stack
+												direction={'row'}
+												spacing={2}
+												alignItems={'center'}
+											>
+												<IconPencilAlt
+													color={
+														theme.palette.primary
+															.icons.black
+													}
+													height={24}
+													width={24}
+												/>
+												<Typography variant="body1">
+													Edit Proposal
+												</Typography>
+											</Stack>
+										</MenuItem>
+										<MenuItem
+											onClick={handleOpenDeleteModal}
 										>
-											<IconPencilAlt
-												color={
-													theme.palette.primary.icons
-														.black
-												}
-												height={24}
-												width={24}
-											/>
-											<Typography variant="body1">
-												Edit Proposal
-											</Typography>
-										</Stack>
-									</MenuItem>
-									<MenuItem onClick={handleOpenDeleteModal}>
-										<Stack
-											direction={'row'}
-											spacing={2}
-											alignItems={'center'}
-										>
-											<IconTrash
-												color={
-													theme.palette.primary.icons
-														.black
-												}
-												height={24}
-												width={24}
-											/>
-											<Typography variant="body1">
-												Delete Proposal
-											</Typography>
-										</Stack>
-									</MenuItem>
-								</Menu>
-							</Grid>
+											<Stack
+												direction={'row'}
+												spacing={2}
+												alignItems={'center'}
+											>
+												<IconTrash
+													color={
+														theme.palette.primary
+															.icons.black
+													}
+													height={24}
+													width={24}
+												/>
+												<Typography variant="body1">
+													Delete Proposal
+												</Typography>
+											</Stack>
+										</MenuItem>
+									</Menu>
+								</Grid>
+							)}
 						</Grid>
 
 						<Box mt={2}>
@@ -409,18 +421,21 @@ const ProposalPage = ({ params: { id } }) => {
 										?.createdAt
 								)}`}
 							</Typography>
-							<Button
-								variant="outlined"
-								startIcon={
-									<IconLink
-										fill={theme.palette.primary.main}
-										width="18"
-										height="18"
-									/>
-								}
-							>
-								Review Versions
-							</Button>
+							{user?.user?.id?.toString() ===
+								proposal?.attributes?.user_id?.toString() && (
+								<Button
+									variant="outlined"
+									startIcon={
+										<IconLink
+											fill={theme.palette.primary.main}
+											width="18"
+											height="18"
+										/>
+									}
+								>
+									Review Versions
+								</Button>
+							)}
 						</Box>
 
 						<Box mt={4}>

@@ -19,6 +19,8 @@ import { useEffect, useState } from 'react';
 
 const ProposedGovernanceActions = () => {
 	const theme = useTheme();
+	const [proposalSearchText, setProposalSearchText] = useState('');
+	const [sortType, setSortType] = useState('desc');
 	const [governanceActionTypeList, setGovernanceActionTypeList] = useState(
 		[]
 	);
@@ -55,6 +57,10 @@ const ProposedGovernanceActions = () => {
 								id="outlined-basic"
 								placeholder="Search..."
 								variant="outlined"
+								value={proposalSearchText || ''}
+								onChange={(e) =>
+									setProposalSearchText(e.target.value)
+								}
 								InputProps={{
 									startAdornment: (
 										<InputAdornment position="start">
@@ -93,7 +99,13 @@ const ProposedGovernanceActions = () => {
 										}
 									/>
 								</IconButton>
-								<IconButton>
+								<IconButton
+									onClick={() =>
+										setSortType((prev) =>
+											prev === 'desc' ? 'asc' : 'desc'
+										)
+									}
+								>
 									<IconSort
 										color={
 											theme.palette.primary.icons.black
@@ -112,7 +124,11 @@ const ProposedGovernanceActions = () => {
 						key={`${item?.attributes?.gov_action_type_name}-${index}`}
 						pt={index === 0 && 4}
 					>
-						<ProposalsList governanceAction={item} />
+						<ProposalsList
+							governanceAction={item}
+							searchText={proposalSearchText}
+							sortType={sortType}
+						/>
 					</Box>
 				))}
 			</Box>
