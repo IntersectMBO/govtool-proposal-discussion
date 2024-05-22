@@ -125,8 +125,6 @@ const EditProposalDialog = ({
 		try {
 			const response = await createProposalContent(flatProposal, publish);
 			if (!response) return;
-
-			// router.push('/proposed-governance-actions');
 		} catch (error) {
 			console.error('Failed to delete proposal:', error);
 		} finally {
@@ -694,6 +692,7 @@ const EditProposalDialog = ({
 													onClick={async () => {
 														await handleSaveDraft();
 														handleOpenSaveDraftModal();
+														setMounted(false);
 													}}
 												>
 													Save Draft
@@ -842,7 +841,7 @@ const EditProposalDialog = ({
 									variant="h6"
 									component="h2"
 								>
-									Proposam saved to drafts
+									Proposal saved to drafts
 								</Typography>
 								<IconButton
 									onClick={() => {
@@ -904,7 +903,7 @@ const EditProposalDialog = ({
 									variant="h6"
 									component="h2"
 								>
-									Please confirm applied changess
+									Please confirm applied changes
 								</Typography>
 								<IconButton
 									onClick={() => {

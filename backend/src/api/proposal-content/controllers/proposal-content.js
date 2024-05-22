@@ -102,6 +102,8 @@ module.exports = createCoreController(
             return ctx.badRequest(null, 'Failed to update proposal contents');
           }
         }
+
+        return this.transformResponse(proposal_content);
       } catch (error) {
         ctx.status = 500;
         ctx.body = { error: error.message };
