@@ -12,7 +12,7 @@ import { useAppContext } from '@/context/context';
 const ProposalCreation = () => {
 	const router = useRouter();
 	const theme = useTheme();
-	const { setLoading } = useAppContext();
+	const { user, setLoading } = useAppContext();
 	const [step, setStep] = useState(1);
 	const [proposalData, setProposalData] = useState({
 		proposal_links: [],
@@ -75,6 +75,13 @@ const ProposalCreation = () => {
 			setLoading(false);
 		}
 	};
+
+	useEffect(() => {
+		setProposalData((prev) => ({
+			...prev,
+			user_id: user?.user?.id,
+		}));
+	}, [user]);
 
 	return (
 		<>

@@ -1,14 +1,14 @@
 // @ts-nocheck
-"use strict";
+'use strict';
 
 /**
  * proposal controller
  */
 
-const { createCoreController } = require("@strapi/strapi").factories;
+const { createCoreController } = require('@strapi/strapi').factories;
 
 module.exports = createCoreController(
-  "api::proposal.proposal",
+  'api::proposal.proposal',
   ({ strapi }) => ({
     async find(ctx) {
       const sanitizedQueryParams = await this.sanitizeQuery(ctx);
@@ -17,22 +17,22 @@ module.exports = createCoreController(
         sanitizedQueryParams.filters = {};
       }
 
-      if (!sanitizedQueryParams.filters["$and"]) {
-        sanitizedQueryParams.filters["$and"] = [];
+      if (!sanitizedQueryParams.filters['$and']) {
+        sanitizedQueryParams.filters['$and'] = [];
       }
 
       /////GOV ACTION TYPE///////////
-      const hasGovActionTypeIDFilter = ctx?.query?.filters["$and"]?.find(
-        (elem) => elem?.hasOwnProperty("gov_action_type_id")
+      const hasGovActionTypeIDFilter = ctx?.query?.filters['$and']?.find(
+        (elem) => elem?.hasOwnProperty('gov_action_type_id')
       );
 
       if (hasGovActionTypeIDFilter) {
         const hasGovActionTypeIDFilterInSanitize =
-          sanitizedQueryParams?.filters["$and"]?.some((elem) =>
-            elem?.hasOwnProperty("gov_action_type_id")
+          sanitizedQueryParams?.filters['$and']?.some((elem) =>
+            elem?.hasOwnProperty('gov_action_type_id')
           );
         if (!hasGovActionTypeIDFilterInSanitize) {
-          sanitizedQueryParams.filters["$and"].push({
+          sanitizedQueryParams.filters['$and'].push({
             gov_action_type_id: hasGovActionTypeIDFilter?.gov_action_type_id,
           });
         }
@@ -40,33 +40,33 @@ module.exports = createCoreController(
       //////////////////////////
 
       /////PROPOSAL NAME///////////
-      const hasPropNameFilter = ctx?.query?.filters["$and"]?.find((elem) =>
-        elem?.hasOwnProperty("prop_name")
+      const hasPropNameFilter = ctx?.query?.filters['$and']?.find((elem) =>
+        elem?.hasOwnProperty('prop_name')
       );
 
       if (hasPropNameFilter) {
         const hasPropNameFilterInSanitize = sanitizedQueryParams?.filters[
-          "$and"
-        ]?.some((elem) => elem?.hasOwnProperty("prop_name"));
+          '$and'
+        ]?.some((elem) => elem?.hasOwnProperty('prop_name'));
         if (!hasPropNameFilterInSanitize) {
-          sanitizedQueryParams.filters["$and"].push({
+          sanitizedQueryParams.filters['$and'].push({
             prop_name: hasPropNameFilter?.prop_name,
           });
         }
       }
       //////////////////////////////
 
-      sanitizedQueryParams.filters["$and"].push({ prop_rev_active: true });
+      sanitizedQueryParams.filters['$and'].push({ prop_rev_active: true });
 
       let proposalsList = [];
 
       const { results, pagination } = await strapi
-        .controller("api::proposal-content.proposal-content")
+        .controller('api::proposal-content.proposal-content')
         .find(sanitizedQueryParams);
 
       for (const proposalContent of results) {
         const proposal = await strapi.entityService.findOne(
-          "api::proposal.proposal",
+          'api::proposal.proposal',
           proposalContent?.proposal_id
         );
 
@@ -82,21 +82,21 @@ module.exports = createCoreController(
       const { id } = ctx?.params;
 
       if (!id) {
-        return ctx.badRequest(null, "Proposal ID is required");
+        return ctx.badRequest(null, 'Proposal ID is required');
       }
       // const sanitizedQueryParams = await this.sanitizeQuery(ctx);
 
       const proposal = await strapi.entityService.findOne(
-        "api::proposal.proposal",
+        'api::proposal.proposal',
         id
       );
 
       if (!proposal) {
-        return ctx.badRequest(null, "Proposal not found");
+        return ctx.badRequest(null, 'Proposal not found');
       }
 
       const proposalContent = await strapi
-        .controller("api::proposal-content.proposal-content")
+        .controller('api::proposal-content.proposal-content')
         .find({
           query: {
             filters: {
@@ -119,7 +119,7 @@ module.exports = createCoreController(
       const { user_id: userID, add_poll: addPoll } = data;
 
       if (!userID) {
-        return ctx.badRequest(null, "User ID is required");
+        return ctx.badRequest(null, 'User ID is required');
       }
 
       let proposal;
@@ -129,24 +129,24 @@ module.exports = createCoreController(
       // Delete the Prposal
       const deleteProposal = async () => {
         let deletedProposal = await strapi.entityService.delete(
-          "api::proposal.proposal",
+          'api::proposal.proposal',
           proposal?.id
         );
 
         if (!deletedProposal) {
-          return ctx.badRequest(null, "Proposal not deleted");
+          return ctx.badRequest(null, 'Proposal not deleted');
         }
       };
 
       // Delete the Proposal Content
       const deleteProposalContent = async () => {
         let deletedProposal = await strapi.entityService.delete(
-          "api::proposal-content.proposal-content",
+          'api::proposal-content.proposal-content',
           proposal_content?.id
         );
 
         if (!deletedProposal) {
-          return ctx.badRequest(null, "Proposal content not deleted");
+          return ctx.badRequest(null, 'Proposal content not deleted');
         }
       };
 
@@ -154,26 +154,32 @@ module.exports = createCoreController(
         // Create the Proposal
         try {
           proposal = await strapi.entityService.create(
-            "api::proposal.proposal",
-            { data }
+            'api::proposal.proposal',
+            {
+              data: {
+                ...data,
+                user_id: userID.toString(),
+              },
+            }
           );
 
           if (!proposal) {
-            return ctx.badRequest(null, "Proposal not created");
+            return ctx.badRequest(null, 'Proposal not created');
           }
         } catch (error) {
-          return ctx.badRequest(null, "Proposal not created");
+          return ctx.badRequest(null, 'Proposal not created');
         }
 
         // Create Proposal content
         try {
           proposal_content = await strapi.entityService.create(
-            "api::proposal-content.proposal-content",
+            'api::proposal-content.proposal-content',
             {
               data: {
                 ...data,
                 proposal_id: proposal?.id.toString(),
                 gov_action_type_id: data?.gov_action_type_id?.toString(),
+                prop_rev_active: true,
               },
             }
           );
@@ -181,13 +187,13 @@ module.exports = createCoreController(
           // Delete the Proposal because the Proposal content was not created
           await deleteProposal();
 
-          return ctx.badRequest(null, "Proposal content not created");
+          return ctx.badRequest(null, 'Proposal content not created');
         }
 
         if (addPoll) {
           // Create the Poll
           try {
-            poll = await strapi.entityService.create("api::poll.poll", {
+            poll = await strapi.entityService.create('api::poll.poll', {
               data: {
                 proposal_id: proposal?.id.toString(),
                 is_poll_active: true,
@@ -199,7 +205,7 @@ module.exports = createCoreController(
             await deleteProposalContent();
             await deleteProposal();
 
-            return ctx.badRequest(null, "Poll not created");
+            return ctx.badRequest(null, 'Poll not created');
           }
         }
 
@@ -224,17 +230,17 @@ module.exports = createCoreController(
       try {
         // Delete proposal
         let deletedProposal = await strapi.entityService.delete(
-          "api::proposal.proposal",
+          'api::proposal.proposal',
           id
         );
 
         if (!deletedProposal) {
-          throw new Error("Proposal not found or delete failed");
+          throw new Error('Proposal not found or delete failed');
         }
 
         // Delete proposal content
         await strapi.db
-          .query("api::proposal-content.proposal-content")
+          .query('api::proposal-content.proposal-content')
           .deleteMany({
             where: {
               proposal_id: id,
@@ -243,7 +249,7 @@ module.exports = createCoreController(
 
         // Handling proposal submitions
         await strapi.db
-          .query("api::proposal-submition.proposal-submition")
+          .query('api::proposal-submition.proposal-submition')
           .deleteMany({
             where: {
               proposal_id: id,
@@ -251,35 +257,35 @@ module.exports = createCoreController(
           });
 
         // Delete proposal votes
-        await strapi.db.query("api::proposal-vote.proposal-vote").deleteMany({
+        await strapi.db.query('api::proposal-vote.proposal-vote').deleteMany({
           where: {
             proposal_id: id,
           },
         });
 
         // Delete comments
-        await strapi.db.query("api::comment.comment").deleteMany({
+        await strapi.db.query('api::comment.comment').deleteMany({
           where: {
             proposal_id: id,
           },
         });
 
         // Handling polls and poll votes
-        const polls = await strapi.db.query("api::poll.poll").findMany({
+        const polls = await strapi.db.query('api::poll.poll').findMany({
           where: {
             proposal_id: id,
           },
         });
 
         for (const poll of polls) {
-          await strapi.db.query("api::poll-vote.poll-vote").deleteMany({
+          await strapi.db.query('api::poll-vote.poll-vote').deleteMany({
             where: {
               poll_id: poll.id,
             },
           });
         }
 
-        await strapi.db.query("api::poll.poll").deleteMany({
+        await strapi.db.query('api::poll.poll').deleteMany({
           where: {
             proposal_id: id,
           },
@@ -287,7 +293,7 @@ module.exports = createCoreController(
 
         return this.transformResponse(deletedProposal);
       } catch (error) {
-        return ctx.badRequest("Failed to delete proposal and related data", {
+        return ctx.badRequest('Failed to delete proposal and related data', {
           error: error.message,
         });
       }
