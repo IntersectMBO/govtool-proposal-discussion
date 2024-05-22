@@ -20,7 +20,7 @@ module.exports = createCoreRouter('api::poll-vote.poll-vote', {
 			roles: [],
 		},
 		update: {
-			roles: [],
+			roles: ['authenticated'],
 			middlewares: ['global::is-owner'],
 		},
 		delete: {

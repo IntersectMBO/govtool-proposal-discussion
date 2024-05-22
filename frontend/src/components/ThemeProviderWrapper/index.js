@@ -16,6 +16,7 @@ let theme = createTheme({
 			icons: {
 				black: '#212A3D',
 				error: '#CC0000',
+				grey: '#ADAEAD',
 			},
 		},
 		divider: {
@@ -26,6 +27,7 @@ let theme = createTheme({
 			error: '#CC0000',
 			errorLight: '#FF9999',
 			secondary: '#39B6D5',
+			lightPurple: '#D6D8FF',
 		},
 		iconButton: {
 			outlineLightColor: alpha('#BFC8D9', 0.38),
@@ -60,6 +62,7 @@ let theme = createTheme({
 			styleOverrides: {
 				root: {
 					boxShadow: '0px 4px 15px 0px #DDE3F5',
+					borderRadius: '16px',
 				},
 			},
 		},

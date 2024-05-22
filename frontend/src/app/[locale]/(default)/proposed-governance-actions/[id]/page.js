@@ -20,6 +20,7 @@ import {
 	IconChatAlt,
 	IconCheveronLeft,
 	IconDotsVertical,
+	IconInformationCircle,
 	IconLink,
 	IconPencilAlt,
 	IconReply,
@@ -35,6 +36,7 @@ import {
 	Button,
 	Card,
 	CardContent,
+	CardHeader,
 	Grid,
 	IconButton,
 	Menu,
@@ -43,6 +45,7 @@ import {
 	Stack,
 	TextField,
 	Typography,
+	alpha,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 
@@ -254,15 +257,47 @@ const ProposalPage = ({ params: { id } }) => {
 					</Box>
 
 					<Box mt={4}>
-						<Card variant="outlined">
-							<Box textAlign="center">
-								<Typography variant="caption">
-									{`Proposed on: ${formatIsoDate(
-										proposal?.attributes?.createdAt
-									)}`}
-								</Typography>
-							</Box>
-
+						<Card
+							variant="outlined"
+							sx={{
+								backgroundColor: alpha('#FFFFFF', 0.3),
+							}}
+						>
+							<CardHeader
+								sx={{
+									pt: 1,
+									pb: 1,
+									backgroundColor: alpha('#F2F4F8', 0.7),
+								}}
+								title={
+									<>
+										<Box
+											display={'flex'}
+											justifyContent={'center'}
+											alignItems={'center'}
+											flexDirection={'row'}
+										>
+											<Typography
+												variant="caption"
+												component="p"
+											>
+												{`Proposed on: ${formatIsoDate(
+													proposal?.attributes
+														?.createdAt
+												)}`}
+											</Typography>
+											<IconInformationCircle
+												width={16}
+												height={16}
+												fill={
+													theme?.palette?.primary
+														?.icons?.grey
+												}
+											/>
+										</Box>
+									</>
+								}
+							></CardHeader>
 							{user?.user?.id?.toString() ===
 								proposal?.attributes?.user_id?.toString() && (
 								<CardContent>

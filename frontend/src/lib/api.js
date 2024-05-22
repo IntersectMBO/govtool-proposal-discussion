@@ -218,3 +218,19 @@ export const getLoggedInUserInfo = async () => {
 		console.error(error);
 	}
 };
+
+export const updatePollVote = async ({ pollVoteID, updateData }) => {
+	try {
+		const { data } = await axiosInstance.put(
+			`api/poll-votes/${pollVoteID}`,
+			{
+				data: {
+					...updateData,
+				},
+			}
+		);
+		return data?.data;
+	} catch (error) {
+		throw error;
+	}
+};
