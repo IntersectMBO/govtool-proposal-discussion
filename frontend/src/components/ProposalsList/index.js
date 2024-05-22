@@ -1,16 +1,16 @@
 'use client';
-import { useRef, useState, useEffect } from 'react';
 import { ProposalCard } from '@/components';
+import { getProposals } from '@/lib/api';
 import { settings } from '@/lib/carouselSettings';
 import {
 	IconCheveronLeft,
 	IconCheveronRight,
 } from '@intersect.mbo/intersectmbo.org-icons-set';
 import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
-import { getProposals } from '@/lib/api';
+import { useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';
 
-const ProposalsList = () => {
+const ProposalsList = ({ governanceAction }) => {
 	const sliderRef = useRef(null);
 
 	const [showAll, setShowAll] = useState(false);
@@ -22,7 +22,7 @@ const ProposalsList = () => {
 
 	const fetchProposals = async () => {
 		try {
-			let query = `pagination[page]=${currentPage}&pagination[pageSize]=25&sort[createdAt]=desc`;
+			let query = `filters[$and][0][gov_action_type_id]=${governanceAction?.id}&pagination[page]=${currentPage}&pagination[pageSize]=25&sort[createdAt]=desc&populate[0]=proposal_links&populate[1]=test`;
 			const { proposals, pgCount } = await getProposals(query);
 			if (!proposals) return;
 
@@ -56,7 +56,10 @@ const ProposalsList = () => {
 								color="text.black"
 								marginRight={2}
 							>
-								Info
+								{
+									governanceAction?.attributes
+										?.gov_action_type_name
+								}
 							</Typography>
 							<Button
 								variant="outlined"
@@ -88,12 +91,7 @@ const ProposalsList = () => {
 
 					{showAll ? (
 						<Box>
-							<Grid
-								container
-								spacing={2}
-								paddingY={4}
-								paddingX={2}
-							>
+							<Grid container spacing={2} paddingY={4}>
 								{proposalsList?.map((proposal, index) => (
 									<Grid
 										item
@@ -124,16 +122,10 @@ const ProposalsList = () => {
 							)}
 						</Box>
 					) : (
-						<Box paddingRight={{ md: 2.2 }}>
+						<Box>
 							<Slider ref={sliderRef} {...settings}>
 								{proposalsList?.map((proposal, index) => (
 									<Box
-										paddingLeft={2}
-										paddingRight={{
-											xs: 2,
-											sm: 0,
-											md: 0,
-										}}
 										paddingY={4}
 										key={index}
 										height={'100%'}

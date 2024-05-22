@@ -1,12 +1,12 @@
 'use client';
 
+import { Loader } from '@/components';
 import {
 	ThemeProvider,
 	alpha,
 	createTheme,
 	responsiveFontSizes,
 } from '@mui/material/styles';
-import { Loader } from '@/components';
 
 let theme = createTheme({
 	palette: {
@@ -43,12 +43,23 @@ let theme = createTheme({
 		button: {
 			primary: '#3052F5',
 		},
+		card: {
+			footerGrey: '#F2F4F8',
+		},
 	},
 	components: {
 		MuiButton: {
 			styleOverrides: {
 				root: {
 					textTransform: 'none',
+					borderRadius: 100,
+				},
+			},
+		},
+		MuiCard: {
+			styleOverrides: {
+				root: {
+					boxShadow: '0px 4px 15px 0px #DDE3F5',
 				},
 			},
 		},

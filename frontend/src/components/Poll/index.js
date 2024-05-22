@@ -237,7 +237,9 @@ const Poll = ({ proposalID, proposalUserId }) => {
 											: 0
 									}
 									sx={{
+										height: '6px',
 										width: '100%',
+										borderRadius: 100,
 									}}
 								/>
 							)}
@@ -278,7 +280,9 @@ const Poll = ({ proposalID, proposalUserId }) => {
 											: 0
 									}
 									sx={{
+										height: '6px',
 										width: '100%',
+										borderRadius: 100,
 									}}
 								/>
 							)}

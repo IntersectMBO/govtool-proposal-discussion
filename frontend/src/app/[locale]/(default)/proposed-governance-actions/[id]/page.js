@@ -21,6 +21,7 @@ import {
 	IconDotsVertical,
 	IconLink,
 	IconPencilAlt,
+	IconReply,
 	IconSort,
 	IconThumbDown,
 	IconThumbUp,
@@ -671,6 +672,17 @@ const ProposalPage = ({ params: { id } }) => {
 								variant="contained"
 								onClick={handleCreateComment}
 								disabled={!newCommentText || !user}
+								endIcon={
+									<IconReply
+										height={18}
+										width={18}
+										fill={
+											!newCommentText || !user
+												? 'rgba(0,0,0, 0.26)'
+												: 'white'
+										}
+									/>
+								}
 							>
 								Comment
 							</Button>

@@ -1,8 +1,7 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
 import { ProposalsList } from '@/components';
-import { getProposals } from '@/lib/api';
+import { getGovernanceActionTypes } from '@/lib/api';
 import { useTheme } from '@emotion/react';
 import {
 	IconFilter,
@@ -15,11 +14,30 @@ import {
 	IconButton,
 	InputAdornment,
 	TextField,
-	Typography,
 } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 const ProposedGovernanceActions = () => {
 	const theme = useTheme();
+	const [governanceActionTypeList, setGovernanceActionTypeList] = useState(
+		[]
+	);
+
+	const fetchGovernanceActionTypes = async () => {
+		try {
+			let response = await getGovernanceActionTypes();
+
+			if (!response?.data) return;
+
+			setGovernanceActionTypeList(response?.data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	useEffect(() => {
+		fetchGovernanceActionTypes();
+	}, []);
 
 	return (
 		<Box sx={{ mt: 3 }}>
@@ -45,9 +63,23 @@ const ProposedGovernanceActions = () => {
 													theme.palette.primary.icons
 														.black
 												}
+												width={24}
+												height={24}
 											/>
 										</InputAdornment>
 									),
+								}}
+								sx={{
+									'.MuiOutlinedInput-root': {
+										borderRadius: 100,
+										input: {
+											'&::placeholder': {
+												color: (theme) =>
+													theme.palette.text.grey,
+												opacity: 1,
+											},
+										},
+									},
 								}}
 							/>
 						</Grid>
@@ -74,11 +106,14 @@ const ProposedGovernanceActions = () => {
 			</Grid>
 
 			<Box>
-				<Box pt={4}>
-					<ProposalsList />
-				</Box>
-
-				<ProposalsList />
+				{governanceActionTypeList?.map((item, index) => (
+					<Box
+						key={`${item?.attributes?.gov_action_type_name}-${index}`}
+						pt={index === 0 && 4}
+					>
+						<ProposalsList governanceAction={item} />
+					</Box>
+				))}
 			</Box>
 		</Box>
 	);
