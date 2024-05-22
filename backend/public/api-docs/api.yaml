@@ -47,7 +47,6 @@ tags:
   - name: Poll vote
   - name: Proposal category
   - name: Proposal content
-  - name: Proposal status
   - name: Proposal submition
   - name: Governance action type
   - name: Wallet type
@@ -100,7 +99,6 @@ x-tagGroups:
     tags:
       - Proposal
       - Proposal content
-      - Proposal status
       - Proposal submition
       - Proposal vote
       - Governance action type
@@ -112,7 +110,6 @@ x-tagGroups:
     tags:
       - proposal_model
       - proposal_content_model
-      - proposal_status_model
       - proposal_submition_model
       - proposal_vote_model
       - governance_action_type_model
@@ -558,6 +555,10 @@ components:
           type: boolean
         prop_status_id:
           type: string
+        gov_action_type: 
+          $ref: '#/components/schemas/ProposalTypeResponseDataObject'
+        content: 
+          $ref: '#/components/schemas/ProposalContentResponseDataObject'
         createdAt:
           type: string
           format: date-time
