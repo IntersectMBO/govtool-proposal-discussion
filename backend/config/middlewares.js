@@ -22,18 +22,18 @@ module.exports = [
       },
     },
   },
+  'strapi::cors',
+  'strapi::poweredBy', // Adds 'X-Powered-By: Strapi' header to responses.
+  'strapi::query', // Enables query parsing middleware.
   {
-    name: "strapi::cors", // Configures Cross-Origin Resource Sharing (CORS) settings.
+    name: 'strapi::body',
     config: {
-      enabled: true, // Enables CORS.
-      origin: ["http://localhost:3000", "http://localhost:1337"], // Specifies the allowed origins.
-      headers: "*", // Allows all headers.
+      patchKoa: true,
+      multipart: true,
+      includeUnparsed: true,
     },
-  },
-  "strapi::poweredBy", // Adds 'X-Powered-By: Strapi' header to responses.
-  "strapi::query", // Enables query parsing middleware.
-  "strapi::body", // Parses incoming request bodies.
-  "strapi::session", // Enables session middleware.
-  "strapi::favicon", // Serves the favicon.
-  "strapi::public", // Serves public files.
+  }, // Parses incoming request bodies.
+  'strapi::session', // Enables session middleware.
+  'strapi::favicon', // Serves the favicon.
+  'strapi::public', // Serves public files.
 ];
