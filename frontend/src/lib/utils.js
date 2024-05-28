@@ -12,6 +12,12 @@ export const formatIsoDate = (isoDate) => {
 	return format(new Date(isoDate), 'd MMMM yyyy');
 };
 
+export const formatIsoTime = (isoDate) => {
+	if (!isoDate) return '';
+
+	return format(new Date(isoDate), 'hh:mm aa');
+};
+
 export const formatPollDateDisplay = (dateString) => {
 	if (!dateString) return '';
 

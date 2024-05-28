@@ -99,22 +99,25 @@ module.exports = createCoreController(
 				return ctx.badRequest(null, 'Proposal not found');
 			}
 
-			const proposalContent = await strapi
-				.controller('api::proposal-content.proposal-content')
-				.find({
-					query: {
-						filters: {
-							proposal_id: proposal.id,
-							prop_rev_active: true,
-						},
-					},
-				});
+      const proposalContent = await strapi
+      .controller('api::proposal-content.proposal-content')
+      .find({
+        query: {
+          filters: {
+            proposal_id: proposal.id,
+          },
+        },
+      });
 
-			if (proposalContent?.data?.length > 0) {
-				proposal.content = proposalContent?.data?.[0];
-			} else {
-				proposal.content = null;
-			}
+    if (proposalContent?.data?.length > 0) {
+      proposal.contents = proposalContent?.data;
+      proposal.publishedContent = proposalContent?.data?.find(
+        (x) => x?.attributes?.prop_rev_active === true
+      );
+    } else {
+      proposal.publishedContent = null;
+      proposal.contents = null;
+    }
 
 			return this.transformResponse(proposal);
 		},

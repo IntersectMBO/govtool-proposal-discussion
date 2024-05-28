@@ -1,6 +1,6 @@
 'use client';
 
-import { CommentCard, EditProposalDialog } from '@/components';
+import { CommentCard, EditProposalDialog, ReviewVersions } from '@/components';
 import Poll from '@/components/Poll';
 import { useAppContext } from '@/context/context';
 import {
@@ -61,6 +61,7 @@ const ProposalPage = ({ params: { id } }) => {
 	const [openDeleteModal, setOpenDeleteModal] = useState(false);
 	const [openEditDialog, setOpenEditDialog] = useState(false);
 	const [governanceActionTypes, setGovernanceActionTypes] = useState([]);
+	const [reviewVersionsOpen, setReviewVersionsOpen] = useState(false);
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
@@ -70,6 +71,9 @@ const ProposalPage = ({ params: { id } }) => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+
+	const handleOpenReviewVersions = () => setReviewVersionsOpen(true);
+	const handleCloseReviewVersions = () => setReviewVersionsOpen(false);
 
 	const handleOpenEditDialog = () => {
 		setOpenEditDialog(true);
@@ -344,7 +348,8 @@ const ProposalPage = ({ params: { id } }) => {
 									<Grid item xs={11}>
 										<Typography variant="h4" component="h2">
 											{
-												proposal?.attributes?.content
+												proposal?.attributes
+													?.publishedContent
 													?.attributes?.prop_name
 											}
 										</Typography>
@@ -464,8 +469,9 @@ const ProposalPage = ({ params: { id } }) => {
 									</Typography>
 									<Typography variant="body2">
 										{
-											proposal?.attributes?.content
-												?.attributes?.gov_action_type
+											proposal?.attributes
+												?.publishedContent?.attributes
+												?.gov_action_type
 												?.gov_action_type_name
 										}
 									</Typography>
@@ -479,27 +485,47 @@ const ProposalPage = ({ params: { id } }) => {
 								>
 									<Typography variant="caption">
 										{`Last Edit: ${formatIsoDate(
-											proposal?.attributes?.content
-												?.attributes?.createdAt
+											proposal?.attributes
+												?.publishedContent?.attributes
+												?.createdAt
 										)}`}
 									</Typography>
 									{user?.user?.id?.toString() ===
 										proposal?.attributes?.user_id?.toString() && (
-										<Button
-											variant="outlined"
-											startIcon={
-												<IconLink
-													fill={
-														theme.palette.primary
-															.main
-													}
-													width="18"
-													height="18"
-												/>
-											}
-										>
-											Review Versions
-										</Button>
+										<Box>
+											<Button
+												variant="outlined"
+												startIcon={
+													<IconLink
+														fill={
+															theme.palette
+																.primary.main
+														}
+														width="18"
+														height="18"
+													/>
+												}
+												onClick={
+													handleOpenReviewVersions
+												}
+											>
+												Review Versions
+											</Button>
+
+											<ReviewVersions
+												open={reviewVersionsOpen}
+												onClose={
+													handleCloseReviewVersions
+												}
+												governanceActionTypes={
+													governanceActionTypes
+												}
+												versions={
+													proposal?.attributes
+														?.contents
+												}
+											/>
+										</Box>
 									)}
 								</Box>
 
@@ -509,8 +535,9 @@ const ProposalPage = ({ params: { id } }) => {
 									</Typography>
 									<Typography variant="body2">
 										{
-											proposal?.attributes?.content
-												?.attributes?.prop_abstract
+											proposal?.attributes
+												?.publishedContent?.attributes
+												?.prop_abstract
 										}
 									</Typography>
 								</Box>
@@ -520,8 +547,9 @@ const ProposalPage = ({ params: { id } }) => {
 									</Typography>
 									<Typography variant="body2">
 										{
-											proposal?.attributes?.content
-												?.attributes?.prop_motivation
+											proposal?.attributes
+												?.publishedContent?.attributes
+												?.prop_motivation
 										}
 									</Typography>
 								</Box>
@@ -531,8 +559,9 @@ const ProposalPage = ({ params: { id } }) => {
 									</Typography>
 									<Typography variant="body2">
 										{
-											proposal?.attributes?.content
-												?.attributes?.prop_rationale
+											proposal?.attributes
+												?.publishedContent?.attributes
+												?.prop_rationale
 										}
 									</Typography>
 								</Box>
@@ -543,7 +572,7 @@ const ProposalPage = ({ params: { id } }) => {
 									</Typography>
 
 									<Box>
-										{proposal?.attributes?.content?.attributes?.proposal_links?.map(
+										{proposal?.attributes?.publishedContent?.attributes?.proposal_links?.map(
 											(item, index) => (
 												<Button
 													key={index}

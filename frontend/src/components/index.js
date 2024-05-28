@@ -10,3 +10,4 @@ export { default as ProposalsList } from './ProposalsList';
 export { default as Loader } from './Loader';
 export { default as ProposalCreationLayoutWrapper } from './ProposalCreationLayoutWrapper';
 export { default as EditProposalDialog } from './EditProposalDialog';
+export { default as ReviewVersions } from './ReviewVersions';
