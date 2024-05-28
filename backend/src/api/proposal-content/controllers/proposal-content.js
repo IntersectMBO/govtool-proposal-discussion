@@ -8,106 +8,113 @@
 const { createCoreController } = require('@strapi/strapi').factories;
 
 module.exports = createCoreController(
-  'api::proposal-content.proposal-content',
-  ({ strapi }) => ({
-    async find(ctx) {
-      const sanitizedQueryParams = ctx?.query
-        ? await this.sanitizeQuery(ctx)
-        : ctx;
+	'api::proposal-content.proposal-content',
+	({ strapi }) => ({
+		async find(ctx) {
+			const sanitizedQueryParams = ctx?.query
+				? await this.sanitizeQuery(ctx)
+				: ctx;
 
-      if (!sanitizedQueryParams.populate) {
-        sanitizedQueryParams.populate = [];
-      }
+			if (!sanitizedQueryParams.populate) {
+				sanitizedQueryParams.populate = [];
+			}
 
-      if (!sanitizedQueryParams?.populate?.includes('proposal_links')) {
-        sanitizedQueryParams.populate.push('proposal_links');
-      }
+			if (!sanitizedQueryParams?.populate?.includes('proposal_links')) {
+				sanitizedQueryParams.populate.push('proposal_links');
+			}
 
-      const { results, pagination } = await strapi
-        .service('api::proposal-content.proposal-content')
-        .find(sanitizedQueryParams);
+			const { results, pagination } = await strapi
+				.service('api::proposal-content.proposal-content')
+				.find(sanitizedQueryParams);
 
-      // Get the gov_action_type for each proposal
-      const govActionTypes = await strapi.entityService.findMany(
-        'api::governance-action-type.governance-action-type',
-        {
-          filters: {
-            id: {
-              $in: results.map((proposal) => proposal.gov_action_type_id),
-            },
-          },
-        }
-      );
+			// Get the gov_action_type for each proposal
+			const govActionTypes = await strapi.entityService.findMany(
+				'api::governance-action-type.governance-action-type',
+				{
+					filters: {
+						id: {
+							$in: results.map(
+								(proposal) => proposal.gov_action_type_id
+							),
+						},
+					},
+				}
+			);
 
-      for (const proposal of results) {
-        proposal.gov_action_type = this.transformResponse(
-          govActionTypes.find(
-            (govActionType) =>
-              +govActionType.id === +proposal.gov_action_type_id
-          )
-        )?.data;
-      }
+			for (const proposal of results) {
+				proposal.gov_action_type = this.transformResponse(
+					govActionTypes.find(
+						(govActionType) =>
+							+govActionType.id === +proposal.gov_action_type_id
+					)
+				)?.data;
+			}
 
-      return ctx?.query
-        ? this.transformResponse(results, { pagination })
-        : { results, pagination };
-    },
-    async create(ctx) {
-      const { data } = ctx?.request?.body;
-      const {
-        user_id: userID,
-        proposal_id: proposalId,
-        publish: publishContent,
-      } = data;
+			return ctx?.query
+				? this.transformResponse(results, { pagination })
+				: { results, pagination };
+		},
+		async create(ctx) {
+			const { data } = ctx?.request?.body;
+			const { proposal_id: proposalId, publish: publishContent } = data;
 
-      if (!userID) {
-        return ctx.badRequest(null, 'User ID is required');
-      }
+			const user = ctx?.state?.user;
 
-      if (!proposalId) {
-        return ctx.badRequest(null, 'Proposal ID is required');
-      }
+			if (!user) {
+				return ctx.badRequest(null, 'User is required');
+			}
 
-      let proposal_content;
+			if (!proposalId) {
+				return ctx.badRequest(null, 'Proposal ID is required');
+			}
 
-      try {
-        proposal_content = await strapi.entityService.create(
-          'api::proposal-content.proposal-content',
-          {
-            data: {
-              ...data,
-              proposal_id: proposalId.toString(),
-              gov_action_type_id: data?.gov_action_type_id.toString(),
-              prop_rev_active: publishContent,
-            },
-          }
-        );
+			let proposal_content;
 
-        // Update the prop_rev_active field for other proposal contents
-        if (publishContent) {
-          try {
-            await strapi.db
-              .query('api::proposal-content.proposal-content')
-              .updateMany({
-                where: {
-                  proposal_id: proposalId,
-                  id: { $ne: proposal_content?.id },
-                },
-                data: {
-                  prop_rev_active: false,
-                },
-              });
-          } catch (error) {
-            console.error('Error updating proposal contents:', error);
-            return ctx.badRequest(null, 'Failed to update proposal contents');
-          }
-        }
+			try {
+				proposal_content = await strapi.entityService.create(
+					'api::proposal-content.proposal-content',
+					{
+						data: {
+							...data,
+							proposal_id: proposalId.toString(),
+							gov_action_type_id:
+								data?.gov_action_type_id.toString(),
+							prop_rev_active: publishContent,
+						},
+					}
+				);
 
-        return this.transformResponse(proposal_content);
-      } catch (error) {
-        ctx.status = 500;
-        ctx.body = { error: error.message };
-      }
-    },
-  })
+				// Update the prop_rev_active field for other proposal contents
+				if (publishContent) {
+					try {
+						await strapi.db
+							.query('api::proposal-content.proposal-content')
+							.updateMany({
+								where: {
+									proposal_id: proposalId,
+									id: { $ne: proposal_content?.id },
+								},
+								data: {
+									prop_rev_active: false,
+								},
+							});
+					} catch (error) {
+						console.error(
+							'Error updating proposal contents:',
+							error
+						);
+						return ctx.badRequest(
+							null,
+							'Failed to update proposal contents'
+						);
+					}
+				}
+
+				return this.transformResponse(proposal_content);
+			} catch (error) {
+				ctx.status = 500;
+				ctx.body = { error: error.message };
+			}
+		},
+	})
 );
