@@ -7,24 +7,23 @@
 
 const { createCoreRouter } = require("@strapi/strapi").factories;
 
-module.exports = createCoreRouter("api::poll.poll", {
-  config: {
-    find: {
-      roles: ["authenticated", "public"],
-    },
-    create: {
-      roles: ["authenticated"],
-    },
-    findOne: {
-      roles: ["authenticated", "public"],
-    },
-    update: {
-      roles: [],
-      middlewares: ["global::is-owner"],
-    },
-    delete: {
-      roles: [],
-      middlewares: ["global::is-owner"],
-    },
-  },
+module.exports = createCoreRouter('api::poll.poll', {
+	config: {
+		find: {
+			roles: ['authenticated', 'public'],
+		},
+		create: {
+			roles: ['authenticated'],
+		},
+		findOne: {
+			roles: ['authenticated', 'public'],
+		},
+		update: {
+			roles: ['authenticated'],
+		},
+		delete: {
+			roles: [],
+			middlewares: ['global::is-owner'],
+		},
+	},
 });
