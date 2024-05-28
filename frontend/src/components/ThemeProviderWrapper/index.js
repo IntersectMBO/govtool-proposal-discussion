@@ -31,6 +31,7 @@ let theme = createTheme({
 		},
 		iconButton: {
 			outlineLightColor: alpha('#BFC8D9', 0.38),
+			lightPeriwinkle: '#D7D8FF',
 		},
 		text: {
 			grey: '#506288',
@@ -47,6 +48,9 @@ let theme = createTheme({
 		},
 		card: {
 			footerGrey: '#F2F4F8',
+		},
+		highlight: {
+			blueGray: '#DBE1F8',
 		},
 	},
 	components: {

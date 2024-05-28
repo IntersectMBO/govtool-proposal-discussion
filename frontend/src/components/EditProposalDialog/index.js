@@ -85,22 +85,29 @@ const EditProposalDialog = ({
 		const flatProposal = {
 			proposal_id: proposalData?.id,
 			gov_action_type_id:
-				proposalData?.attributes?.content?.attributes
+				proposalData?.attributes?.publishedContent?.attributes
 					?.gov_action_type_id,
 			prop_abstract:
-				proposalData?.attributes?.content?.attributes?.prop_abstract,
+				proposalData?.attributes?.publishedContent?.attributes
+					?.prop_abstract,
 			prop_amount:
-				proposalData?.attributes?.content?.attributes?.prop_amount,
+				proposalData?.attributes?.publishedContent?.attributes
+					?.prop_amount,
 			prop_motivation:
-				proposalData?.attributes?.content?.attributes?.prop_motivation,
-			prop_name: proposalData?.attributes?.content?.attributes?.prop_name,
+				proposalData?.attributes?.publishedContent?.attributes
+					?.prop_motivation,
+			prop_name:
+				proposalData?.attributes?.publishedContent?.attributes
+					?.prop_name,
 			prop_rationale:
-				proposalData?.attributes?.content?.attributes?.prop_rationale,
+				proposalData?.attributes?.publishedContent?.attributes
+					?.prop_rationale,
 			prop_receiving_address:
-				proposalData?.attributes?.content?.attributes
+				proposalData?.attributes?.publishedContent?.attributes
 					?.prop_receiving_address,
 			proposal_links:
-				proposalData?.attributes?.content?.attributes?.proposal_links,
+				proposalData?.attributes?.publishedContent?.attributes
+					?.proposal_links,
 		};
 
 		return flatProposal;
