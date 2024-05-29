@@ -58,9 +58,30 @@ module.exports = createCoreController(
 			}
 			//////////////////////////////
 
-			sanitizedQueryParams.filters['$and'].push({
-				prop_rev_active: true,
-			});
+			 /////PROPOSAL ID///////////
+			 const hasPropIdFilter = ctx?.query?.filters['$and']?.find((elem) =>
+				elem?.hasOwnProperty('prop_id')
+			  );
+		
+			  if (hasPropIdFilter) {
+				if (!ctx?.state?.user) {
+				  return ctx.badRequest(null, 'User is required');
+				}
+		
+				const hasPropIdFilterInSanitize = sanitizedQueryParams?.filters[
+				  '$and'
+				]?.some((elem) => elem?.hasOwnProperty('prop_id'));
+				if (!hasPropIdFilterInSanitize) {
+				  sanitizedQueryParams.filters['$and'].push({
+					proposal_id: hasPropIdFilter?.prop_id,
+				  });
+				}
+			  } else {
+				sanitizedQueryParams.filters['$and'].push({
+				  prop_rev_active: true,
+				});
+			  }
+			  //////////////////////////////
 
 			let proposalsList = [];
 
@@ -69,10 +90,21 @@ module.exports = createCoreController(
 				.find(sanitizedQueryParams);
 
 			for (const proposalContent of results) {
-				const proposal = await strapi.entityService.findOne(
+				let proposal;
+
+				if (hasPropIdFilter) {
+				  proposal = await strapi.db.query('api::proposal.proposal').findOne({
+					where: {
+					  id: proposalContent?.proposal_id,
+					  user_id: ctx?.state?.user?.id,
+					},
+				  });
+				} else {
+				  proposal = await strapi.entityService.findOne(
 					'api::proposal.proposal',
 					proposalContent?.proposal_id
-				);
+				  );
+				}
 
 				const transformedProposalContent =
 					this.transformResponse(proposalContent);
@@ -105,18 +137,15 @@ module.exports = createCoreController(
         query: {
           filters: {
             proposal_id: proposal.id,
+			prop_rev_active: true,
           },
         },
       });
 
     if (proposalContent?.data?.length > 0) {
-      proposal.contents = proposalContent?.data;
-      proposal.publishedContent = proposalContent?.data?.find(
-        (x) => x?.attributes?.prop_rev_active === true
-      );
+      proposal.content = proposalContent?.data?.[0];
     } else {
-      proposal.publishedContent = null;
-      proposal.contents = null;
+      proposal.content = null;
     }
 
 			return this.transformResponse(proposal);
