@@ -348,8 +348,7 @@ const ProposalPage = ({ params: { id } }) => {
 									<Grid item xs={11}>
 										<Typography variant="h4" component="h2">
 											{
-												proposal?.attributes
-													?.publishedContent
+												proposal?.attributes?.content
 													?.attributes?.prop_name
 											}
 										</Typography>
@@ -469,9 +468,9 @@ const ProposalPage = ({ params: { id } }) => {
 									</Typography>
 									<Typography variant="body2">
 										{
-											proposal?.attributes
-												?.publishedContent?.attributes
-												?.gov_action_type
+											proposal?.attributes?.content
+												?.attributes?.gov_action_type
+												.attributes
 												?.gov_action_type_name
 										}
 									</Typography>
@@ -485,9 +484,8 @@ const ProposalPage = ({ params: { id } }) => {
 								>
 									<Typography variant="caption">
 										{`Last Edit: ${formatIsoDate(
-											proposal?.attributes
-												?.publishedContent?.attributes
-												?.createdAt
+											proposal?.attributes?.content
+												?.attributes?.createdAt
 										)}`}
 									</Typography>
 									{user?.user?.id?.toString() ===
@@ -517,13 +515,7 @@ const ProposalPage = ({ params: { id } }) => {
 												onClose={
 													handleCloseReviewVersions
 												}
-												governanceActionTypes={
-													governanceActionTypes
-												}
-												versions={
-													proposal?.attributes
-														?.contents
-												}
+												proposalId={id}
 											/>
 										</Box>
 									)}
@@ -535,9 +527,8 @@ const ProposalPage = ({ params: { id } }) => {
 									</Typography>
 									<Typography variant="body2">
 										{
-											proposal?.attributes
-												?.publishedContent?.attributes
-												?.prop_abstract
+											proposal?.attributes?.content
+												?.attributes?.prop_abstract
 										}
 									</Typography>
 								</Box>
@@ -547,9 +538,8 @@ const ProposalPage = ({ params: { id } }) => {
 									</Typography>
 									<Typography variant="body2">
 										{
-											proposal?.attributes
-												?.publishedContent?.attributes
-												?.prop_motivation
+											proposal?.attributes?.content
+												?.attributes?.prop_motivation
 										}
 									</Typography>
 								</Box>
@@ -559,9 +549,8 @@ const ProposalPage = ({ params: { id } }) => {
 									</Typography>
 									<Typography variant="body2">
 										{
-											proposal?.attributes
-												?.publishedContent?.attributes
-												?.prop_rationale
+											proposal?.attributes?.content
+												?.attributes?.prop_rationale
 										}
 									</Typography>
 								</Box>
@@ -572,7 +561,7 @@ const ProposalPage = ({ params: { id } }) => {
 									</Typography>
 
 									<Box>
-										{proposal?.attributes?.publishedContent?.attributes?.proposal_links?.map(
+										{proposal?.attributes?.content?.attributes?.proposal_links?.map(
 											(item, index) => (
 												<Button
 													key={index}

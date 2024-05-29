@@ -24,6 +24,7 @@ import {
 } from '@intersect.mbo/intersectmbo.org-icons-set';
 import { formatIsoDate, formatIsoTime } from '@/lib/utils';
 import { useEffect, useState } from 'react';
+import { getProposals } from '@/lib/api';
 
 const style = {
 	position: 'absolute',
@@ -40,8 +41,9 @@ const style = {
 	borderRadius: '20px',
 };
 
-const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
+const ReviewVersions = ({ open, onClose, proposalId }) => {
 	const theme = useTheme();
+	const [versions, setVersions] = useState(null);
 	const [selectedVersion, setSelectedVersion] = useState(null);
 	const [openVersionsList, setOpenVersionsList] = useState(false);
 
@@ -52,13 +54,24 @@ const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
 	const handleOpenVersionsList = () => setOpenVersionsList(true);
 	const handleCloseVersionsList = () => setOpenVersionsList(false);
 
-	useEffect(() => {
-		if (versions?.length > 0) {
-			setSelectedVersion(
-				versions?.find((x) => x?.attributes?.prop_rev_active)
-			);
+	const fetchVersions = async () => {
+		try {
+			let query = `filters[$and][0][prop_id]=${proposalId}&pagination[page]=1&pagination[pageSize]=25&sort[createdAt]=desc&populate[0]=proposal_links`;
+			const { proposals } = await getProposals(query);
+			if (!proposals) return;
+
+			setVersions(proposals);
+			setSelectedVersion(proposals[0]);
+		} catch (error) {
+			console.error(error);
 		}
-	}, []);
+	};
+
+	useEffect(() => {
+		if (open) {
+			fetchVersions();
+		}
+	}, [open]);
 
 	return (
 		<Box>
@@ -86,11 +99,16 @@ const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
 						<List>
 							{versions?.map((version, index) => (
 								<ListItem
-									key={version.id || index}
+									key={
+										version?.attributes?.content?.id ||
+										index
+									}
 									disablePadding
 									sx={{
 										backgroundColor:
-											version.id === selectedVersion?.id
+											version?.attributes?.content?.id ===
+											selectedVersion?.attributes?.content
+												?.id
 												? theme.palette.highlight
 														.blueGray
 												: 'transparent',
@@ -107,12 +125,18 @@ const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
 												<Box>
 													{`${formatIsoDate(
 														version?.attributes
+															?.content
+															?.attributes
 															?.createdAt
 													)}  ${formatIsoTime(
 														version?.attributes
+															?.content
+															?.attributes
 															?.createdAt
 													)} ${
 														version?.attributes
+															?.content
+															?.attributes
 															?.prop_rev_active
 															? ' (Live)'
 															: ''
@@ -220,14 +244,23 @@ const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
 													(version, index) => (
 														<ListItem
 															key={
-																version.id ||
+																version
+																	?.attributes
+																	?.content
+																	?.id ||
 																index
 															}
 															disablePadding
 															sx={{
 																backgroundColor:
-																	version.id ===
-																	selectedVersion?.id
+																	version
+																		?.attributes
+																		?.content
+																		?.id ===
+																	selectedVersion
+																		?.attributes
+																		?.content
+																		?.id
 																		? theme
 																				.palette
 																				.highlight
@@ -249,9 +282,13 @@ const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
 																				{`${formatIsoDate(
 																					version
 																						?.attributes
+																						?.content
+																						?.attributes
 																						?.createdAt
 																				)}${
 																					version
+																						?.attributes
+																						?.content
 																						?.attributes
 																						?.prop_rev_active
 																						? ' (Live)'
@@ -261,6 +298,8 @@ const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
 																			<div>
 																				{formatIsoTime(
 																					version
+																						?.attributes
+																						?.content
 																						?.attributes
 																						?.createdAt
 																				)}
@@ -313,6 +352,7 @@ const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
 											>
 												{
 													selectedVersion?.attributes
+														?.content?.attributes
 														?.prop_name
 												}
 											</Typography>
@@ -334,9 +374,13 @@ const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
 														{`${formatIsoDate(
 															selectedVersion
 																?.attributes
+																?.content
+																?.attributes
 																?.createdAt
 														)}${
 															selectedVersion
+																?.attributes
+																?.content
 																?.attributes
 																?.prop_rev_active
 																? ' (Live)'
@@ -361,6 +405,8 @@ const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
 													{
 														selectedVersion
 															?.attributes
+															?.content
+															?.attributes
 															?.gov_action_type
 															?.attributes
 															?.gov_action_type_name
@@ -374,7 +420,7 @@ const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
 														theme.palette.text.grey
 													}
 												>
-													Abstrtact
+													Abstract
 												</Typography>
 												<Typography
 													variant="body1"
@@ -382,6 +428,8 @@ const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
 												>
 													{
 														selectedVersion
+															?.attributes
+															?.content
 															?.attributes
 															?.prop_abstract
 													}
@@ -403,6 +451,8 @@ const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
 													{
 														selectedVersion
 															?.attributes
+															?.content
+															?.attributes
 															?.prop_motivation
 													}
 												</Typography>
@@ -422,6 +472,8 @@ const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
 												>
 													{
 														selectedVersion
+															?.attributes
+															?.content
 															?.attributes
 															?.prop_rationale
 													}
@@ -446,7 +498,7 @@ const ReviewVersions = ({ open, onClose, governanceActionTypes, versions }) => {
 													flexWrap="wrap"
 													gap={2}
 												>
-													{selectedVersion?.attributes?.proposal_links?.map(
+													{selectedVersion?.attributes?.content?.attributes?.proposal_links?.map(
 														(link, index) => (
 															<Box
 																key={index}
