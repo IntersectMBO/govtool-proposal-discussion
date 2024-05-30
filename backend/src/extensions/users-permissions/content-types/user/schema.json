@@ -64,6 +64,9 @@
       "target": "plugin::users-permissions.role",
       "inversedBy": "users",
       "configurable": false
+    },
+    "govtool_username": {
+      "type": "string"
     }
   }
 }
