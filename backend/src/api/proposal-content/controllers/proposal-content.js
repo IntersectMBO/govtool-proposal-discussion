@@ -77,6 +77,7 @@ module.exports = createCoreController(
               proposal_id: proposalId.toString(),
               gov_action_type_id: data?.gov_action_type_id.toString(),
               prop_rev_active: data?.prop_rev_active,
+              user_id: user?.id?.toString(),
             },
           }
         );
