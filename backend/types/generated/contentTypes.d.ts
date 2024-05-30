@@ -1027,6 +1027,7 @@ export interface ApiProposalContentProposalContent
       }>;
     prop_amount: Attribute.Float & Attribute.Required;
     proposal_links: Attribute.Component<'proposal.proposal-link', true>;
+    is_draft: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
