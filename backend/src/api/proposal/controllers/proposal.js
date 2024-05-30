@@ -72,6 +72,7 @@ module.exports = createCoreController(
         if (!hasPropIdFilterInSanitize) {
           sanitizedQueryParams.filters["$and"].push({
             proposal_id: hasPropIdFilter?.prop_id,
+            user_id: ctx?.state?.user?.id,
           });
         }
       } else {
@@ -97,6 +98,7 @@ module.exports = createCoreController(
         if (!hasIsDraftFilterInSanitize) {
           sanitizedQueryParams.filters["$and"].push({
             is_draft: hasIsDraftFilter?.is_draft,
+            user_id: ctx?.state?.user?.id,
           });
         }
       } else {
@@ -113,21 +115,10 @@ module.exports = createCoreController(
         .find(sanitizedQueryParams);
 
       for (const proposalContent of results) {
-        let proposal;
-
-        if (hasPropIdFilter) {
-          proposal = await strapi.db.query("api::proposal.proposal").findOne({
-            where: {
-              id: proposalContent?.proposal_id,
-              user_id: ctx?.state?.user?.id,
-            },
-          });
-        } else {
-          proposal = await strapi.entityService.findOne(
-            "api::proposal.proposal",
-            proposalContent?.proposal_id
-          );
-        }
+        const proposal = await strapi.entityService.findOne(
+          "api::proposal.proposal",
+          proposalContent?.proposal_id
+        );
 
         const transformedProposalContent =
           this.transformResponse(proposalContent);
@@ -175,7 +166,6 @@ module.exports = createCoreController(
     },
     async create(ctx) {
       const { data } = ctx?.request?.body;
-      const { add_poll: addPoll } = data;
 
       const user = ctx?.state?.user;
 
@@ -185,8 +175,6 @@ module.exports = createCoreController(
 
       let proposal;
       let proposal_content;
-      let poll;
-
       // Delete the Prposal
       const deleteProposal = async () => {
         let deletedProposal = await strapi.entityService.delete(
@@ -241,6 +229,7 @@ module.exports = createCoreController(
                 proposal_id: proposal?.id.toString(),
                 gov_action_type_id: data?.gov_action_type_id?.toString(),
                 prop_rev_active: true,
+                user_id: user?.id?.toString(),
               },
             }
           );
@@ -258,7 +247,6 @@ module.exports = createCoreController(
 
         // Global error catch
       } catch (error) {
-        addPoll && poll && (await deletePoll());
         proposal_content && (await deleteProposalContent());
         proposal && (await deleteProposal());
 
