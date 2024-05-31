@@ -663,6 +663,7 @@ components:
         data:
           type: object
           required:
+            - user_id
             - proposal_id
             - gov_action_type_id
             - prop_name
@@ -672,6 +673,8 @@ components:
             - prop_receiving_address
             - prop_amount
           properties:
+            user_id:
+              type: string
             proposal_id:
               type: string
             gov_action_type_id:
@@ -733,6 +736,8 @@ components:
     ProposalContent:
       type: object
       properties:
+        user_id:
+          type: string
         proposal_id:
           type: string
         gov_action_type_id:
