@@ -24,10 +24,9 @@ module.exports = createCoreController(
 					'api::proposal-vote.proposal-vote',
 					{
 						filters: {
-							user_id: user.id,
+							user_id: user?.id?.toString(),
 							...restQueryParams?.filters, // Spread any additional filters
 						},
-						...restQueryParams, // Spread the rest of the query parameters like limit, sort, etc.
 						limit: restQueryParams.limit
 							? restQueryParams.limit
 							: 1, // Use provided limit or default to 1
