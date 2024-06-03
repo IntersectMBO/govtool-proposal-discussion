@@ -131,7 +131,7 @@ module.exports = createCoreController(
 					proposal.user_govtool_username =
 						proposalUser?.govtool_username;
 				} else {
-					proposal.user_govtool_username = 'no-username';
+					proposal.user_govtool_username = 'Anonymous';
 				}
 
 				const transformedProposalContent =
@@ -183,7 +183,7 @@ module.exports = createCoreController(
 			if (proposalUser?.govtool_username) {
 				proposal.user_govtool_username = proposalUser?.govtool_username;
 			} else {
-				proposal.user_govtool_username = 'no-username';
+				proposal.user_govtool_username = 'Anonymous';
 			}
 
 			return this.transformResponse(proposal);

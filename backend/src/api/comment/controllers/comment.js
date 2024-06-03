@@ -120,7 +120,7 @@ module.exports = createCoreController("api::comment.comment", ({ strapi }) => ({
       if (user?.govtool_username) {
         comment.user_govtool_username = user?.govtool_username;
       } else {
-        comment.user_govtool_username = "no-username";
+        comment.user_govtool_username = 'Anonymous';
       }
 
       proposalsList.push(comment);
