@@ -24,10 +24,6 @@
     "comment_text": {
       "type": "text",
       "maxLength": 256
-    },
-    "comment_has_replays": {
-      "type": "boolean",
-      "default": false
     }
   }
 }
