@@ -74,23 +74,6 @@ module.exports = createCoreController("api::comment.comment", ({ strapi }) => ({
           comment && (await deleteComment());
           return ctx.badRequest(null, "Proposal not updated");
         }
-
-        if (data?.comment_parent_id) {
-          const updatedComment = await strapi.entityService.update(
-            "api::comment.comment",
-            data?.comment_parent_id,
-            {
-              data: {
-                comment_has_replays: true,
-              },
-            }
-          );
-
-          if (!updatedComment) {
-            comment && (await deleteComment());
-            return ctx.badRequest(null, "Parent comment not updated");
-          }
-        }
       } catch (error) {
         comment && (await deleteComment());
         return ctx.badRequest(null, "Proposal not updated");
@@ -117,11 +100,23 @@ module.exports = createCoreController("api::comment.comment", ({ strapi }) => ({
         .query("plugin::users-permissions.user")
         .findOne({ where: { id: comment?.user_id } });
 
+      const subcommentsCount = await strapi.db
+        .query("api::comment.comment")
+        .count({
+          where: {
+            comment_parent_id: {
+              $eq: comment?.id?.toString(),
+            },
+          },
+        });
+
       if (user?.govtool_username) {
         comment.user_govtool_username = user?.govtool_username;
       } else {
-        comment.user_govtool_username = 'Anonymous';
+        comment.user_govtool_username = "Anonymous";
       }
+
+      comment.subcommens_number = subcommentsCount;
 
       proposalsList.push(comment);
     }

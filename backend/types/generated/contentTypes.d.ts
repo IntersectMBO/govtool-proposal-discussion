@@ -844,7 +844,6 @@ export interface ApiCommentComment extends Schema.CollectionType {
       Attribute.SetMinMaxLength<{
         maxLength: 256;
       }>;
-    comment_has_replays: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
