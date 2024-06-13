@@ -666,8 +666,6 @@ components:
             - prop_abstract
             - prop_motivation
             - prop_rationale
-            - prop_receiving_address
-            - prop_amount
           properties:
             user_id:
               type: string
