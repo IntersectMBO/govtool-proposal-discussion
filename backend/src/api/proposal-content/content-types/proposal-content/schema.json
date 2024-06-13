@@ -41,12 +41,12 @@
     },
     "prop_receiving_address": {
       "type": "string",
-      "required": true,
+      "required": false,
       "maxLength": 200
     },
     "prop_amount": {
       "type": "float",
-      "required": true
+      "required": false
     },
     "proposal_links": {
       "type": "component",

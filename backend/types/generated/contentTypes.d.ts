@@ -1021,11 +1021,10 @@ export interface ApiProposalContentProposalContent
         maxLength: 60;
       }>;
     prop_receiving_address: Attribute.String &
-      Attribute.Required &
       Attribute.SetMinMaxLength<{
         maxLength: 200;
       }>;
-    prop_amount: Attribute.Float & Attribute.Required;
+    prop_amount: Attribute.Float;
     proposal_links: Attribute.Component<'proposal.proposal-link', true>;
     is_draft: Attribute.Boolean & Attribute.DefaultTo<false>;
     user_id: Attribute.String & Attribute.Required;
