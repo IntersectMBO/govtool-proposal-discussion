@@ -1027,6 +1027,8 @@ export interface ApiProposalContentProposalContent
     is_draft: Attribute.Boolean & Attribute.DefaultTo<false>;
     user_id: Attribute.String & Attribute.Required;
     prop_submitted: Attribute.Boolean & Attribute.DefaultTo<false>;
+    prop_submission_tx_hash: Attribute.String & Attribute.Unique;
+    prop_submission_date: Attribute.Date;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
