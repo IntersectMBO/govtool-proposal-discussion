@@ -108,5 +108,32 @@ module.exports = createCoreController(
         ctx.body = { error: error.message };
       }
     },
+    async update(ctx) {
+      const { id } = ctx.params;
+      const { data } = ctx?.request?.body;
+
+      try {
+        const proposalContent = await strapi.entityService.findOne(
+          "api::proposal-content.proposal-content",
+          id
+        );
+
+        if (proposalContent && proposalContent?.prop_submitted !== true) {
+          const updatedProposal = await strapi.entityService.update(
+            "api::proposal-content.proposal-content",
+            id,
+            {
+              data: data,
+            }
+          );
+
+          return this.transformResponse(updatedProposal);
+        }
+      } catch (error) {
+        return ctx.badRequest(
+          "Proposal can't be updated, it has been already submited"
+        );
+      }
+    },
   })
 );

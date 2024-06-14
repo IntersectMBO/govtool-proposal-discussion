@@ -56,6 +56,38 @@ module.exports = createCoreController(
       }
       //////////////////////////////
 
+      /////PROPOSAL SUBMITTED///////////
+      const hasPropSubmitedFilter = ctx?.query?.filters["$and"]?.find((elem) =>
+        elem?.hasOwnProperty("prop_submitted")
+      );
+
+      if (hasPropSubmitedFilter) {
+        const hasPropSubmitedFilterInSanitize = sanitizedQueryParams?.filters[
+          "$and"
+        ]?.some((elem) => elem?.hasOwnProperty("prop_submitted"));
+        if (!hasPropSubmitedFilterInSanitize) {
+          if (hasPropSubmitedFilter?.prop_submitted === "true") {
+            sanitizedQueryParams.filters["$and"].push({
+              prop_submitted: hasPropSubmitedFilter?.prop_submitted,
+            });
+          } else {
+            sanitizedQueryParams.filters["$and"].push({
+              $or: [
+                {
+                  prop_submitted: false,
+                },
+                {
+                  prop_submitted: {
+                    $null: true,
+                  },
+                },
+              ],
+            });
+          }
+        }
+      }
+      //////////////////////////////
+
       /////PROPOSAL ID///////////
       const hasPropIdFilter = ctx?.query?.filters["$and"]?.find((elem) =>
         elem?.hasOwnProperty("prop_id")
@@ -276,117 +308,75 @@ module.exports = createCoreController(
     async delete(ctx) {
       const { id } = ctx.params;
 
-      const proposal = await strapi.entityService.findOne(
-        "api::proposal.proposal",
-        id
-      );
-
-      if (proposal && proposal?.prop_submited !== true) {
-        try {
-          // Delete proposal
-          let deletedProposal = await strapi.entityService.delete(
-            "api::proposal.proposal",
-            id
-          );
-
-          if (!deletedProposal) {
-            throw new Error("Proposal not found or delete failed");
-          }
-
-          // Delete proposal content
-          await strapi.db
-            .query("api::proposal-content.proposal-content")
-            .deleteMany({
-              where: {
-                proposal_id: id,
-              },
-            });
-
-          // Handling proposal submitions
-          await strapi.db
-            .query("api::proposal-submition.proposal-submition")
-            .deleteMany({
-              where: {
-                proposal_id: id,
-              },
-            });
-
-          // Delete proposal votes
-          await strapi.db.query("api::proposal-vote.proposal-vote").deleteMany({
-            where: {
-              proposal_id: id,
-            },
-          });
-
-          // Delete comments
-          await strapi.db.query("api::comment.comment").deleteMany({
-            where: {
-              proposal_id: id,
-            },
-          });
-
-          // Handling polls and poll votes
-          const polls = await strapi.db.query("api::poll.poll").findMany({
-            where: {
-              proposal_id: id,
-            },
-          });
-
-          for (const poll of polls) {
-            await strapi.db.query("api::poll-vote.poll-vote").deleteMany({
-              where: {
-                poll_id: poll.id,
-              },
-            });
-          }
-
-          await strapi.db.query("api::poll.poll").deleteMany({
-            where: {
-              proposal_id: id,
-            },
-          });
-
-          return this.transformResponse(deletedProposal);
-        } catch (error) {
-          return ctx.badRequest("Failed to delete proposal and related data", {
-            error: error.message,
-          });
-        }
-      } else {
-        return ctx.badRequest(
-          "Proposal can't be deleted, it has been already submited",
-          {
-            error: error.message,
-          }
-        );
-      }
-    },
-
-    async update(ctx) {
-      const { id } = ctx.params;
-      const { data } = ctx?.request?.body;
-
       try {
-        const proposal = await strapi.entityService.findOne(
+        // Delete proposal
+        let deletedProposal = await strapi.entityService.delete(
           "api::proposal.proposal",
           id
         );
 
-        if (proposal && proposal?.prop_submited !== true) {
-          const updatedProposal = await strapi.entityService.update(
-            "api::proposal.proposal",
-            id,
-            {
-              data: data,
-            }
-          );
-
-          return this.transformResponse(updatedProposal);
+        if (!deletedProposal) {
+          throw new Error("Proposal not found or delete failed");
         }
+
+        // Delete proposal content
+        await strapi.db
+          .query("api::proposal-content.proposal-content")
+          .deleteMany({
+            where: {
+              proposal_id: id,
+            },
+          });
+
+        // Handling proposal submitions
+        await strapi.db
+          .query("api::proposal-submition.proposal-submition")
+          .deleteMany({
+            where: {
+              proposal_id: id,
+            },
+          });
+
+        // Delete proposal votes
+        await strapi.db.query("api::proposal-vote.proposal-vote").deleteMany({
+          where: {
+            proposal_id: id,
+          },
+        });
+
+        // Delete comments
+        await strapi.db.query("api::comment.comment").deleteMany({
+          where: {
+            proposal_id: id,
+          },
+        });
+
+        // Handling polls and poll votes
+        const polls = await strapi.db.query("api::poll.poll").findMany({
+          where: {
+            proposal_id: id,
+          },
+        });
+
+        for (const poll of polls) {
+          await strapi.db.query("api::poll-vote.poll-vote").deleteMany({
+            where: {
+              poll_id: poll.id,
+            },
+          });
+        }
+
+        await strapi.db.query("api::poll.poll").deleteMany({
+          where: {
+            proposal_id: id,
+          },
+        });
+
+        return this.transformResponse(deletedProposal);
       } catch (error) {
-        return ctx.badRequest(
-          "Proposal can't be updated, it has been already submited"
-        );
+        return ctx.badRequest("Failed to delete proposal and related data", {
+          error: error.message,
+        });
       }
     },
   })
