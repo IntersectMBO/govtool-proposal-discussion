@@ -60,6 +60,10 @@
     "user_id": {
       "type": "string",
       "required": true
+    },
+    "prop_submitted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

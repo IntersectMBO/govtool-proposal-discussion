@@ -967,7 +967,6 @@ export interface ApiProposalProposal extends Schema.CollectionType {
     prop_likes: Attribute.Integer & Attribute.DefaultTo<0>;
     prop_dislikes: Attribute.Integer & Attribute.DefaultTo<0>;
     prop_comments_number: Attribute.Integer & Attribute.DefaultTo<0>;
-    prop_submited: Attribute.Boolean & Attribute.DefaultTo<false>;
     user_id: Attribute.String & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1027,6 +1026,7 @@ export interface ApiProposalContentProposalContent
     proposal_links: Attribute.Component<'proposal.proposal-link', true>;
     is_draft: Attribute.Boolean & Attribute.DefaultTo<false>;
     user_id: Attribute.String & Attribute.Required;
+    prop_submitted: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

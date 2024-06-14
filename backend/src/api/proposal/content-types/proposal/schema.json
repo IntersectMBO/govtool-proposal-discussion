@@ -24,10 +24,6 @@
       "type": "integer",
       "default": 0
     },
-    "prop_submited": {
-      "type": "boolean",
-      "default": false
-    },
     "user_id": {
       "type": "string",
       "required": true
