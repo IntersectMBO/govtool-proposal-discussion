@@ -968,7 +968,6 @@ export interface ApiProposalProposal extends Schema.CollectionType {
     prop_dislikes: Attribute.Integer & Attribute.DefaultTo<0>;
     prop_comments_number: Attribute.Integer & Attribute.DefaultTo<0>;
     prop_submited: Attribute.Boolean & Attribute.DefaultTo<false>;
-    prop_status_id: Attribute.String;
     user_id: Attribute.String & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1038,39 +1037,6 @@ export interface ApiProposalContentProposalContent
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::proposal-content.proposal-content',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiProposalStatusProposalStatus extends Schema.CollectionType {
-  collectionName: 'proposal_statuses';
-  info: {
-    singularName: 'proposal-status';
-    pluralName: 'proposal-statuses';
-    displayName: 'Proposal status';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    prop_status_name: Attribute.String &
-      Attribute.SetMinMaxLength<{
-        maxLength: 80;
-      }>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::proposal-status.proposal-status',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::proposal-status.proposal-status',
       'oneToOne',
       'admin::user'
     > &
@@ -1206,7 +1172,6 @@ declare module '@strapi/types' {
       'api::poll-vote.poll-vote': ApiPollVotePollVote;
       'api::proposal.proposal': ApiProposalProposal;
       'api::proposal-content.proposal-content': ApiProposalContentProposalContent;
-      'api::proposal-status.proposal-status': ApiProposalStatusProposalStatus;
       'api::proposal-submition.proposal-submition': ApiProposalSubmitionProposalSubmition;
       'api::proposal-vote.proposal-vote': ApiProposalVoteProposalVote;
       'api::wallet-type.wallet-type': ApiWalletTypeWalletType;
