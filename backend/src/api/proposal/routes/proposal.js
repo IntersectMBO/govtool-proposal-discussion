@@ -19,7 +19,7 @@ module.exports = createCoreRouter("api::proposal.proposal", {
       roles: ["authenticated", "public"],
     },
     update: {
-      roles: [],
+      roles: ["authenticated"],
       middlewares: ["global::is-owner"],
     },
     delete: {
