@@ -10,6 +10,8 @@
     "strapi": "strapi"
   },
   "dependencies": {
+    "@emurgo/cardano-message-signing-nodejs": "^1.0.1",
+    "@emurgo/cardano-serialization-lib-nodejs": "^11.5.0",
     "@strapi/plugin-cloud": "4.19.1",
     "@strapi/plugin-documentation": "^4.19.1",
     "@strapi/plugin-i18n": "4.19.1",
