@@ -499,11 +499,6 @@ components:
             prop_comments_number:
               type: integer
               default: 0
-            prop_submited:
-              type: boolean
-              default: false
-            prop_status_id:
-              type: string
     ProposalListResponseDataItem:
       type: object
       properties:
@@ -547,10 +542,6 @@ components:
           type: boolean
         prop_comments_number:
           type: integer
-        prop_submited:
-          type: boolean
-        prop_status_id:
-          type: string
         gov_action_type: 
           $ref: '#/components/schemas/ProposalTypeResponseDataObject'
         content: 
@@ -693,6 +684,15 @@ components:
               maximum: 200
             prop_amount:
               type: number
+            prop_submitted:
+              type: boolean
+              default: false
+            prop_submission_tx_hash:
+              type: string
+              maximum: 256
+            prop_submission_date:
+              type: string
+              format: date-time
             proposal_links:
               type: array
               items:
@@ -750,6 +750,14 @@ components:
           type: string
         prop_amount:
           type: number
+        prop_submitted:
+          type: boolean
+        prop_submission_tx_hash:
+          type: string
+          maximum: 256
+        prop_submission_date:
+          type: string
+          format: date-time
         proposal_links:
           type: array
           items:

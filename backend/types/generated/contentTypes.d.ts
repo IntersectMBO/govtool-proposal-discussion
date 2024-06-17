@@ -763,7 +763,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    govtool_username: Attribute.String;
+    govtool_username: Attribute.String & Attribute.Unique;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
