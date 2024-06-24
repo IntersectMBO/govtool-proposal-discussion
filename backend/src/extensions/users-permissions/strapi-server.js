@@ -1,7 +1,7 @@
 // @ts-nocheck
 "use strict";
 const utils = require("@strapi/utils");
-const { ApplicationError } = utils.errors;
+const { ApplicationError, ValidationError } = utils.errors;
 const { sanitize } = utils;
 const _ = require("lodash");
 
@@ -45,8 +45,12 @@ module.exports = (plugin) => {
     if (provider === "local") {
       const { identifier, signedData } = params;
 
+      if (!identifier) {
+        throw new ValidationError("identifier was not provided");
+      }
+
       if (!signedData) {
-        throw new ApplicationError("Login failed");
+        throw new ValidationError("singData object was not provided");
       }
 
       const decoded = COSESign1.from_bytes(
@@ -62,7 +66,7 @@ module.exports = (plugin) => {
       const isVerified = publicKey.verify(receivedData, signature);
 
       if (!isVerified) {
-        throw new ApplicationError("Login failed");
+        throw new ApplicationError("Verification failed");
       }
 
       const user = await strapi
