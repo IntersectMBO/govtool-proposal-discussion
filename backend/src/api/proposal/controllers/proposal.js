@@ -171,51 +171,57 @@ module.exports = createCoreController(
       return this.transformResponse(proposalsList, { pagination });
     },
     async findOne(ctx) {
-      const { id } = ctx?.params;
+		const { id } = ctx?.params;
 
-      if (!id) {
-        return ctx.badRequest(null, "Proposal ID is required");
-      }
-      // const sanitizedQueryParams = await this.sanitizeQuery(ctx);
+		if (!id) {
+			return ctx.badRequest(null, 'Proposal ID is required');
+		}
+		// const sanitizedQueryParams = await this.sanitizeQuery(ctx);
 
-      const proposal = await strapi.entityService.findOne(
-        "api::proposal.proposal",
-        id
-      );
+		const proposal = await strapi.entityService.findOne(
+			'api::proposal.proposal',
+			id
+		);
 
-      if (!proposal) {
-        return ctx.badRequest(null, "Proposal not found");
-      }
+		if (!proposal) {
+			return ctx.badRequest(null, 'Proposal not found');
+		}
 
-      const proposalContent = await strapi
-        .controller("api::proposal-content.proposal-content")
-        .find({
-          query: {
-            filters: {
-              proposal_id: proposal.id,
-              prop_rev_active: true,
-            },
-          },
-        });
+		const proposalContent = await strapi
+			.controller('api::proposal-content.proposal-content')
+			.find({
+				query: {
+					filters: {
+						proposal_id: proposal.id,
+						prop_rev_active: true,
+					},
+				},
+			});
 
-      if (proposalContent?.data?.length > 0) {
-        proposal.content = proposalContent?.data?.[0];
-      } else {
-        proposal.content = null;
-      }
+		if (proposalContent?.data?.length > 0) {
+			if (proposalContent?.data?.[0]?.attributes?.is_draft) {
+				return ctx.badRequest(
+					null,
+					'You can not access draft proposal details.'
+				);
+			}
+			proposal.content = proposalContent?.data?.[0];
+		} else {
+			proposal.content = null;
+		}
 
-      const proposalUser = await strapi
-        .query("plugin::users-permissions.user")
-        .findOne({ where: { id: +proposal?.user_id } });
+		const proposalUser = await strapi
+			.query('plugin::users-permissions.user')
+			.findOne({ where: { id: +proposal?.user_id } });
 
-      if (proposalUser?.govtool_username) {
-        proposal.user_govtool_username = proposalUser?.govtool_username;
-      } else {
-        proposal.user_govtool_username = "Anonymous";
-      }
+		if (proposalUser?.govtool_username) {
+			proposal.user_govtool_username = proposalUser?.govtool_username;
+		} else {
+			proposal.user_govtool_username = 'Anonymous';
+		}
 
-      return this.transformResponse(proposal);
-    },
+		return this.transformResponse(proposal);
+	},
     async create(ctx) {
       const { data } = ctx?.request?.body;
       const user = ctx?.state?.user;
