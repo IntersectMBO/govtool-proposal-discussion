@@ -50,7 +50,7 @@ module.exports = (plugin) => {
       }
 
       if (!signedData) {
-        throw new ValidationError("singData object was not provided");
+        throw new ValidationError('signData object was not provided');
       }
 
       const decoded = COSESign1.from_bytes(
