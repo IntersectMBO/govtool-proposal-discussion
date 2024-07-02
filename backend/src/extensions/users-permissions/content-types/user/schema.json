@@ -67,7 +67,10 @@
     },
     "govtool_username": {
       "type": "string",
-      "unique": true
+      "unique": true,
+      "maxLength": 30,
+      "minLength": 1,
+      "regex": "^(?![._])[a-z0-9._]{1,30}$"
     }
   }
 }
