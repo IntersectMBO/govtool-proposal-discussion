@@ -172,7 +172,6 @@ module.exports = createCoreController(
     },
     async findOne(ctx) {
 		const { id } = ctx?.params;
-		const user = ctx?.state?.user;
 
 		if (!id) {
 			return ctx.badRequest(null, 'Proposal ID is required');
