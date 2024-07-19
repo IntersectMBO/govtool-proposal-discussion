@@ -1,14 +1,14 @@
-# Contributing to the `xxxx` project
+# Contributing to the `GovTool Proposal Discussion Backend` project
 
-Thanks for considering contributing and helping us on creating xxxx! 😎
+Thanks for considering contributing and helping us on creating GovTool Proposal Discussion Backend! 😎
 
 The best way to contribute right now is to try things out and provide feedback, but we also accept contributions to the documentation and the obviously to the code itself.
 
-This document contains guidelines to help you get started and how to make sure your contribution gets accepted, making you our newest xxxx contributor!
+This document contains guidelines to help you get started and how to make sure your contribution gets accepted, making you our newest GovTool Proposal Discussion Backend contributor!
 
 ## Table of Contents
 
-- [Contributing to the `xxxx` project](#contributing-to-the-xxxx-project)
+- [Contributing to the `GovTool Proposal Discussion Backend` project](#contributing-to-the-govtool-proposal-discussion-backend-project)
   - [Table of Contents](#table-of-contents)
   - [Code of Conduct](#code-of-conduct)
   - [Ask for Help](#ask-for-help)
@@ -30,12 +30,6 @@ This document contains guidelines to help you get started and how to make sure y
       - [React](#react)
       - [CSS in Javascript](#css-in-javascript)
       - [CSS / SASS](#css--sass)
-      - [Haskell](#haskell)
-  - [Development Processes](#development-processes)
-    - [Developer workflow](#developer-workflow)
-    - [QA Workflow](#qa-workflow)
-    - [PO Workflow](#po-workflow)
-    - [Tech Lead Workflow](#tech-lead-workflow)
 
 ## Code of Conduct
 
@@ -77,7 +71,7 @@ Please complete the following steps in advance to help us fix any potential bug 
 
 We use GitHub issues to track bugs and errors. If you run into an issue with the project:
 
-- Open an [Issue](https://github.com/IntersectMBO/xxxx/issues/new).
+- Open an [Issue](https://github.com/IntersectMBO/GovTool Proposal Discussion Backend/issues/new).
   (Since we can't be sure at this point whether it is a bug or not, we ask you not to talk about a bug yet and not to label the issue.)
 - Explain the behavior you would expect and the actual behavior.
 - Please provide as much context as possible.
@@ -196,44 +190,3 @@ Please see [CSS in Javascript Style Guide](./docs/style-guides/css-in-js/).
 #### CSS / SASS
 
 Please see [CSS / SASS Style Guide](./docs/style-guides/css-sass/).
-
-#### Haskell
-
-TODO
-
-## Development Processes
-
-### Developer workflow 
-
-<!-- CHANGE TO HOW THE PROJECT NEEDS -->
-
-- Choose ticket/issue to work on from the project, move ticket from `todo` to `in progress`.
-- Create [well named](#branch-naming) branch from `develop` add changes, then make a pull request back to the `develop` branch.
-- If the changes are not ready for review then feel free to create a draft PR, and link this to the ticket/issue.
-- Developers should review each other's pull requests, and should be requested via [CODEOWNERS](./CODEOWNERS).
-- Unit tests are run on each pull request to `develop`.
-- Once tests pass and peer review is done the branch can be merged into `develop` by author and then deployed to the dev environment (manually for now).
-- The ticket status can then be moved ticket to `in QA` making sure that the PR/branch has been added to the ticket/issue as a comment.
-
-### QA Workflow
-
-- Choose ticket from `in QA`.
-- Merge in the ticket's changes from `develop` branch into `test` branch.
-- Deploy to test environment (manually for now).
-- The QA tests the deployed test environment against the ticket.
-- If QA agrees that the code is good, they can make a PR from `test` branch to `staging` branch where end-to-end and performance tests are run.
-- If tests pass, then QA or tech lead can merge and deploy to staging environment (manually for now).
-- Moving ticket to `staging` status this ready for PO check.
-  
-### PO Workflow
-
-- Choose ticket from `staging` status.
-- Compare the deployment on staging environment to the contents of the ticket.
-- If the deployment has been satisfied via the staging environment, PO comments on the ticket to be included in next release.
-
-### Tech Lead Workflow
-
-- Bundle the staging status tickets together into a new tag.
-- Merge `staging` branch into the `main` branch.
-- Deploy tagged build to `beta` environment.
-- Move tickets from staging status to done status.

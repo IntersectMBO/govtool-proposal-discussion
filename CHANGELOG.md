@@ -1,4 +1,4 @@
-# xxxx Changelog
+# GovTool Proposal Discussion Backend Changelog
 
 All notable changes to this project will be documented in this file.
 
