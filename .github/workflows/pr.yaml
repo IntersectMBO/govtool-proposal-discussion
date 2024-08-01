@@ -80,12 +80,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      - id: image_lowercase
+        uses: ASzc/change-string-case-action@v6
+        with:
+          string: ${{ matrix.image }}
+
       - name: Build Docker image
         uses: docker/build-push-action@v5
         with:
           context: ${{ matrix.workdir }}
           file: ${{ matrix.dockerfile }}
-          tags: ${{ matrix.image }}
+          tags: ${{ steps.image_lowercase.outputs.lowercase }}
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
@@ -94,7 +99,7 @@ jobs:
         id: dockle
         uses: goodwithtech/dockle-action@main
         with:
-          image: ${{ matrix.image }}
+          image: ${{ steps.image_lowercase.outputs.lowercase }}
           format: 'json'
           exit-level: 'fatal'
           ignore: 'CIS-DI-0010'
