@@ -21,6 +21,7 @@ jobs:
           - workdir: ./backend
             name: backend
             dockerfile: ./backend/Dockerfile
+            image: ghcr.io/${{ github.repository }}-backend:${{ github.sha }}
 
     runs-on: ubuntu-latest
     steps:
@@ -84,7 +85,7 @@ jobs:
         with:
           context: ${{ matrix.workdir }}
           file: ${{ matrix.dockerfile }}
-          tags: my-image:latest
+          tags: ${{ matrix.image }}
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
@@ -92,10 +93,8 @@ jobs:
       - name: Scan Docker image with Dockle
         id: dockle
         uses: goodwithtech/dockle-action@main
-        env:
-          DOCKLE_HOST: "unix:///var/run/docker.sock"
         with:
-          image: my-image:latest
+          image: ${{ matrix.image }}
           format: 'json'
           exit-level: 'fatal'
           ignore: 'CIS-DI-0010'
