@@ -99,6 +99,13 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Scan Docker image with Dockle
         id: dockle
         uses: goodwithtech/dockle-action@main
@@ -108,13 +115,6 @@ jobs:
           exit-level: 'fatal'
           ignore: 'CIS-DI-0010'
           output: ${{ matrix.workdir }}/dockle_scan_output.json
-
-      - name: Login to GHCR
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push Docker image to GHCR
         run: |
