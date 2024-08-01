@@ -112,6 +112,8 @@ jobs:
           exit-level: 'fatal'
           ignore: 'CIS-DI-0010'
           output: ${{ matrix.workdir }}/dockle_scan_output.json
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create PR comment
         if: always()
