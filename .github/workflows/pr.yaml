@@ -92,6 +92,8 @@ jobs:
       - name: Scan Docker image with Dockle
         id: dockle
         uses: goodwithtech/dockle-action@main
+        env:
+          DOCKLE_HOST: "unix:///var/run/docker.sock"
         with:
           image: my-image:latest
           format: 'json'
