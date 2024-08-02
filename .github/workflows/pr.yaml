@@ -21,7 +21,7 @@ jobs:
           - workdir: ./backend
             name: backend
             dockerfile: ./backend/Dockerfile
-            image: ghcr.io/${{ github.repository }}-backend:${{ github.sha }}
+            image: ghcr.io/${{ github.repository }}-backend
 
     runs-on: ubuntu-latest
     steps:
@@ -90,7 +90,7 @@ jobs:
         with:
           context: ${{ matrix.workdir }}
           file: ${{ matrix.dockerfile }}
-          tags: ${{ steps.image_lowercase.outputs.lowercase }}
+          tags: ${{ steps.image_lowercase.outputs.lowercase }}:${{ github.sha }}
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
@@ -102,20 +102,11 @@ jobs:
             tar zxvf dockle_0.4.14_Linux-64bit.tar.gz
             sudo mv dockle /usr/local/bin
 
-            dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json ${{ steps.image_lowercase.outputs.lowercase }}
+            dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json ${{ steps.image_lowercase.outputs.lowercase }}:${{ github.sha }}
             echo " dockle exited w/ $?"
             cat ${{ matrix.workdir }}/dockle_scan_output.json
 
             echo "outcome=success" >> $GITHUB_OUTPUT
-      # - name: Scan Docker image with Dockle
-      #   id: dockle
-      #   uses: goodwithtech/dockle-action@main
-      #   with:
-      #     input: ${{ steps.image_lowercase.outputs.lowercase }}
-      #     format: 'json'
-      #     exit-level: 'fatal'
-      #     ignore: 'CIS-DI-0010'
-      #     output: ${{ matrix.workdir }}/dockle_scan_output.json
 
       - name: Create PR comment
         if: always()
