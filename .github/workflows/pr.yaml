@@ -105,7 +105,8 @@ jobs:
             tar zxvf dockle_0.4.14_Linux-64bit.tar.gz
             sudo mv dockle /usr/local/bin
 
-            dockle --format json --output ${{ matrix.workdir }}/dockle_scan_output.json ${{ steps.image_lowercase.outputs.lowercase }}
+            dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json ${{ steps.image_lowercase.outputs.lowercase }}
+            cat ${{ matrix.workdir }}/dockle_scan_output.json
 
             echo "outcome=success" >> $GITHUB_OUTPUT
       # - name: Scan Docker image with Dockle
