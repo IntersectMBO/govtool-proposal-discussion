@@ -104,7 +104,7 @@ jobs:
         with:
           context: ${{ matrix.workdir }}
           file: ${{ matrix.dockerfile }}
-          tags: ${{ steps.image_lowercase.outputs.lowercase }}:$TAG
+          tags: ${{ steps.image_lowercase.outputs.lowercase }}:${{ env.TAG }}
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
@@ -123,7 +123,7 @@ jobs:
             tar zxvf dockle_0.4.14_Linux-64bit.tar.gz
             sudo mv dockle /usr/local/bin
 
-            dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json ${{ steps.image_lowercase.outputs.lowercase }}:$TAG
+            dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json ${{ steps.image_lowercase.outputs.lowercase }}:${{ env.TAG }}
             echo " dockle exited w/ $?"
             cat ${{ matrix.workdir }}/dockle_scan_output.json
 
@@ -133,7 +133,7 @@ jobs:
 
       - name: Push Docker image to GHCR
         run: |
-          docker push ${{ steps.image_lowercase.outputs.lowercase }}:$TAG
+          docker push ${{ steps.image_lowercase.outputs.lowercase }}:${{ env.TAG }}
 
       - name: Deploy with Qovery
         env:
@@ -149,5 +149,5 @@ jobs:
             --project ${{ env.PROJECT }} \
             --environment ${{ env.ENVIRONMENT }} \
             --container ${{ steps.image_lowercase.outputs.lowercase }} \
-            --tag :$TAG \
+            --tag :${{ env.TAG }} \
             --watch
