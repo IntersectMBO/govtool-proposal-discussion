@@ -17,7 +17,6 @@ env:
   ENVIRONMENT: ${{ github.ref_name == 'main' && 'production' || 'pre-prod' || 'qa' || 'dev' }}
   PROJECT: ""
   ORGANIZATION: ""
-  TAG: "${{ github.ref_name == 'main' ? github.sha : github.ref_name + '-' + github.sha }}"
 
 jobs:
   check-build-deploy:
@@ -33,6 +32,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Set TAG Environment Variable
+        id: set_tag
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "TAG=${{ github.sha }}" >> $GITHUB_ENV
+          else
+            echo "TAG=${{ github.ref_name }}-${{ github.sha }}" >> $GITHUB_ENV
+          fi
 
       - name: Lint Dockerfile
         id: hadolint
@@ -95,7 +103,7 @@ jobs:
         with:
           context: ${{ matrix.workdir }}
           file: ${{ matrix.dockerfile }}
-          tags: ${{ steps.image_lowercase.outputs.lowercase }}:${{ env.TAG }}
+          tags: ${{ steps.image_lowercase.outputs.lowercase }}:$TAG
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
@@ -114,7 +122,7 @@ jobs:
             tar zxvf dockle_0.4.14_Linux-64bit.tar.gz
             sudo mv dockle /usr/local/bin
 
-            dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json ${{ steps.image_lowercase.outputs.lowercase }}:${{ env.TAG }}
+            dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json ${{ steps.image_lowercase.outputs.lowercase }}:$TAG
             echo " dockle exited w/ $?"
             cat ${{ matrix.workdir }}/dockle_scan_output.json
 
@@ -124,7 +132,7 @@ jobs:
 
       - name: Push Docker image to GHCR
         run: |
-          docker push ${{ steps.image_lowercase.outputs.lowercase }}:${{ env.TAG }}
+          docker push ${{ steps.image_lowercase.outputs.lowercase }}:$TAG
 
       - name: Deploy with Qovery
         env:
@@ -140,5 +148,5 @@ jobs:
             --project ${{ env.PROJECT }} \
             --environment ${{ env.ENVIRONMENT }} \
             --container ${{ steps.image_lowercase.outputs.lowercase }} \
-            --tag :${{ env.TAG }} \
+            --tag :$TAG \
             --watch
