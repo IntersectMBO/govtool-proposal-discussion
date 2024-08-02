@@ -13,6 +13,9 @@ permissions:
   pull-requests: write
   packages: write
 
+env:
+  TAG: "${{ github.base_ref == 'main' ? github.sha : github.base_ref + '-' + github.sha }}"
+
 jobs:
   static-checks:
     strategy:
