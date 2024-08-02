@@ -17,6 +17,7 @@ env:
   ENVIRONMENT: ${{ github.ref_name == 'main' && 'production' || 'pre-prod' || 'qa' || 'dev' }}
   PROJECT: ""
   ORGANIZATION: ""
+  TAG: "${{ github.ref_name == 'main' ? github.sha : github.ref_name + '-' + github.sha }}"
 
 jobs:
   check-build-deploy:
@@ -49,6 +50,7 @@ jobs:
 
       - name: Print Dockerfile lint output
         run: |
+          cd ${{ matrix.workdir }}
           echo "-----HADOLINT RESULT-----"
           echo "Outcome: ${{ steps.hadolint.outcome }}"
           echo "-----DETAILS--------"
