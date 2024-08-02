@@ -105,14 +105,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Load Docker image
-        run: docker load -i my-image.tar
+      # - name: Load Docker image
+      #   run: docker load -i my-image.tar
           
       - name: Scan Docker image with Dockle
         id: dockle
         uses: goodwithtech/dockle-action@main
         with:
-          image: ${{ steps.image_lowercase.outputs.lowercase }}
+          image: my-image.tar
           format: 'json'
           exit-level: 'fatal'
           ignore: 'CIS-DI-0010'
