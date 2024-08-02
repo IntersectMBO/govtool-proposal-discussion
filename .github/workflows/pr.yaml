@@ -104,21 +104,16 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Load Docker image
-      #   run: docker load -i my-image.tar
           
       - name: Scan Docker image with Dockle
         id: dockle
         uses: goodwithtech/dockle-action@main
         with:
-          image: my-image.tar
+          input: my-image.tar
           format: 'json'
           exit-level: 'fatal'
           ignore: 'CIS-DI-0010'
           output: ${{ matrix.workdir }}/dockle_scan_output.json
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create PR comment
         if: always()
