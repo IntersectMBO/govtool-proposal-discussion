@@ -58,6 +58,7 @@ jobs:
 
       - name: Print Dockerfile lint output
         run: |
+          cd ${{ matrix.workdir }}
           echo "-----HADOLINT RESULT-----"
           echo "Outcome: ${{ steps.hadolint.outcome }}"
           echo "-----DETAILS--------"
