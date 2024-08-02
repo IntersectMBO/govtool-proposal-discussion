@@ -21,7 +21,7 @@ jobs:
           - workdir: ./backend
             name: backend
             dockerfile: ./backend/Dockerfile
-            image: ghcr.io/${{ github.repository }}-backend:latest
+            image: ${{ github.repository }}-backend:latest
 
     runs-on: ubuntu-latest
     steps:
@@ -92,7 +92,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+          
       - name: Build Docker image
         uses: docker/build-push-action@v5
         with:
@@ -100,7 +100,6 @@ jobs:
           file: ${{ matrix.dockerfile }}
           tags: ${{ steps.image_lowercase.outputs.lowercase }}
           load: true
-          push: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           
