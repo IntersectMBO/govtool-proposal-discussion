@@ -105,6 +105,10 @@ jobs:
             tar zxvf dockle_0.2.4_Linux-64bit.tar.gz
             sudo mv dockle /usr/local/bin
 
+            ls
+
+            ls ${{ matrix.workdir }}
+
             dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json --input my-image.tar
 
             echo "outcome=success" >> $GITHUB_OUTPUT
