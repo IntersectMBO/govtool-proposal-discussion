@@ -107,7 +107,7 @@ jobs:
 
             echo '{}' > ~/.docker/config.json
 
-            dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json --input ./my-image.tar
+            dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json ${{ steps.image_lowercase.outputs.lowercase }}
 
             echo "outcome=success" >> $GITHUB_OUTPUT
       # - name: Scan Docker image with Dockle
