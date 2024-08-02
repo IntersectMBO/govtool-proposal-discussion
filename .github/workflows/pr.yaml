@@ -106,10 +106,10 @@ jobs:
             sudo mv dockle /usr/local/bin
 
             ls
-
+            echo "------"
             ls ${{ matrix.workdir }}
 
-            dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json --input my-image.tar
+            dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json --input ./my-image.tar
 
             echo "outcome=success" >> $GITHUB_OUTPUT
       # - name: Scan Docker image with Dockle
