@@ -21,7 +21,7 @@ jobs:
           - workdir: ./backend
             name: backend
             dockerfile: ./backend/Dockerfile
-            image: ghcr.io/${{ github.repository }}-backend:${{ github.sha }}
+            image: ghcr.io/${{ github.repository }}-backend:latest
 
     runs-on: ubuntu-latest
     steps:
