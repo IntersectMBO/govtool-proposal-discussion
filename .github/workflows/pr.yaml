@@ -106,7 +106,7 @@ jobs:
         id: dockle
         uses: goodwithtech/dockle-action@main
         with:
-          input: ${{ steps.image_lowercase.outputs.lowercase }}
+          image: ${{ steps.image_lowercase.outputs.lowercase }}
           format: 'json'
           exit-level: 'fatal'
           ignore: 'CIS-DI-0010'
