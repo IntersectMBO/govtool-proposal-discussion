@@ -101,11 +101,9 @@ jobs:
       - name: Scan Docker image with Dockle
         id: dockle
         run: |
-            wget https://github.com/goodwithtech/dockle/releases/download/v0.2.4/dockle_0.2.4_Linux-64bit.tar.gz
-            tar zxvf dockle_0.2.4_Linux-64bit.tar.gz
+            wget https://github.com/goodwithtech/dockle/releases/download/v0.4.14/dockle_0.4.14_Linux-64bit.tar.gz
+            tar zxvf dockle_0.4.14_Linux-64bit.tar.gz
             sudo mv dockle /usr/local/bin
-
-            echo '{}' > ~/.docker/config.json
 
             dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json ${{ steps.image_lowercase.outputs.lowercase }}
 
