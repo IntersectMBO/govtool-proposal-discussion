@@ -113,8 +113,6 @@ jobs:
           ignore: 'CIS-DI-0010'
           output: ${{ matrix.workdir }}/dockle_scan_output.json
           use-xdg: true
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create PR comment
         if: always()
