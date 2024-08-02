@@ -94,9 +94,6 @@ jobs:
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-
-      - name: Save Docker image
-        run: docker save ${{ steps.image_lowercase.outputs.lowercase }} -o my-image.tar
           
       - name: Scan Docker image with Dockle
         id: dockle
@@ -106,6 +103,7 @@ jobs:
             sudo mv dockle /usr/local/bin
 
             dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json ${{ steps.image_lowercase.outputs.lowercase }}
+            echo " dockle exited w/ $?"
             cat ${{ matrix.workdir }}/dockle_scan_output.json
 
             echo "outcome=success" >> $GITHUB_OUTPUT

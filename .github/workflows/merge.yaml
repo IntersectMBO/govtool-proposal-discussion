@@ -108,13 +108,16 @@ jobs:
 
       - name: Scan Docker image with Dockle
         id: dockle
-        uses: goodwithtech/dockle-action@main
-        with:
-          image: ${{ steps.image_lowercase.outputs.lowercase }}
-          format: 'json'
-          exit-level: 'fatal'
-          ignore: 'CIS-DI-0010'
-          output: ${{ matrix.workdir }}/dockle_scan_output.json
+        run: |
+            wget https://github.com/goodwithtech/dockle/releases/download/v0.4.14/dockle_0.4.14_Linux-64bit.tar.gz
+            tar zxvf dockle_0.4.14_Linux-64bit.tar.gz
+            sudo mv dockle /usr/local/bin
+
+            dockle --exit-level fatal --format json --output ${{ matrix.workdir }}/dockle_scan_output.json ${{ steps.image_lowercase.outputs.lowercase }}
+            echo " dockle exited w/ $?"
+            cat ${{ matrix.workdir }}/dockle_scan_output.json
+
+            echo "outcome=success" >> $GITHUB_OUTPUT
 
       - name: Push Docker image to GHCR
         run: |
