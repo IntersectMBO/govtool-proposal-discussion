@@ -142,13 +142,16 @@ jobs:
         run: |
 
           echo "Deploying on $ENVIRONMENT"
+          echo "Organization - ${{ env.ORGANIZATION }}"
+          echo "Project - ${{ env.PROJECT }}"
+
           # Download and install Qovery CLI
           curl -s https://get.qovery.com | bash
-
+          
           qovery container deploy \
             --organization ${{ env.ORGANIZATION }} \
             --project ${{ env.PROJECT }} \
-            --environment ${{ env.ENVIRONMENT }} \
+            --environment $ENVIRONMENT \
             --container ${{ steps.image_lowercase.outputs.lowercase }} \
             --tag ${{ env.TAG }} \
             --watch
