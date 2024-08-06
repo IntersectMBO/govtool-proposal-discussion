@@ -140,7 +140,7 @@ jobs:
 
       - name: Deploy with Qovery
         env:
-          QOVERY_CLI_ACCESS_TOKEN: "" #{{secrets.QOVERY_CLI_ACCESS_TOKEN }}
+          QOVERY_CLI_ACCESS_TOKEN: "{{secrets.QOVERY_CLI_ACCESS_TOKEN }}"
         run: |
 
           echo "Deploying on $ENVIRONMENT"
