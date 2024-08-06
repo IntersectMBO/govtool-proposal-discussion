@@ -148,10 +148,15 @@ jobs:
           # Download and install Qovery CLI
           curl -s https://get.qovery.com | bash
 
-          qovery service deploy \
+          qovery application list \
             --organization ${{ vars.ORGANIZATION }} \
             --project ${{ vars.PROJECT }} \
-            --environment $ENVIRONMENT \
-            --service ${{ matrix.name }} \
-            --tag ${{ env.TAG }} \
-            --watch
+            --environment $ENVIRONMENT
+
+          # qovery service deploy \
+          #   --organization ${{ vars.ORGANIZATION }} \
+          #   --project ${{ vars.PROJECT }} \
+          #   --environment $ENVIRONMENT \
+          #   --service ${{ matrix.name }} \
+          #   --tag ${{ env.TAG }} \
+          #   --watch
