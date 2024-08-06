@@ -153,5 +153,4 @@ jobs:
             --environment ${{ env.ENVIRONMENT }} \
             --container ${{ steps.image_lowercase.outputs.lowercase }} \
             --tag ${{ env.TAG }} \
-            --publicly-accessible \
             --watch
