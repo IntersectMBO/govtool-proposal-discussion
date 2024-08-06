@@ -15,8 +15,6 @@ permissions:
 
 env:
   ENVIRONMENT: ${{ github.ref_name == 'main' && 'prod-pdf' || 'pre-prod' && 'pre-prod-pdf' || 'qa' && 'qa-pdf' || 'dev' && 'dev-pdf' }}
-  PROJECT: ""
-  ORGANIZATION: ""
 
 jobs:
   check-build-deploy:
