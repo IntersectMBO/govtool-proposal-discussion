@@ -14,7 +14,7 @@ permissions:
   packages: write
 
 env:
-  ENVIRONMENT: ${{ github.ref_name == 'main' && 'production' || 'pre-prod' || 'qa' || 'dev' }}
+  ENVIRONMENT: ${{ github.ref_name == 'main' && 'prod-pdf' || 'pre-prod' && 'pre-prod-pdf' || 'qa' && 'qa-pdf' || 'dev' && 'dev-pdf' }}
   PROJECT: ""
   ORGANIZATION: ""
 
@@ -132,8 +132,6 @@ jobs:
             echo " dockle exited w/ $?"
             cat ${{ matrix.workdir }}/dockle_scan_output.json
 
-            
-
             echo "outcome=success" >> $GITHUB_OUTPUT
 
       - name: Push Docker image to GHCR
@@ -155,4 +153,5 @@ jobs:
             --environment ${{ env.ENVIRONMENT }} \
             --container ${{ steps.image_lowercase.outputs.lowercase }} \
             --tag ${{ env.TAG }} \
+            --publicly-accessible \
             --watch
