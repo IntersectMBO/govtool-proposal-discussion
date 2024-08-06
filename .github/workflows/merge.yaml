@@ -152,6 +152,6 @@ jobs:
             --organization ${{ vars.ORGANIZATION }} \
             --project ${{ vars.PROJECT }} \
             --environment $ENVIRONMENT \
-            --container ${{ steps.image_lowercase.outputs.lowercase }} \
+            --container ${{ matrix.name }} \
             --tag ${{ env.TAG }} \
             --watch
