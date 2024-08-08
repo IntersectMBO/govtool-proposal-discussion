@@ -873,9 +873,10 @@ export interface ApiGovernanceActionTypeGovernanceActionType
     singularName: 'governance-action-type';
     pluralName: 'governance-action-types';
     displayName: 'Governance action type';
+    description: '';
   };
   options: {
-    draftAndPublish: false;
+    draftAndPublish: true;
   };
   attributes: {
     gov_action_type_name: Attribute.String &
@@ -885,6 +886,7 @@ export interface ApiGovernanceActionTypeGovernanceActionType
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::governance-action-type.governance-action-type',
       'oneToOne',
