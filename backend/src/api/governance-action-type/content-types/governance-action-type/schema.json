@@ -4,10 +4,11 @@
   "info": {
     "singularName": "governance-action-type",
     "pluralName": "governance-action-types",
-    "displayName": "Governance action type"
+    "displayName": "Governance action type",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": false
+    "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
