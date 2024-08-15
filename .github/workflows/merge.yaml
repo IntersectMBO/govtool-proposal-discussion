@@ -25,7 +25,6 @@ jobs:
             name: backend
             dockerfile: ./backend/Dockerfile
             image: ghcr.io/${{ github.repository }}-backend
-            qovery_container_name: backend
 
     runs-on: ubuntu-latest
     steps:
@@ -149,15 +148,15 @@ jobs:
           # Download and install Qovery CLI
           curl -s https://get.qovery.com | bash
 
-          qovery container list \
+          qovery application list \
             --organization ${{ vars.ORGANIZATION }} \
             --project ${{ vars.PROJECT }} \
             --environment $ENVIRONMENT
 
-          qovery container deploy \
-            --organization ${{ vars.ORGANIZATION }} \
-            --project ${{ vars.PROJECT }} \
-            --environment $ENVIRONMENT \
-            --container ${{ matrix.qovery_container_name }} \
-            --tag ${{ env.TAG }} \
-            --watch
+          # qovery service deploy \
+          #   --organization ${{ vars.ORGANIZATION }} \
+          #   --project ${{ vars.PROJECT }} \
+          #   --environment $ENVIRONMENT \
+          #   --service ${{ matrix.name }} \
+          #   --tag ${{ env.TAG }} \
+          #   --watch
