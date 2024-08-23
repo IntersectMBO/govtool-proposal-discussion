@@ -63,7 +63,13 @@ module.exports = (plugin) => {
       const publicKey = PublicKey.from_bytes(pubKeyBytes);
       const signature = Ed25519Signature.from_bytes(decoded.signature());
       const receivedData = decoded.signed_data().to_bytes();
-      const isVerified = publicKey.verify(receivedData, signature);
+
+      // Remove network id from identifier
+			const rawKeyHash = identifier.slice(2);
+
+			const isVerified =
+				publicKey.verify(receivedData, signature) &&
+				rawKeyHash === publicKey.hash().to_hex();
 
       if (!isVerified) {
         throw new ApplicationError("Verification failed");
