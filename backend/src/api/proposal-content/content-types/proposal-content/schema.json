@@ -20,25 +20,25 @@
       "default": false
     },
     "prop_abstract": {
-      "type": "text",
-      "maxLength": 256
-    },
+		"type": "text",
+		"maxLength": 2500
+	},
     "prop_motivation": {
-      "type": "text",
-      "maxLength": 256
-    },
+		"type": "text",
+		"maxLength": 12000
+	},
     "prop_rationale": {
-      "type": "text",
-      "maxLength": 256
-    },
+		"type": "text",
+		"maxLength": 12000
+	},
     "gov_action_type_id": {
       "type": "string"
     },
     "prop_name": {
-      "type": "string",
-      "required": true,
-      "maxLength": 60
-    },
+		"type": "string",
+		"required": true,
+		"maxLength": 80
+	},
     "prop_receiving_address": {
       "type": "string",
       "required": false,
