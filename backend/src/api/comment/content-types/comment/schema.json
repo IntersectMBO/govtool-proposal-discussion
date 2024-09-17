@@ -23,7 +23,7 @@
     },
     "comment_text": {
       "type": "text",
-      "maxLength": 256
+      "maxLength": 2500
     }
   }
 }

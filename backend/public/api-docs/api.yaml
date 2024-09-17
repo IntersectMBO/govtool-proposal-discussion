@@ -172,7 +172,7 @@ components:
               type: string
             comment_text:
               type: string
-              maximum: 256
+              maximum: 2500
     CommentListResponseDataItem:
       type: object
       properties:
@@ -666,19 +666,19 @@ components:
               type: string
             prop_name:
               type: string
-              maximum: 60
+              maximum: 80
             prop_rev_active:
               type: boolean
               default: false
             prop_abstract:
               type: string
-              maximum: 256
+              maximum: 2500
             prop_motivation:
               type: string
-              maximum: 256
+              maximum: 12000
             prop_rationale:
               type: string
-              maximum: 256
+              maximum: 12000
             prop_receiving_address:
               type: string
               maximum: 200

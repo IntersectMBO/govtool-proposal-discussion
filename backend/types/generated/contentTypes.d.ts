@@ -847,7 +847,7 @@ export interface ApiCommentComment extends Schema.CollectionType {
     user_id: Attribute.String;
     comment_text: Attribute.Text &
       Attribute.SetMinMaxLength<{
-        maxLength: 256;
+        maxLength: 2500;
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1009,21 +1009,21 @@ export interface ApiProposalContentProposalContent
     prop_rev_active: Attribute.Boolean & Attribute.DefaultTo<false>;
     prop_abstract: Attribute.Text &
       Attribute.SetMinMaxLength<{
-        maxLength: 256;
+        maxLength: 2500;
       }>;
     prop_motivation: Attribute.Text &
       Attribute.SetMinMaxLength<{
-        maxLength: 256;
+        maxLength: 12000;
       }>;
     prop_rationale: Attribute.Text &
       Attribute.SetMinMaxLength<{
-        maxLength: 256;
+        maxLength: 12000;
       }>;
     gov_action_type_id: Attribute.String;
     prop_name: Attribute.String &
       Attribute.Required &
       Attribute.SetMinMaxLength<{
-        maxLength: 60;
+        maxLength: 80;
       }>;
     prop_receiving_address: Attribute.String &
       Attribute.SetMinMaxLength<{
