@@ -1,22 +1,27 @@
+## ⚠️ This repository is now archived
+
+This project has been moved to [IntersectMBO/govtool-proposal-pillar](https://github.com/IntersectMBO/govtool-proposal-pillar).
+
 # 🚀 PDF (Proposal Discussion Forum) backend
 
 Welcome to the official repository for the PDF backend.
 
 ## Table of content:
 
-- [Table of content:](#table-of-content)
-- [Introduction](#introduction)
-- [Prerequisites](#prerequisites)
-- [Tech stack:](#tech-stack)
-  - [Backend](#backend)
-  - [Database](#database)
-- [Getting started](#getting-started)
-- [Running locally](#running-locally)
-  - [Backend setup](#backend-setup)
-  - [Database configuration](#database-configuration)
-- [Running using docker compose](#running-using-docker-compose)
-- [Overview of services in docker compose:](#overview-of-services-in-docker-compose)
-- [Additional Information](#additional-information)
+- [🚀 PDF (Proposal Discussion Forum) backend](#-pdf-proposal-discussion-forum-backend)
+  - [Table of content:](#table-of-content)
+  - [Introduction](#introduction)
+  - [Prerequisites](#prerequisites)
+  - [Tech stack:](#tech-stack)
+    - [Backend](#backend)
+    - [Database](#database)
+  - [Getting started](#getting-started)
+  - [Running locally](#running-locally)
+    - [Backend setup](#backend-setup)
+    - [Database configuration](#database-configuration)
+  - [Running using docker compose](#running-using-docker-compose)
+    - [Overview of services in docker compose:](#overview-of-services-in-docker-compose)
+    - [Additional Information](#additional-information)
 
 ## Introduction
 
